@@ -1,0 +1,42 @@
+# FRONTEND
+
+# Compiled output
+BudgetApp.Frontend/dist
+BudgetApp.Frontend/tmp
+BudgetApp.Frontend/out-tsc
+BudgetApp.Frontend/bazel-out
+
+# Node
+BudgetApp.Frontend/node_modules
+BudgetApp.Frontend/npm-debug.log
+BudgetApp.Frontend/yarn-error.log
+
+# IDEs and editors
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# Visual Studio Code
+BudgetApp.Frontend/.vscode/*
+BudgetApp.Frontend/!.vscode/settings.json
+BudgetApp.Frontend/!.vscode/tasks.json
+BudgetApp.Frontend/!.vscode/launch.json
+BudgetApp.Frontend/!.vscode/extensions.json
+BudgetApp.Frontend/.history/*
+
+# Miscellaneous
+BudgetApp.Frontend/.angular/cache
+.sass-cache/
+BudgetApp.Frontend/connect.lock
+BudgetApp.Frontend/coverage
+BudgetApp.Frontend/libpeerconnection.log
+testem.log
+BudgetApp.Frontend/typings
+
+# System files
+BudgetApp.Frontend/.DS_Store
+BudgetApp.Frontend/Thumbs.db
