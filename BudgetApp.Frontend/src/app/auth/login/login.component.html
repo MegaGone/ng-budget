@@ -60,8 +60,7 @@
             <div class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">Sign in</div>
             <div class="flex items-baseline mt-0.5 font-medium">
                 <div>Don't have an account?</div>
-                <a class="ml-1 text-primary-500 hover:underline" [routerLink]="['/sign-up']">Sign up
-                </a>
+                <a class="ml-1 text-primary-500 hover:underline" [routerLink]="['/auth/register']">Sign up</a>
             </div>
 
             <!-- Alert -->
@@ -100,11 +99,9 @@
 
                 <!-- Submit button -->
                 <button class="fuse-mat-button-large w-full mt-6" mat-flat-button [color]="'primary'">
-                    <span>
-                        Sign in
-                    </span>
-                    <mat-progress-spinner [diameter]="24" [mode]="'indeterminate'">
-                    </mat-progress-spinner>
+                    <span> Sign in </span>
+                    <!-- <mat-progress-spinner [diameter]="24" [mode]="'indeterminate'">
+                    </mat-progress-spinner> -->
                 </button>
 
                 <!-- Separator -->
