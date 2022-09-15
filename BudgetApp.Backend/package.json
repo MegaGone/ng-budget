@@ -4,7 +4,9 @@
   "description": "Backend to budget application",
   "main": "index.js",
   "scripts": {
-    "tsc": "tsc"
+    "start": "node dist/app.js",
+    "tsc": "tsc",
+    "dev": "ts-node-dev src/app.ts"
   },
   "author": "Javier Martínez",
   "license": "MIT",
