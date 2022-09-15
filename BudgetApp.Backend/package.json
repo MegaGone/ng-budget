@@ -4,7 +4,7 @@
   "description": "Backend to budget application",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "tsc": "tsc"
   },
   "author": "Javier Martínez",
   "license": "MIT",
