@@ -10,6 +10,7 @@ import { fuseAnimations } from '@fuse/animations';
 })
 export class LoginComponent implements OnInit {
 
+  // TODO: CHANGE FACEBOOK LOGIN FOR GOOGLE
   constructor() { }
 
   ngOnInit(): void {
