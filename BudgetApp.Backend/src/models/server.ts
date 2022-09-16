@@ -2,10 +2,12 @@ import express, { Application } from "express";
 import cors from "cors";
 
 import { Auth, User } from '../routes';
+import { dbConnection } from '../database/';
 
 class Server {
     private app  : Application;
     private port : string;
+
     private paths = {
         auth: '/api/auth',
         user: '/api/user'
@@ -15,6 +17,7 @@ class Server {
         this.app = express();
         this.port = process.env.PORT || '3000';
 
+        this.connectDB();
         this.middlewares();
         this.routes();
     }
@@ -23,6 +26,10 @@ class Server {
         this.app.use(cors());
         this.app.use(express.json());
         this.app.use(express.static('public'));
+    }
+
+    private async connectDB() {
+        await dbConnection.default()
     }
 
     private routes() {
