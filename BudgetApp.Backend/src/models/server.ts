@@ -1,13 +1,14 @@
 import express, { Application } from "express";
 import cors from "cors";
 
-import { Auth } from '../routes';
+import { Auth, User } from '../routes';
 
 class Server {
     private app  : Application;
     private port : string;
     private paths = {
-        auth: '/api/auth'
+        auth: '/api/auth',
+        user: '/api/user'
     }
 
     constructor() {
@@ -26,6 +27,7 @@ class Server {
 
     private routes() {
         this.app.use(this.paths.auth, Auth.default);
+        this.app.use(this.paths.user, User.default)
     }
 
     /**
