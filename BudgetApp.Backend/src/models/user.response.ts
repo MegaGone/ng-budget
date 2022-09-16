@@ -1,12 +1,23 @@
 import ResponseStatus from "./response";
 
-class UserResponse extends ResponseStatus {
+export class UserResponse extends ResponseStatus {
     constructor(
         public statusCode: number,
         public user: any
     ) { 
-        super(statusCode)
+        super(statusCode);
     }
 }
 
-export default UserResponse;
+export class UsersResponse extends ResponseStatus {
+    constructor(
+        public statusCode   : number,
+        public users        : any[],
+        public total        : number,
+        public page?        : number,
+        public totalPage?   : number,
+        public pageSize?    : number
+    ) {
+        super(statusCode);
+    }
+}

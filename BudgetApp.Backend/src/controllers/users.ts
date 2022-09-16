@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { genSaltSync, hashSync } from "bcrypt";
-import { ResponseStatus, User, UserReponse } from "../models";
+import { ResponseStatus, User, UserResponse, UsersResponse } from "../models";
 
 // TODO: FIX TYPE OF USER
 export const createUser = async (_req: Request, res: Response) => {
@@ -21,7 +21,24 @@ export const createUser = async (_req: Request, res: Response) => {
 };
 
 export const getUsers = async (_req: Request, res: Response) => {
-    res.send('GET USERS');
+    
+    const { limit = 5, from = 0 } = _req.params;
+
+    try {
+        
+        const [total, users] = await Promise.all([
+            User.countDocuments({ enabled: true }),
+            User.find({ enabled: true }).skip(Number(from)).limit(Number(limit))
+        ]);
+
+        if (!total || !users.length) return res.json(201).json(new ResponseStatus(201, "No users"));
+
+        return res.status(200).json(new UsersResponse(200, users, total));
+
+    } catch (error) {
+        return res.status(400).json(new ResponseStatus(400, "Error getting users"));
+    }
+
 };
 
 export const getUser = async (_req: Request, res: Response) => {
@@ -32,7 +49,7 @@ export const getUser = async (_req: Request, res: Response) => {
 
         if (!user) return res.status(400).json(new ResponseStatus(400, "User not found"));
 
-        return res.status(200).json(new UserReponse(200, user));
+        return res.status(200).json(new UserResponse(200, user));
 
     } catch (error) {
         console.log(error);

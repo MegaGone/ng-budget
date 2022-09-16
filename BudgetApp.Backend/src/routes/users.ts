@@ -6,8 +6,8 @@ import { createUser, deleteUser, getUser, getUsers, updateUser} from "../control
 const router = Router();
 
 router.post('/user', createUser);
-router.get('/:id', getUser);
 router.get('/users', getUsers);
+router.get('/:id', getUser);
 router.put('/updateUser', updateUser);
 router.delete('/deleteUser', deleteUser);
 
