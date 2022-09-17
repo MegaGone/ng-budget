@@ -47,19 +47,41 @@ export const getUser = async (_req: Request, res: Response) => {
     try {
         const user = await User.findById(id);
 
-        if (!user) return res.status(400).json(new ResponseStatus(400, "User not found"));
+        if (!user) return res.status(400).json(new ResponseStatus(404, "User not found"));
 
         return res.status(200).json(new UserResponse(200, user));
 
     } catch (error) {
-        console.log(error);
-        
         return res.status(400).json(new ResponseStatus(400, "Error getting user"));
     }
 };
 
 export const updateUser = async (_req: Request, res: Response) => {
-    res.send('UPDATE USER');
+    const { id } = _req.params;
+
+    const { _id, currentPassword, newPassword, enabled,  ...data } = _req.body;
+
+    try {
+        const user = await User.findById(id);
+
+        if (!user) return res.status(400).json(new ResponseStatus(404, "User not fund"));
+
+        if (currentPassword && newPassword) {
+            const salt = genSaltSync();
+            const saltedCurrentPassword = hashSync(currentPassword, salt);
+
+            if (saltedCurrentPassword != user.password) return res.status(400).json(new ResponseStatus(400, "Current password doesn't match"));
+            
+            data.password = hashSync(newPassword, salt);
+        }
+
+        const userDB = await User.findByIdAndUpdate(id, data, { returnDocument: 'after' });
+
+        return res.status(200).json(new UserResponse(200, userDB));
+
+    } catch (error) {
+        return res.status(400).json(new ResponseStatus(400, "Error updating user"));
+    }
 };
 
 export const deleteUser = async (_req: Request, res: Response) => {
