@@ -31,11 +31,16 @@ export const getUsers = async (_req: Request, res: Response) => {
             User.find({ enabled: true }).skip((Number(page) - 1) * Number(limit)).limit(Number(limit) * 1)
         ]);
 
-        if (!total || !users.length) return res.json(201).json(new ResponseStatus(201, "No users"));
+        // TODO: Verify why fail
+        if (!total || !users.length) {
+            return res.json(201).json(new ResponseStatus(201, "No users"));
+        } else {
+            return res.status(200).json(new UsersResponse(200, users, total, Number(page), Math.ceil(total/Number(limit)), Number(limit)));
+        }
 
-        return res.status(200).json(new UsersResponse(200, users, total, Number(page), Math.ceil(total/Number(limit)), Number(limit)));
 
     } catch (error) {
+        console.error(error);
         return res.status(400).json(new ResponseStatus(400, "Error getting users"));
     }
 
@@ -64,7 +69,7 @@ export const updateUser = async (_req: Request, res: Response) => {
     try {
         const user = await User.findById(id);
 
-        if (!user) return res.status(400).json(new ResponseStatus(404, "User not fund"));
+        if (!user) return res.status(400).json(new ResponseStatus(404, "User not found"));
 
         if (currentPassword && newPassword) {
             const salt = genSaltSync();
@@ -108,4 +113,29 @@ export const blockUser = async (_req: Request, res: Response) => {
     } catch (error) {
         return res.status(400).json(new ResponseStatus(400, "Error deleting user"));
     }
+};
+
+export const deleteAll = async (_req: Request, res: Response) => {
+
+    try {
+        const users = await User.find({ enabled: false });
+
+        if (!users.length) return res.status(201).json(new ResponseStatus(201, "All clear"));
+
+        const usersDB = await Object.values(users);
+
+        const usersIds = usersDB.map(user => user._id);
+
+        await usersIds.forEach( id => {
+            User.findByIdAndRemove(id, (err: string): any => {
+                if (err) return res.status(500).json(new ResponseStatus(500, "Cannot delete all the users"));
+            });
+        });
+
+        return res.status(200).json(new ResponseStatus(200, "Users deleted"));
+
+    } catch (error) {
+        return res.status(400).json(new ResponseStatus(400, "Error deleting users"));    
+    }
+
 };
