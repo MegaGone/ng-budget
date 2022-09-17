@@ -84,6 +84,28 @@ export const updateUser = async (_req: Request, res: Response) => {
     }
 };
 
-export const deleteUser = async (_req: Request, res: Response) => {
-    res.send('DELETE USER');
+export const blockUser = async (_req: Request, res: Response) => {
+    
+    const { id } = _req.params;
+
+    try {
+
+        const userDB = await User.findById(id);
+
+        if (!userDB) return res.status(404).json(new ResponseStatus(404, "User not found"));
+
+        if (!userDB.enabled) return res.status(400).json(new ResponseStatus(400, "User is already blocked"));
+        
+        await User.findOneAndUpdate(
+            { _id: id },
+            {
+                $set: { enabled: false }
+            }
+        )
+
+        return res.status(200).json(new ResponseStatus(200, "User blocked"));
+
+    } catch (error) {
+        return res.status(400).json(new ResponseStatus(400, "Error deleting user"));
+    }
 };
