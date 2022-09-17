@@ -22,7 +22,7 @@ export const createUser = async (_req: Request, res: Response) => {
 
 export const getUsers = async (_req: Request, res: Response) => {
     
-    const { limit = 5, page = 1 } = _req.params;
+    const { limit = 5, page = 1 } = _req.query;
 
     try {
         
@@ -31,14 +31,9 @@ export const getUsers = async (_req: Request, res: Response) => {
             User.find({ enabled: true }).skip((Number(page) - 1) * Number(limit)).limit(Number(limit) * 1)
         ]);
 
-        // TODO: Verify why fail
-        if (!total || !users.length) {
-            return res.json(201).json(new ResponseStatus(201, "No users"));
-        } else {
-            return res.status(200).json(new UsersResponse(200, users, total, Number(page), Math.ceil(total/Number(limit)), Number(limit)));
-        }
+        if (!total || !users.length) return res.status(201).json(new ResponseStatus(201, "No users to show"));
 
-
+        return res.status(200).json(new UsersResponse(200, users, total, Number(page), Math.ceil(total/Number(limit)), Number(limit)));
     } catch (error) {
         console.error(error);
         return res.status(400).json(new ResponseStatus(400, "Error getting users"));
