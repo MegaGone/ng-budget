@@ -22,18 +22,18 @@ export const createUser = async (_req: Request, res: Response) => {
 
 export const getUsers = async (_req: Request, res: Response) => {
     
-    const { limit = 5, from = 0 } = _req.params;
+    const { limit = 5, page = 1 } = _req.params;
 
     try {
         
         const [total, users] = await Promise.all([
             User.countDocuments({ enabled: true }),
-            User.find({ enabled: true }).skip(Number(from)).limit(Number(limit))
+            User.find({ enabled: true }).skip((Number(page) - 1) * Number(limit)).limit(Number(limit) * 1)
         ]);
 
         if (!total || !users.length) return res.json(201).json(new ResponseStatus(201, "No users"));
 
-        return res.status(200).json(new UsersResponse(200, users, total));
+        return res.status(200).json(new UsersResponse(200, users, total, Number(page), Math.ceil(total/Number(limit)), Number(limit)));
 
     } catch (error) {
         return res.status(400).json(new ResponseStatus(400, "Error getting users"));
