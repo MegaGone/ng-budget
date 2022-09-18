@@ -4,10 +4,12 @@ import { ResponseStatus, User, UserResponse, UsersResponse } from "../models";
 
 // TODO: FIX TYPE OF USER
 export const createUser = async (_req: Request, res: Response) => {
-    const { name, lastName, displayName, email, password, role } = _req.body;
+    const { name, lastName, email, password, role } = _req.body;
+
+    const realDisplayName: string = `${name} ${lastName}`;
 
     try {
-        const user = new User({ name, lastName, displayName, email, password, role });
+        const user = new User({ name, lastName, displayName: realDisplayName, email, password, role });
 
         const salt = genSaltSync();
         user.password = hashSync(password, salt);
@@ -16,6 +18,7 @@ export const createUser = async (_req: Request, res: Response) => {
 
         return res.status(200).json(new ResponseStatus(200));
     } catch (error) {
+        console.log(error)
         return res.status(400).json(new ResponseStatus(400, "Error creating user"));
     }
 };
@@ -74,6 +77,9 @@ export const updateUser = async (_req: Request, res: Response) => {
             
             data.password = hashSync(newPassword, salt);
         }
+
+        const { name, lastName } = data;
+        data.displayName = `${name} ${lastName}`;
 
         const userDB = await User.findByIdAndUpdate(id, data, { returnDocument: 'after' });
 
