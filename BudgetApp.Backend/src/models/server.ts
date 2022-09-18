@@ -1,5 +1,7 @@
 import express, { Application } from "express";
 import cors from "cors";
+import { serve, setup } from "swagger-ui-express";
+import { openApiConfig } from "../docs";
 
 import { Auth, User } from '../routes';
 import { dbConnection } from '../database/';
@@ -10,6 +12,7 @@ class Server {
 
     private paths = {
         auth: '/api/auth',
+        docs: '/api/docs',
         user: '/api/user'
     }
 
@@ -34,7 +37,8 @@ class Server {
 
     private routes() {
         this.app.use(this.paths.auth, Auth.default);
-        this.app.use(this.paths.user, User.default)
+        this.app.use(this.paths.docs, serve, setup(openApiConfig));
+        this.app.use(this.paths.user, User.default);
     }
 
     /**
