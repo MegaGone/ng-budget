@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose';
+import { IUser } from '../interfaces';
 
 const UserSchema: Schema = new Schema({
     name: {
@@ -47,4 +48,4 @@ UserSchema.methods.toJSON = function() {
     return user;
 };
 
-export default model("User", UserSchema);
+export default model<IUser>("User", UserSchema);

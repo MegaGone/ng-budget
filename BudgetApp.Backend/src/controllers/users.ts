@@ -1,15 +1,21 @@
 import { Request, Response } from "express";
 import { genSaltSync, hashSync } from "bcrypt";
 import { ResponseStatus, User, UserResponse, UsersResponse } from "../models";
+import { IUser } from "../interfaces";
 
 // TODO: FIX TYPE OF USER
 export const createUser = async (_req: Request, res: Response) => {
+
     const { name, lastName, email, password, role } = _req.body;
 
     const realDisplayName: string = `${name} ${lastName}`;
 
     try {
-        const user = new User({ name, lastName, displayName: realDisplayName, email, password, role });
+        const userDB: IUser | null = await User.findOne({ email });
+
+        if (userDB) return res.status(400).json(new ResponseStatus(400, "Email already exist"));
+
+        const user: IUser = new User({ name, lastName, displayName: realDisplayName, email, password, role });
 
         const salt = genSaltSync();
         user.password = hashSync(password, salt);
@@ -48,7 +54,7 @@ export const getUser = async (_req: Request, res: Response) => {
     const { id } = _req.params;
 
     try {
-        const user = await User.findById(id);
+        const user: IUser | null = await User.findById(id);
 
         if (!user) return res.status(400).json(new ResponseStatus(404, "User not found"));
 
@@ -65,7 +71,7 @@ export const updateUser = async (_req: Request, res: Response) => {
     const { _id, currentPassword, newPassword, enabled,  ...data } = _req.body;
 
     try {
-        const user = await User.findById(id);
+        const user: IUser | null = await User.findById(id);
 
         if (!user) return res.status(400).json(new ResponseStatus(404, "User not found"));
 
@@ -96,11 +102,11 @@ export const blockUser = async (_req: Request, res: Response) => {
 
     try {
 
-        const userDB = await User.findById(id);
+        const userDB: IUser | null = await User.findById(id);
 
         if (!userDB) return res.status(404).json(new ResponseStatus(404, "User not found"));
 
-        if (!userDB.enabled) return res.status(400).json(new ResponseStatus(400, "User is already blocked"));
+        if (!userDB.enabled) return res.status(400).json(new ResponseStatus(400, "User already blocked"));
         
         await User.findOneAndUpdate(
             { _id: id },
@@ -119,7 +125,7 @@ export const blockUser = async (_req: Request, res: Response) => {
 export const deleteAll = async (_req: Request, res: Response) => {
 
     try {
-        const users = await User.find({ enabled: false });
+        const users: IUser[] = await User.find({ enabled: false });
 
         if (!users.length) return res.status(201).json(new ResponseStatus(201, "All clear"));
 
