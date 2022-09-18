@@ -3,7 +3,6 @@ import { genSaltSync, hashSync } from "bcrypt";
 import { ResponseStatus, User, UserResponse, UsersResponse } from "../models";
 import { IUser } from "../interfaces";
 
-// TODO: FIX TYPE OF USER
 export const createUser = async (_req: Request, res: Response) => {
 
     const { name, lastName, email, password, role } = _req.body;
