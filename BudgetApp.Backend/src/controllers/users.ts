@@ -12,7 +12,7 @@ export const createUser = async (_req: Request, res: Response) => {
     try {
         const userDB: IUser | null = await User.findOne({ email });
 
-        if (userDB) return res.status(400).json(new ResponseStatus(400, "Email already exist"));
+        if (userDB) return res.status(403).json(new ResponseStatus(400, "Email already exist"));
 
         const user: IUser = new User({ name, lastName, displayName: realDisplayName, email, password, role });
 

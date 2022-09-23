@@ -37,8 +37,8 @@ class Server {
 
     private routes() {
         this.app.use(this.paths.auth, Auth.default);
-        this.app.use(this.paths.docs, serve, setup(openApiConfig));
         this.app.use(this.paths.user, User.default);
+        this.app.use(this.paths.docs, serve, setup(openApiConfig));
     }
 
     /**
