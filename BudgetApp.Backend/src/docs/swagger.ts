@@ -1,9 +1,9 @@
-import swaggerJsdoc, { Options, SwaggerDefinition } from "swagger-jsdoc";
+import swaggerJsdoc, { OAS3Definition, OAS3Options } from "swagger-jsdoc";
 
 /**
  * API CONFIG
  */
-const swaggerDefinition: SwaggerDefinition = {
+const swaggerDefinition: OAS3Definition = {
     openapi: "3.0.0",
     info: {
         title: "NgBudget API",
@@ -15,8 +15,10 @@ const swaggerDefinition: SwaggerDefinition = {
             url: "https://develsystems.com"
         },
     },
+    basePath: "/api",
     servers: [
-        { url: "http://localhost:3000/api", description: "Local Environment" }
+        { url: "http://localhost:3000", description: "Local" },
+        { url: "https://.../api", description: "Production" }
     ],
     components: {
         schemas: {
@@ -30,29 +32,6 @@ const swaggerDefinition: SwaggerDefinition = {
                     password    : { type: "string" },
                     role        : { type: "string" },
                 }
-            },
-            // user: {
-            //     type: "object",
-            //     required: ["name", "lastName", "email", "password"],
-            //     properties: {
-            //         name        : { type: "string" },
-            //         lastName    : { type: "string" },
-            //         diplayName  : { type: "string" },
-            //         email       : { type: "string" },
-            //         password    : { type: "string" },
-            //         role        : { type: "string" },
-            //         enabled     : { type: "boolean" },
-            //         google      : { type: "boolean" },
-            //         uid         : { type: "string" },
-            //     }
-            // }
-            responseStatus: {
-                type: "object",
-                required: ["statusCode"],
-                properties: {
-                    statusCode  : { type: "number" },
-                    message     : { type: "string" }
-                }
             }
         }
     }
@@ -61,12 +40,9 @@ const swaggerDefinition: SwaggerDefinition = {
 /**
  * OPTIONS
  */
-const options: Options = {
+const options: OAS3Options = {
     swaggerDefinition,
-    apis: [
-        // "../routes/*.js",
-        "./src/routes/user.ts"
-    ]
+    apis: ["**/*.ts"]
 }
 
 export const openApiConfig = swaggerJsdoc(options);

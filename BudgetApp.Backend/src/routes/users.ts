@@ -6,27 +6,32 @@ import { createUser, blockUser, getUser, getUsers, updateUser, deleteAll } from 
 const router = Router();
 
 /**
- * @swagger
- * /user/create
+ *  CREATE USER
+ *  @openapi
+ *  /user/user:
  *      post:
  *          tags:
- *              - user
- *          summary: "Create new user"
+ *              - users
+ *          summary: "Create user"
  *          requestBody:
  *              content:
  *                  application/json:
- *                      scheme:
+ *                      schema:
  *                          $ref: "#/components/schemas/createUser"
  *          responses:
- *              '200': "User created"
- *              '403': "User already exist"
- *              '400': "Error creating user"
+ *              '200':
+ *                  description: User created
+ *              '403':
+ *                  description: User already exists
+ *              '400':
+ *                  description: Error creating user
  */
-router.post('/user', createUser);
+ router.post('/user', createUser);
+
 router.get('/users', getUsers);
 router.get('/:id', getUser);
 router.put('/update/:id', updateUser);
-router.delete('/delete/all', deleteAll)
+router.delete('/delete/all', deleteAll);
 router.delete('/delete/:id', blockUser);
 
 export default router;
