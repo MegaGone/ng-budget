@@ -15,9 +15,8 @@ const swaggerDefinition: OAS3Definition = {
             url: "https://develsystems.com"
         },
     },
-    basePath: "/api",
     servers: [
-        { url: "http://localhost:3000", description: "Local" },
+        { url: "http://localhost:3000/api", description: "Local" },
         { url: "https://.../api", description: "Production" }
     ],
     components: {
@@ -31,6 +30,28 @@ const swaggerDefinition: OAS3Definition = {
                     email       : { type: "string" },
                     password    : { type: "string" },
                     role        : { type: "string" },
+                }
+            },
+            UserResponse: {
+                type: "object",
+                required: ["statusCode"],
+                properties: {
+                    statusCode  : { type: "number" },
+                    message     : { type: "string" },
+                    user        : {
+                        type: "object",
+                        required: ["name", "lastName", "displayName", "email", "google", "enabled", "role", "uid"],
+                        properties: {
+                            name        : { type: "string" },
+                            lastName    : { type: "string" },
+                            displayName : { type: "string" },
+                            email       : { type: "string" },
+                            google      : { type: "boolean" },
+                            enabled     : { type: "boolean" },
+                            role        : { type: "string" },
+                            uid         : { type: "string" }
+                        }
+                    }
                 }
             }
         }

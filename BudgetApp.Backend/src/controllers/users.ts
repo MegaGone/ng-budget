@@ -55,7 +55,7 @@ export const getUser = async (_req: Request, res: Response) => {
     try {
         const user: IUser | null = await User.findById(id);
 
-        if (!user) return res.status(400).json(new ResponseStatus(404, "User not found"));
+        if (!user) return res.status(404).json(new ResponseStatus(404, "User not found"));
 
         return res.status(200).json(new UserResponse(200, user));
 
