@@ -56,8 +56,52 @@ const router = Router();
   */
 router.get('/users', getUsers);
 
+/**
+ * @openapi
+ * /api/user/{id}:
+ *    get:
+ *      tags:
+ *        - Users
+ *      summary: "Get user by ID"
+ *      parameters:
+ *      - name: id
+ *        in: path
+ *        description: ID User to get
+ *        required: true
+ *        schema:
+ *          type: string
+ *      responses:
+ *        '404':
+ *          description: User not found
+ *        '400':
+ *          description: Error getting user
+ *        '200':
+ *          description: User
+ */
 router.get('/:id', getUser);
 
+/**
+ * @openapi
+ * /api/user/{id}:
+ *    put:
+ *      tags:
+ *        - Users
+ *      summary: "Update user by ID"
+ *      parameters:
+ *        - name: id
+ *          in: path
+ *          description: ID user to update
+ *          required: true
+ *          schema:
+ *            type: string
+ *      responses:
+  *        '404':
+ *          description: User not found
+ *        '400':
+ *          description: Error getting user
+ *        '200':
+ *          description: User updated
+ */
 router.put('/update/:id', updateUser);
 
 /**
@@ -79,6 +123,30 @@ router.put('/update/:id', updateUser);
  */
 router.delete('/delete/all', deleteAll);
 
+/**
+ * @openapi
+ * /api/user/delete/{id}:
+ *    delete:
+ *      tags:
+ *        - Users
+ *      summary: "Block user by ID"
+ *      parameters:
+ *      - name: id
+ *        in: path
+ *        description: ID User to block
+ *        required: true
+ *        schema:
+ *          type: string
+ *      responses:
+ *        '404':
+ *          description: User not found
+ *        '400':
+ *          description: User already blocked
+ *        '500':
+ *          description: Error getting user
+ *        '200':
+ *          description: User blocked
+ */
 router.delete('/delete/:id', blockUser);
 
 export default router;

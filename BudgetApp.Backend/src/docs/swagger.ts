@@ -16,7 +16,7 @@ const swaggerDefinition: OAS3Definition = {
         },
     },
     servers: [
-        { url: "http://localhost:3000/api", description: "Local" },
+        { url: "http://localhost:3000", description: "Local" },
         { url: "https://.../api", description: "Production" }
     ],
     components: {

@@ -72,7 +72,7 @@ export const updateUser = async (_req: Request, res: Response) => {
     try {
         const user: IUser | null = await User.findById(id);
 
-        if (!user) return res.status(400).json(new ResponseStatus(404, "User not found"));
+        if (!user) return res.status(404).json(new ResponseStatus(404, "User not found"));
 
         if (currentPassword && newPassword) {
             const salt = genSaltSync();
@@ -117,7 +117,7 @@ export const blockUser = async (_req: Request, res: Response) => {
         return res.status(200).json(new ResponseStatus(200, "User blocked"));
 
     } catch (error) {
-        return res.status(400).json(new ResponseStatus(400, "Error deleting user"));
+        return res.status(500).json(new ResponseStatus(500, "Error deleting user"));
     }
 };
 
