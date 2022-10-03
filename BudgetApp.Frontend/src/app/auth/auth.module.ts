@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthRoutingModule } from './auth-routing.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // Components
 import { LoginComponent } from './login/login.component';
@@ -33,7 +34,9 @@ import { SharedModule } from '../shared/shared.module';
     MatProgressSpinnerModule,
     FuseCardModule,
     FuseAlertModule,
-    SharedModule
+    SharedModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class AuthModule { }
