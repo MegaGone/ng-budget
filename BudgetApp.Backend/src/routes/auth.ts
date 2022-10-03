@@ -35,6 +35,27 @@ const router = Router();
  *              description: Returns JWT & User info
  */
 router.post('/login',       loginWithCredentials);
+
+/**
+ *  @openapi
+ *  /api/auth/register:
+ *      post:
+ *          tags:
+ *              - Users
+ *          summary: "Create user"
+ *          requestBody:
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: "#/components/schemas/createUser"
+ *          responses:
+ *              '200':
+ *                  description: User created
+ *              '403':
+ *                  description: User already exists
+ *              '400':
+ *                  description: Error creating user
+ */
 router.post('/register',    register);
 router.post('/google',      loginWithGoogle);
 router.post('/session',     getSession);

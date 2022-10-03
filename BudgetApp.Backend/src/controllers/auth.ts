@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { compareSync } from "bcrypt";
+import { compareSync, genSaltSync, hashSync } from "bcrypt";
 
 // Models
 import { IUser } from "../interfaces";
@@ -7,7 +7,27 @@ import { AuthResponse, ResponseStatus, User } from "../models";
 import { generateJWT } from "../helpers";
 
 export const register = async (_req: Request, res: Response) => {
-    res.send('REGISTER');
+    const { name, lastName, email, password, role } = _req.body;
+
+    const displayName: string = `${name} ${lastName}`;
+
+    try {
+        const userDB: IUser | null = await User.findOne({ email });
+
+        if (userDB) return res.status(403).json(new ResponseStatus(403, "Email already exist"));
+
+        const user: IUser = new User({ name, lastName, displayName, email, password, role });
+
+        const salt = genSaltSync();
+        user.password = hashSync(password, salt);
+
+        await user.save();
+
+        return res.status(200).json(new ResponseStatus(200, "User created"));
+    } catch (error) {
+        console.log(error)
+        return res.status(400).json(new ResponseStatus(400, "Error creating user"));
+    }
 };
 
 export const loginWithCredentials = async (_req: Request, res: Response) => {

@@ -1,32 +1,9 @@
 import { Router } from "express";
 
 // CONTROLLERS
-import { createUser, blockUser, getUser, getUsers, updateUser, deleteAll } from "../controllers";
+import { blockUser, getUser, getUsers, updateUser, deleteAll } from "../controllers";
 
 const router = Router();
-
-/**
- *  CREATE USER
- *  @openapi
- *  /api/user/create:
- *      post:
- *          tags:
- *              - Users
- *          summary: "Create user"
- *          requestBody:
- *              content:
- *                  application/json:
- *                      schema:
- *                          $ref: "#/components/schemas/createUser"
- *          responses:
- *              '200':
- *                  description: User created
- *              '403':
- *                  description: User already exists
- *              '400':
- *                  description: Error creating user
- */
- router.post('/create', createUser);
 
  /**
   * @openapi
