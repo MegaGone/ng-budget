@@ -9,7 +9,10 @@ export const generateJWT = (uid: string) => {
             expiresIn: "4h"
         }, (err, token) => {
 
-            if (err) return reject("400");
+            if (err) {
+                console.log(err);
+                return reject("400");
+            }
 
             return resolve(token)
         })

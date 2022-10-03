@@ -29,6 +29,7 @@ export const loginWithCredentials = async (_req: Request, res: Response) => {
         return res.status(200).json(new AuthResponse(200, token, userDB));
 
     } catch(e) {
+        console.log(e)
         return res.status(400).json(new ResponseStatus(400, "Something has gone wrong, try again later"));
     }
 };
