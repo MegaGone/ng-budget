@@ -22,6 +22,17 @@ const router = Router();
  *                          email   : { type: "string" },
  *                          password: { type: "string"}
  *                      }
+ *      responses:
+ *          '204':
+ *              description: User not found
+ *          '400':
+ *              description: Credentials not valid
+ *          '401':
+ *              description: You are blocked
+ *          '500':
+ *              description: Something has gone wrong, try again later
+ *          '200':
+ *              description: Returns JWT & User info
  */
 router.post('/login',       loginWithCredentials);
 router.post('/register',    register);

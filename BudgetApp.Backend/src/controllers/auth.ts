@@ -18,7 +18,7 @@ export const loginWithCredentials = async (_req: Request, res: Response) => {
 
         if (!userDB) return res.status(404).json(new ResponseStatus(404, "User not found"));
 
-        if (!userDB.enabled) return res.status(400).json(new ResponseStatus(400, "You are blocked"));
+        if (!userDB.enabled) return res.status(401).json(new ResponseStatus(401, "You are blocked"));
 
         const validPassword = compareSync(password, userDB.password);
 
@@ -29,8 +29,7 @@ export const loginWithCredentials = async (_req: Request, res: Response) => {
         return res.status(200).json(new AuthResponse(200, token, userDB));
 
     } catch(e) {
-        console.log(e)
-        return res.status(400).json(new ResponseStatus(400, "Something has gone wrong, try again later"));
+        return res.status(500).json(new ResponseStatus(500, "Something has gone wrong, try again later"));
     }
 };
 

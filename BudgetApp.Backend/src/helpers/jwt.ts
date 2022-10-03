@@ -10,7 +10,6 @@ export const generateJWT = (uid: string) => {
         }, (err, token) => {
 
             if (err) {
-                console.log(err);
                 return reject("400");
             }
 
