@@ -1,4 +1,7 @@
-# FRONTEND
+# BACKEND
+BudgetApp.Backend/node_modules
+BudgetApp.Backend/.env
+BudgetApp.Backend/dist
 
 # Compiled output
 BudgetApp.Frontend/dist
