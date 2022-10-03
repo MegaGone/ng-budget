@@ -1,9 +1,10 @@
+import { IUser } from "../../interfaces";
 import ResponseStatus from "../response";
 
 export class UserResponse extends ResponseStatus {
     constructor(
-        public statusCode: number,
-        public user: any
+        public statusCode   : number,
+        public user         : IUser
     ) { 
         super(statusCode);
     }

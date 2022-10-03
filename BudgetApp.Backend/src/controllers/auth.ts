@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
 import { compareSync, genSaltSync, hashSync } from "bcrypt";
+import { verify } from "jsonwebtoken";
 
 // Models
 import { IUser } from "../interfaces";
-import { AuthResponse, ResponseStatus, User } from "../models";
+import { AuthResponse, ResponseStatus, User, UserResponse } from "../models";
 import { generateJWT } from "../helpers";
 
 export const register = async (_req: Request, res: Response) => {
@@ -58,5 +59,21 @@ export const loginWithGoogle = async (_req: Request, res: Response) => {
 };
 
 export const getSession = async (_req: Request, res: Response) => {
-    res.send('SESSION');
+    
+    const token = _req.header('x-token');
+
+    try {
+
+        const jwt: any = await verify(token!, process.env.SECRETKEY!);
+
+        const userDB = await User.findById({ _id: jwt.uid });
+
+        if (!userDB) return res.status(404).json(new ResponseStatus(404, "User not found"));
+
+        return res.status(200).json(new UserResponse(200, userDB));
+        
+    } catch(e) {
+        console.log(e);
+        return res.status(400).json(new ResponseStatus(400, "Error getting token"));
+    }
 };

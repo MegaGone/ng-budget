@@ -88,7 +88,7 @@ export const updateUser = async (_req: Request, res: Response) => {
 
         const userDB = await User.findByIdAndUpdate(id, data, { returnDocument: 'after' });
 
-        return res.status(200).json(new UserResponse(200, userDB));
+        return res.status(200).json(new UserResponse(200, userDB!));
 
     } catch (error) {
         return res.status(400).json(new ResponseStatus(400, "Error updating user"));
