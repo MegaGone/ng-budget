@@ -1,4 +1,4 @@
-import ResponseStatus from "./response";
+import ResponseStatus from "../response";
 
 export class UserResponse extends ResponseStatus {
     constructor(
