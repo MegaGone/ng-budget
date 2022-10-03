@@ -80,13 +80,13 @@
                 <!-- First name field -->
                 <mat-form-field class="w-full">
                     <mat-label>First name</mat-label>
-                    <input id="name" matInput formControlName="firstName">
+                    <input id="firstName" matInput formControlName="firstName">
                 </mat-form-field>
 
                 <!-- Last name field -->
                 <mat-form-field class="w-full">
                     <mat-label>Last name</mat-label>
-                    <input id="name" matInput formControlName="lastName">
+                    <input id="lastName" matInput formControlName="lastName">
                 </mat-form-field>
 
                 <!-- Email field -->
@@ -98,9 +98,27 @@
                 <!-- Password field -->
                 <mat-form-field class="w-full">
                     <mat-label>Password</mat-label>
-                    <input id="password" matInput type="password" formControlName="password">
-                    <button mat-icon-button type="button"
+                    <input 
+                    id="password" 
+                    matInput 
+                    type="password" 
+                    formControlName="password"
+                    #passwordControl>
+                    <button 
+                        mat-icon-button 
+                        type="button"
+                        (click)="passwordControl.type === 'password' ? passwordControl.type = 'text' : passwordControl.type = 'password'"
                         matSuffix>
+                        <mat-icon
+                            class="icon-size-5"
+                            *ngIf="passwordControl.type === 'password'"
+                            [svgIcon]="'heroicons_solid:eye'">
+                        </mat-icon>
+                        <mat-icon
+                            class="icon-size-5"
+                            *ngIf="passwordControl.type === 'text'"
+                            [svgIcon]="'heroicons_solid:eye-off'">
+                        </mat-icon>
                     </button>
                     <!-- <mat-error>
                         Password is required
@@ -110,9 +128,29 @@
                 <!-- Confirm passowrd -->
                 <mat-form-field class="w-full">
                     <mat-label>Confirm password</mat-label>
-                    <input id="password" matInput type="password" formControlName="passwordMatch">
-                    <button mat-icon-button type="button"
+                    <input 
+                    id="passwordMatch" 
+                    matInput 
+                    type="password" 
+                    formControlName="passwordMatch"
+                    #passwordMatchControl>
+                    <button 
+                        mat-icon-button 
+                        type="button"
+                        (click)="passwordMatchControl.type === 'password' ? passwordMatchControl.type = 'text' : passwordMatchControl.type = 'password'"
                         matSuffix>
+                        <mat-icon
+                            class="icon-size-5"
+                            *ngIf="passwordMatchControl.type === 'password'"
+                            [svgIcon]="'heroicons_solid:eye'"
+                        >
+                        </mat-icon>
+                        <mat-icon
+                            class="icon-size-5"
+                            *ngIf="passwordMatchControl.type === 'text'"
+                            [svgIcon]="'heroicons_solid:eye-off'"
+                        >
+                        </mat-icon>
                     </button>
                     <!-- <mat-error>
                         Password is required
@@ -131,7 +169,7 @@
 
                 <!-- Submit button -->
                 <button class="fuse-mat-button-large w-full mt-6" mat-flat-button (click)="onRegister()">
-                    <span>Create your free account</span>
+                    <span>Create account</span>
                     <!-- <mat-progress-spinner [diameter]="24" [mode]="'indeterminate'">
                     </mat-progress-spinner> -->
                 </button>
