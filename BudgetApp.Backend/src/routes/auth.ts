@@ -41,8 +41,8 @@ router.post('/login',       loginWithCredentials);
  *  /api/auth/register:
  *      post:
  *          tags:
- *              - Users
- *          summary: "Create user"
+ *              - Auth
+ *          summary: "Register new user"
  *          requestBody:
  *              content:
  *                  application/json:
@@ -58,6 +58,29 @@ router.post('/login',       loginWithCredentials);
  */
 router.post('/register',    register);
 router.post('/google',      loginWithGoogle);
+
+/**
+ * @openapi
+ * /api/auth/session:
+ *    get:
+ *      tags:
+ *        - Auth
+ *      summary: "Get user by ID"
+ *      parameters:
+ *      - name: x-token
+ *        in: path
+ *        description: JWT to get session
+ *        required: true
+ *        schema:
+ *          type: string
+ *      responses:
+ *        '404':
+ *          description: User not found
+ *        '400':
+ *          description: Error getting user
+ *        '200':
+ *          description: User
+ */
 router.post('/session',     getSession);
 
 export default router;
