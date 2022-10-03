@@ -7,7 +7,7 @@ export class UserResponse extends ResponseStatus {
     ) { 
         super(statusCode);
     }
-}
+};
 
 export class UsersResponse extends ResponseStatus {
     constructor(
@@ -20,4 +20,4 @@ export class UsersResponse extends ResponseStatus {
     ) {
         super(statusCode);
     }
-}
+};
