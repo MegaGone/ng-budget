@@ -21,23 +21,35 @@ const swaggerDefinition: OAS3Definition = {
     ],
     components: {
         schemas: {
-            createUser: {
-                type: "object",
-                required: ["name", "lastName", "email", "password"],
-                properties: {
-                    name        : { type: "string" },
-                    lastName    : { type: "string" },
-                    email       : { type: "string" },
-                    password    : { type: "string" },
-                    role        : { type: "string" },
-                }
-            },
             UserResponse: {
                 type: "object",
                 required: ["statusCode"],
                 properties: {
                     statusCode  : { type: "number" },
                     message     : { type: "string" },
+                    user        : {
+                        type: "object",
+                        required: ["name", "lastName", "displayName", "email", "google", "enabled", "role", "uid"],
+                        properties: {
+                            name        : { type: "string" },
+                            lastName    : { type: "string" },
+                            displayName : { type: "string" },
+                            email       : { type: "string" },
+                            google      : { type: "boolean" },
+                            enabled     : { type: "boolean" },
+                            role        : { type: "string" },
+                            uid         : { type: "string" }
+                        }
+                    }
+                }
+            },
+            AuthResponse: {
+                type: "object",
+                required: ["statusCode", "user", "token"],
+                properties: {
+                    statusCode  : { type: "number" },
+                    message     : { type: "string" },
+                    token       : { type: "string" },
                     user        : {
                         type: "object",
                         required: ["name", "lastName", "displayName", "email", "google", "enabled", "role", "uid"],
