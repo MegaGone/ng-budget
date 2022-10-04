@@ -14,8 +14,11 @@ export class RegisterComponent implements OnInit {
 
   public registerForm!: FormGroup;
   public passwordRegex: RegExp;
+  public loading      : boolean;
 
-  constructor(private _fb: FormBuilder, private _authSvc: AuthService) { 
+  constructor(
+    private _fb: FormBuilder, 
+    private _authSvc: AuthService) { 
     this.passwordRegex = new RegExp("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$");
   }
 
@@ -58,7 +61,9 @@ export class RegisterComponent implements OnInit {
   }
 
   onRegister() {
+    this.loading = true;
     if (this.registerForm.invalid) {
+      this.loading = false;
       return Object.values(this.registerForm.controls).forEach(c => c.markAsTouched());
     }
 
@@ -66,17 +71,19 @@ export class RegisterComponent implements OnInit {
 
     this._authSvc.createAccount(account).subscribe(
       (status: number) => {
+        this.loading = false;
         if (status === 200) {
-
+          console.log("Creado");
         }
       },
       err => {
         if (err.error.statusCode === 403) {
-
+          console.log(err.error.message);
+          this.loading = false;
         }
 
-
+        console.log("ERROR");
+        this.loading = false;
       })
-    
   }
 }
