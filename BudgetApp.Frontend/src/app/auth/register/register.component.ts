@@ -64,7 +64,7 @@ export class RegisterComponent implements OnInit {
     this.loading = true;
     if (this.registerForm.invalid) {
       this.loading = false;
-      return Object.values(this.registerForm.controls).forEach(c => c.markAsTouched());
+      return this.registerForm.markAllAsTouched();
     }
 
     const { passwordMatch, terms, ...account } = this.registerForm.value;
@@ -72,18 +72,40 @@ export class RegisterComponent implements OnInit {
     this._authSvc.createAccount(account).subscribe(
       (status: number) => {
         this.loading = false;
+        this.initFormGroup();
+        this.registerForm.markAsPristine();
+        this.registerForm.markAsUntouched();
+
         if (status === 200) {
           console.log("Creado");
         }
+        return;
       },
       err => {
+        this.initFormGroup();
+        this.registerForm.markAsPristine();
+        this.registerForm.markAsUntouched();
+
         if (err.error.statusCode === 403) {
           console.log(err.error.message);
-          this.loading = false;
+          return this.loading = false;
         }
 
         console.log("ERROR");
         this.loading = false;
       })
+  }
+
+  /**
+   * 
+   * @param control - Control's name's to evaluate
+   * @returns True if control's not valid
+   */
+  invalidControl(control: string) {
+    return this.registerForm.controls[control].errors && this.registerForm.controls[control].touched;
+  }
+
+  get f() {
+    return this.registerForm.controls;
   }
 }
