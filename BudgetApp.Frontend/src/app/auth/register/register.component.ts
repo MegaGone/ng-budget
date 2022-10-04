@@ -1,12 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IResponseStatus } from 'app/models';
 import { AuthService } from '../auth.service';
+import { fuseAnimations } from '@fuse/animations';
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss']
+  selector      : 'app-register',
+  templateUrl   : './register.component.html',
+  styleUrls     : ['./register.component.scss'],
+  animations    : fuseAnimations,
+  encapsulation : ViewEncapsulation.None
 })
 export class RegisterComponent implements OnInit {
 
@@ -31,7 +33,7 @@ export class RegisterComponent implements OnInit {
       email         :  ['', [Validators.required, Validators.email]],
       password      :  ['', [Validators.required, Validators.pattern(this.passwordRegex)]],
       passwordMatch :  ['', [Validators.required, Validators.pattern(this.passwordRegex)]],
-      terms         :  [false, Validators.required]
+      terms         :  [false, Validators.requiredTrue]
     }, 
     {
       validators: [this.matchPassword('password', 'passwordMatch')]
@@ -62,11 +64,19 @@ export class RegisterComponent implements OnInit {
 
     const { passwordMatch, terms, ...account } = this.registerForm.value;
 
-    this._authSvc.createAccount(account).subscribe((status: IResponseStatus) => {
+    this._authSvc.createAccount(account).subscribe(
+      (status: number) => {
+        if (status === 200) {
 
-      console.log(status);
-    
-    })
+        }
+      },
+      err => {
+        if (err.error.statusCode === 403) {
+
+        }
+
+
+      })
     
   }
 }

@@ -23,5 +23,8 @@ export class AuthService {
     headers.append("Content-Type","application/json");
 
     return this.http.post<IResponseStatus>(`${base_url}/auth/register`, user)
+      .pipe(
+        map((res: IResponseStatus) => res.statusCode)
+      );
   }
 }

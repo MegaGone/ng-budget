@@ -159,11 +159,13 @@
 
                 <!-- ToS and PP -->
                 <div class="inline-flex items-end w-full mt-1.5">
-                    <mat-checkbox [color]="'primary'">
-                        <span>I agree to the</span>
-                        <a class="ml-1 text-primary-500 hover:underline" >Terms of Service </a>
-                        <span>and</span>
-                        <a class="ml-1 text-primary-500 hover:underline">Privacy Policy</a>
+                    <mat-checkbox
+                        checked="true" 
+                        formControlName="terms">
+                            <span>I agree to the</span>
+                            <a class="ml-1 text-primary-500 hover:underline" >Terms of Service </a>
+                            <span>and</span>
+                            <a class="ml-1 text-primary-500 hover:underline">Privacy Policy</a>
                     </mat-checkbox>
                 </div>
 
