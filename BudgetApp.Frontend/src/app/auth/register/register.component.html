@@ -82,6 +82,8 @@
                     <mat-label>First name</mat-label>
                     <input id="firstName" matInput formControlName="name">
                     <mat-error class="text-red-600" *ngIf="f.name.hasError('required')">First name is required</mat-error>
+                    <mat-error class="text-red-600" *ngIf="f.name.hasError('space')">Space not valid</mat-error>
+                    <mat-error class="text-red-600" *ngIf="f.name.hasError('doubleSpace')">Double spaces not allowed</mat-error>
                 </mat-form-field>
 
                 <!-- Last name field -->
@@ -89,6 +91,8 @@
                     <mat-label>Last name</mat-label>
                     <input id="lastName" matInput formControlName="lastName">
                     <mat-error class="text-red-600" *ngIf="f.lastName.hasError('required')">Last name is required</mat-error>
+                    <mat-error class="text-red-600" *ngIf="f.lastName.hasError('space')">Space not valid</mat-error>
+                    <mat-error class="text-red-600" *ngIf="f.lastName.hasError('doubleSpace')">Double spaces not allowed</mat-error>
                 </mat-form-field>
 
                 <!-- Email field -->
@@ -139,7 +143,7 @@
                         </mat-icon>
                     </button>
                     <mat-error class="text-red-600" *ngIf="f.passwordMatch.hasError('required')">Password is required</mat-error>
-                    <mat-error class="text-red-600" *ngIf="f.passwordMatch.hasError('pattern')">Password not valid</mat-error>
+                    <mat-error class="text-red-600" *ngIf="f.passwordMatch.hasError('mustMatch')">Passwords doesn't match</mat-error>
                 </mat-form-field>
 
                 <!-- ToS and PP -->

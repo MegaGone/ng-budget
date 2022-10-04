@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { fuseAnimations } from '@fuse/animations';
+import { ControlsValidations } from 'utils';
 
 @Component({
   selector      : 'app-register',
@@ -31,11 +32,11 @@ export class RegisterComponent implements OnInit {
    */
   initFormGroup() {
     this.registerForm = this._fb.group({
-      name          :  ['', [Validators.required]],
-      lastName      :  ['', [Validators.required]],
+      name          :  ['', [Validators.required, ControlsValidations.cleanControl]],
+      lastName      :  ['', [Validators.required, ControlsValidations.cleanControl]],
       email         :  ['', [Validators.required, Validators.email]],
       password      :  ['', [Validators.required, Validators.pattern(this.passwordRegex)]],
-      passwordMatch :  ['', [Validators.required, Validators.pattern(this.passwordRegex)]],
+      passwordMatch :  ['', Validators.required],
       terms         :  [false, Validators.requiredTrue]
     }, 
     {
