@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { IResponseStatus } from 'app/models';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-register',
@@ -11,7 +13,7 @@ export class RegisterComponent implements OnInit {
   public registerForm!: FormGroup;
   public passwordRegex: RegExp;
 
-  constructor(private _fb: FormBuilder) { 
+  constructor(private _fb: FormBuilder, private _authSvc: AuthService) { 
     this.passwordRegex = new RegExp("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$");
   }
 
@@ -24,11 +26,12 @@ export class RegisterComponent implements OnInit {
    */
   initFormGroup() {
     this.registerForm = this._fb.group({
-      firstName     :  ['', [Validators.required]],
+      name          :  ['', [Validators.required]],
       lastName      :  ['', [Validators.required]],
       email         :  ['', [Validators.required, Validators.email]],
       password      :  ['', [Validators.required, Validators.pattern(this.passwordRegex)]],
-      passwordMatch :  ['', [Validators.required, Validators.pattern(this.passwordRegex)]]
+      passwordMatch :  ['', [Validators.required, Validators.pattern(this.passwordRegex)]],
+      terms         :  [false, Validators.required]
     }, 
     {
       validators: [this.matchPassword('password', 'passwordMatch')]
@@ -57,7 +60,13 @@ export class RegisterComponent implements OnInit {
       return Object.values(this.registerForm.controls).forEach(c => c.markAsTouched());
     }
 
-    console.log(this.registerForm.value);
+    const { passwordMatch, terms, ...account } = this.registerForm.value;
+
+    this._authSvc.createAccount(account).subscribe((status: IResponseStatus) => {
+
+      console.log(status);
+    
+    })
     
   }
 }
