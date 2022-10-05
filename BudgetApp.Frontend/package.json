@@ -33,6 +33,7 @@
         "@fullcalendar/moment": "4.4.2",
         "@fullcalendar/rrule": "4.4.2",
         "@fullcalendar/timegrid": "4.4.2",
+        "@lottiefiles/lottie-player": "^1.5.7",
         "@ngneat/transloco": "2.22.0",
         "apexcharts": "3.27.3",
         "crypto-js": "3.3.0",
