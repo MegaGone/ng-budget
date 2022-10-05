@@ -5,6 +5,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { ControlsValidations } from 'utils';
 import { ViewChild } from '@angular/core';
 import { FormGroupDirective } from '@angular/forms';
+import { IAlert } from 'app/models';
 
 @Component({
   selector      : 'app-register',
@@ -20,6 +21,8 @@ export class RegisterComponent implements OnInit {
   public registerForm!: FormGroup;
   public passwordRegex: RegExp;
   public loading      : boolean;
+  public showAlert    : boolean;
+  public alert        : IAlert;
 
   constructor(
     private _fb: FormBuilder, 
@@ -80,19 +83,43 @@ export class RegisterComponent implements OnInit {
         this.formRef.resetForm();
 
         if (status === 200) {
-          console.log("Creado");
+          this.showAlert = true;
+          this.alert = {
+            alertAppareance: "outline",
+            alertType: "success",
+            showIcon: true,
+            message: "Account created",
+            dismissible: true,
+            dismissed: false
+          }
         }
         return;
       },
       err => {
         this.formRef.resetForm();
         if (err.error.statusCode === 403) {
-          console.log(err.error.message);
-          return this.loading = false;
+          this.showAlert = true;
+          this.loading = false;
+          this.alert = {
+            alertAppareance: "outline",
+            alertType: "warning",
+            showIcon: true,
+            message: err.error.message,
+            dismissible: true,
+            dismissed: false
+          }
         }
 
-        console.log("ERROR");
+        this.alert = {
+          alertAppareance: "outline",
+          alertType: "warning",
+          showIcon: true,
+          message: err.error.message,
+          dismissible: true,
+          dismissed: false
+        }
         this.loading = false;
+        this.showAlert = true;
       })
   }
 

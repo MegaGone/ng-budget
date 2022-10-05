@@ -4,11 +4,11 @@
     }
     
     .mat-checkbox-checked.mat-accent .mat-checkbox-background,.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
-        background-color: var(--fuse-primary);
+        background-color: #0367A6;
     }
 
     .fuse-mat-button-large {
-        background-color: var(--fuse-primary);
+        background-color: #0367A6;
         color: white;
     }
 
@@ -16,5 +16,9 @@
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+
+    .text-primary {
+        color: #0367A6 !important;
     }
 }
