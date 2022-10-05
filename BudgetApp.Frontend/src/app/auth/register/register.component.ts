@@ -16,7 +16,6 @@ import { FormGroupDirective } from '@angular/forms';
 export class RegisterComponent implements OnInit {
 
   @ViewChild(FormGroupDirective) formRef: FormGroupDirective;
-  // @ViewChild('myForm', { static: true }) public Form: FormGroupDirective;
 
   public registerForm!: FormGroup;
   public passwordRegex: RegExp;
@@ -37,8 +36,8 @@ export class RegisterComponent implements OnInit {
    */
   initFormGroup() {
     this.registerForm = this._fb.group({
-      name          :  ['', [Validators.required]],
-      lastName      :  ['', [Validators.required]],
+      name          :  ['', [Validators.required, ControlsValidations.cleanControl]],
+      lastName      :  ['', [Validators.required, ControlsValidations.cleanControl]],
       email         :  ['', [Validators.required, Validators.email]],
       password      :  ['', [Validators.required, Validators.pattern(this.passwordRegex)]],
       passwordMatch :  ['', Validators.required],
@@ -106,6 +105,9 @@ export class RegisterComponent implements OnInit {
     return this.registerForm.controls[control].errors && this.registerForm.controls[control].touched;
   }
 
+  /**
+   * FORM REFERENCE
+   */
   get f() {
     return this.registerForm.controls;
   }

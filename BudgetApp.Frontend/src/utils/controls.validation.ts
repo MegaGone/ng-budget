@@ -9,6 +9,8 @@ export class ControlsValidations {
      */
     static cleanControl(control: AbstractControl): { [key: string]: boolean } | null {
         const value = control.value;
+        if (value == null) return;
+
         const splited = value.split("");
 
         if (splited[0] === " " || undefined || null) return { space: true }
