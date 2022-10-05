@@ -39,11 +39,11 @@ export class RegisterComponent implements OnInit {
    */
   initFormGroup() {
     this.registerForm = this._fb.group({
-      name          :  ['Jimmy', [Validators.required, ControlsValidations.cleanControl]],
-      lastName      :  ['Javier', [Validators.required, ControlsValidations.cleanControl]],
-      email         :  ['javier@test.com', [Validators.required, Validators.email]],
-      password      :  ['Password!234', [Validators.required, Validators.pattern(this.passwordRegex)]],
-      passwordMatch :  ['Password!234', Validators.required],
+      name          :  ['', [Validators.required, ControlsValidations.cleanControl]],
+      lastName      :  ['', [Validators.required, ControlsValidations.cleanControl]],
+      email         :  ['', [Validators.required, Validators.email]],
+      password      :  ['', [Validators.required, Validators.pattern(this.passwordRegex)]],
+      passwordMatch :  ['', Validators.required],
       terms         :  [false, Validators.requiredTrue]
     }, 
     {
