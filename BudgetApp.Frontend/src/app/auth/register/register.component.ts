@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { fuseAnimations } from '@fuse/animations';
 import { ControlsValidations } from 'utils';
+import { ViewChild } from '@angular/core';
+import { FormGroupDirective } from '@angular/forms';
 
 @Component({
   selector      : 'app-register',
@@ -12,6 +14,9 @@ import { ControlsValidations } from 'utils';
   encapsulation : ViewEncapsulation.None
 })
 export class RegisterComponent implements OnInit {
+
+  @ViewChild(FormGroupDirective) formRef: FormGroupDirective;
+  // @ViewChild('myForm', { static: true }) public Form: FormGroupDirective;
 
   public registerForm!: FormGroup;
   public passwordRegex: RegExp;
@@ -32,8 +37,8 @@ export class RegisterComponent implements OnInit {
    */
   initFormGroup() {
     this.registerForm = this._fb.group({
-      name          :  ['', [Validators.required, ControlsValidations.cleanControl]],
-      lastName      :  ['', [Validators.required, ControlsValidations.cleanControl]],
+      name          :  ['', [Validators.required]],
+      lastName      :  ['', [Validators.required]],
       email         :  ['', [Validators.required, Validators.email]],
       password      :  ['', [Validators.required, Validators.pattern(this.passwordRegex)]],
       passwordMatch :  ['', Validators.required],
@@ -73,9 +78,7 @@ export class RegisterComponent implements OnInit {
     this._authSvc.createAccount(account).subscribe(
       (status: number) => {
         this.loading = false;
-        this.initFormGroup();
-        this.registerForm.markAsPristine();
-        this.registerForm.markAsUntouched();
+        this.formRef.resetForm();
 
         if (status === 200) {
           console.log("Creado");
@@ -83,10 +86,7 @@ export class RegisterComponent implements OnInit {
         return;
       },
       err => {
-        this.initFormGroup();
-        this.registerForm.markAsPristine();
-        this.registerForm.markAsUntouched();
-
+        this.formRef.resetForm();
         if (err.error.statusCode === 403) {
           console.log(err.error.message);
           return this.loading = false;
