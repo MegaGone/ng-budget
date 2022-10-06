@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
-import { IAccount, IResponseStatus } from 'app/models';
+import { IAccount, IAuthResponse, ILogin, IResponseStatus } from 'app/models';
 
 const base_url = environment.base_url;
 @Injectable({
@@ -25,6 +25,20 @@ export class AuthService {
     return this.http.post<IResponseStatus>(`${base_url}/auth/register`, user)
       .pipe(
         map((res: IResponseStatus) => res.statusCode)
+      );
+  }
+
+  /**
+   * 
+   * @param credentials User credentials
+   * @returns IAuthResponse
+   */
+  login(credentials: ILogin) {
+    return this.http.post<IAuthResponse>(`${base_url}/auth/login`, credentials)
+      .pipe(
+        tap((res: IAuthResponse) => {
+          localStorage.setItem("x-token", res.token);
+        })
       );
   }
 }

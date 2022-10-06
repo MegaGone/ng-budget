@@ -27,7 +27,7 @@ const router = Router();
  *              description: User not found
  *          '400':
  *              description: Credentials not valid
- *          '401':
+ *          '403':
  *              description: You are blocked
  *          '500':
  *              description: Something has gone wrong, try again later

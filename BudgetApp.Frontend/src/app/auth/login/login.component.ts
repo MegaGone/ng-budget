@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { fuseAnimations } from '@fuse/animations';
-import { ILogin, IRemember } from 'app/models';
+import { IAuthResponse, IRemember } from 'app/models';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector      : 'app-login',
@@ -16,7 +17,7 @@ export class LoginComponent implements OnInit {
   public passwordRegex: RegExp;
 
   // TODO: CHANGE FACEBOOK LOGIN FOR GOOGLE
-  constructor(private _fb: FormBuilder) { 
+  constructor(private _fb: FormBuilder, private _authSvc: AuthService) { 
     this.passwordRegex = new RegExp("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$");
   }
 
@@ -35,7 +36,7 @@ export class LoginComponent implements OnInit {
       password:  ['', [Validators.required, Validators.pattern(this.passwordRegex)]],
       remember:  [false]
     })
-    
+
     this.setCredentials(creds);
   }
 
@@ -52,6 +53,14 @@ export class LoginComponent implements OnInit {
 
     (remember) ? localStorage.setItem("credentials", JSON.stringify(credentials)) : localStorage.removeItem("credentials");
 
+    this._authSvc.login(creds).subscribe(
+      (res: IAuthResponse) => {
+        console.log(res);
+      },
+      err => {
+
+      }
+    )
   }
 
   /**
