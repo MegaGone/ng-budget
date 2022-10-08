@@ -1,9 +1,8 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { fuseAnimations } from '@fuse/animations';
 import { ControlsValidations } from 'utils';
-import { ViewChild } from '@angular/core';
 import { FormGroupDirective } from '@angular/forms';
 import { IAlert } from 'app/models';
 

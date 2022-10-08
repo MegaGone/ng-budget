@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { fuseAnimations } from '@fuse/animations';
-import { IAlert, IAuthResponse, IRemember } from 'app/models';
+import { IAlert, IRemember } from 'app/models';
 import { AuthService } from '../auth.service';
+import { FormGroupDirective } from '@angular/forms';
 
 @Component({
   selector      : 'app-login',
@@ -12,6 +13,8 @@ import { AuthService } from '../auth.service';
   animations    : fuseAnimations
 })
 export class LoginComponent implements OnInit {
+
+  @ViewChild(FormGroupDirective) formRef: FormGroupDirective;
 
   public loginForm    : FormGroup;
   public passwordRegex: RegExp;
@@ -53,15 +56,15 @@ export class LoginComponent implements OnInit {
     const { remember, ...creds } = this.loginForm.value;
     const credentials = { remember, "email": creds.email };
 
-    (remember) ? localStorage.setItem("credentials", JSON.stringify(credentials)) : localStorage.removeItem("credentials");
-
     this._authSvc.login(creds).subscribe(
       (statusCode: number) => {
         if(statusCode === 200) {
-          
+          (remember) ? localStorage.setItem("credentials", JSON.stringify(credentials)) : localStorage.removeItem("credentials");
+          console.log("Loggeado");
         }
       },
       err => {
+        this.formRef.resetForm();
         const status: number = err.error.statusCode;
 
         switch(status) {
