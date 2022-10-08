@@ -4,6 +4,7 @@ import { environment } from 'environments/environment';
 import { map, tap } from 'rxjs/operators';
 
 import { IAccount, IAuthResponse, ILogin, IResponseStatus } from 'app/models';
+import { Observable } from 'rxjs';
 
 const base_url = environment.base_url;
 @Injectable({
@@ -33,12 +34,13 @@ export class AuthService {
    * @param credentials User credentials
    * @returns IAuthResponse
    */
-  login(credentials: ILogin) {
+  login(credentials: ILogin): Observable<number> {
     return this.http.post<IAuthResponse>(`${base_url}/auth/login`, credentials)
       .pipe(
         tap((res: IAuthResponse) => {
           localStorage.setItem("x-token", res.token);
-        })
-      );
+        }),
+        map((res: IAuthResponse) => res.statusCode)
+      )
   }
 }

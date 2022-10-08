@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { fuseAnimations } from '@fuse/animations';
-import { IAuthResponse, IRemember } from 'app/models';
+import { IAlert, IAuthResponse, IRemember } from 'app/models';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -15,6 +15,8 @@ export class LoginComponent implements OnInit {
 
   public loginForm    : FormGroup;
   public passwordRegex: RegExp;
+  public alert        : IAlert;
+  public showAlert    : boolean;
 
   // TODO: CHANGE FACEBOOK LOGIN FOR GOOGLE
   constructor(private _fb: FormBuilder, private _authSvc: AuthService) { 
@@ -54,11 +56,62 @@ export class LoginComponent implements OnInit {
     (remember) ? localStorage.setItem("credentials", JSON.stringify(credentials)) : localStorage.removeItem("credentials");
 
     this._authSvc.login(creds).subscribe(
-      (res: IAuthResponse) => {
-        console.log(res);
+      (statusCode: number) => {
+        if(statusCode === 200) {
+          
+        }
       },
       err => {
+        const status: number = err.error.statusCode;
 
+        switch(status) {
+          case 403:
+            this.alert = {
+              alertAppareance : "outline",
+              alertType       : "warn",
+              showIcon        : true,
+              message         : "Forbidden. You are blocked. Talk with an administrator to unlock you.",
+              dismissible     : true,
+              dismissed       : false
+            }
+            return this.showAlert = true;
+          break;
+
+          case 404:
+            this.alert = {
+              alertAppareance : "outline",
+              alertType       : "warning",
+              showIcon        : true,
+              message         : "User not registered. Create an account.",
+              dismissible     : true,
+              dismissed       : false
+            }
+            return this.showAlert = true;
+          break;
+
+          case 400:
+            this.alert = {
+              alertAppareance : "outline",
+              alertType       : "error",
+              showIcon        : true,
+              message         : "Verify your credentials.",
+              dismissible     : true,
+              dismissed       : false
+            }
+            return this.showAlert = true;
+          break;
+        }
+
+        this.alert = {
+          alertAppareance : "outline",
+          alertType       : "error",
+          showIcon        : true,
+          message         : "Error to sign in. Please try later.",
+          dismissible     : true,
+          dismissed       : false
+        }
+        return this.showAlert = true;
+  
       }
     )
   }
