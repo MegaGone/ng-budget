@@ -4,7 +4,7 @@ import { AuthService } from '../auth.service';
 import { fuseAnimations } from '@fuse/animations';
 import { ControlsValidations } from 'utils';
 import { FormGroupDirective } from '@angular/forms';
-import { IAlert } from 'app/models';
+import { IAlert } from 'app/interfaces';
 
 @Component({
   selector      : 'app-register',

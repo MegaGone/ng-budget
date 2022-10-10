@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { map, tap } from 'rxjs/operators';
 
-import { IAccount, IAuthResponse, ILogin, IResponseStatus } from 'app/models';
+import { IAccount, IAuthResponse, ILogin, IResponseStatus } from 'app/interfaces';
 import { Observable } from 'rxjs';
 
 const base_url = environment.base_url;
