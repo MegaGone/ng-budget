@@ -15,9 +15,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { FuseCardModule } from '../../@fuse/components/card/card.module';
-import { FuseAlertModule } from '../../@fuse/components/alert/alert.module';
-import { SharedModule } from '../shared/shared.module';
+import { FuseCardModule } from '../../../@fuse/components/card/card.module';
+import { FuseAlertModule } from '../../../@fuse/components/alert/alert.module';
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
