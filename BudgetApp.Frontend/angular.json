@@ -53,7 +53,9 @@
                             "src/styles/styles.scss",
                             "src/styles/tailwind.scss"
                         ],
-                        "scripts": []
+                        "scripts": [
+                            "node_modules/@lottiefiles/lottie-player/dist/lottie-player.js"
+                        ]
                     },
                     "configurations": {
                         "production": {
@@ -122,7 +124,9 @@
                         "styles": [
                             "src/styles/styles.scss"
                         ],
-                        "scripts": []
+                        "scripts": [
+                            "node_modules/@lottiefiles/lottie-player/dist/lottie-player.js"
+                        ]
                     }
                 },
                 "lint": {

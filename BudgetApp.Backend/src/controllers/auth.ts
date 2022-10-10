@@ -39,7 +39,7 @@ export const loginWithCredentials = async (_req: Request, res: Response) => {
 
         if (!userDB) return res.status(404).json(new ResponseStatus(404, "User not found"));
 
-        if (!userDB.enabled) return res.status(401).json(new ResponseStatus(401, "You are blocked"));
+        if (!userDB.enabled) return res.status(403).json(new ResponseStatus(403, "You are blocked"));
 
         const validPassword = compareSync(password, userDB.password);
 
