@@ -4,6 +4,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { IAlert, IRemember } from 'app/interfaces';
 import { AuthService } from '../auth.service';
 import { FormGroupDirective } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector      : 'app-login',
@@ -22,7 +23,7 @@ export class LoginComponent implements OnInit {
   public showAlert    : boolean;
 
   // TODO: CHANGE FACEBOOK LOGIN FOR GOOGLE
-  constructor(private _fb: FormBuilder, private _authSvc: AuthService) { 
+  constructor(private _fb: FormBuilder, private _authSvc: AuthService, private router: Router) { 
     this.passwordRegex = new RegExp("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$");
   }
 
@@ -60,7 +61,7 @@ export class LoginComponent implements OnInit {
       (statusCode: number) => {
         if(statusCode === 200) {
           (remember) ? localStorage.setItem("credentials", JSON.stringify(credentials)) : localStorage.removeItem("credentials");
-          console.log("Loggeado");
+          this.router.navigate(["/expenses"]);
         }
       },
       err => {
