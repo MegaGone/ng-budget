@@ -10,6 +10,7 @@ interface IUser extends Document {
     role        : string[];
     enabled     : boolean;
     google      : boolean;
+    uid         ?: string;
 }
 
 export default IUser;

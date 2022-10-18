@@ -86,6 +86,30 @@ router.post('/google',      loginWithGoogle);
  */
 router.post('/session',     getSession);
 
+/**
+ * @openapi
+ * /api/auth/renew:
+ *    get:
+ *      tags:
+ *        - Auth
+ *      summary: "Renew token"
+ *      parameters:
+ *      - name: x-token
+ *        in: path
+ *        description: JWT to renew session
+ *        required: true
+ *        schema:
+ *          type: string
+ *      responses:
+ *        '403':
+ *          description: Token unexpected
+ *        '404':
+ *          description: User not found
+ *        '400':
+ *          description: Error to renew token
+ *        '200':
+ *          description: New token
+ */
 router.post('/renew',
 [
     validateJWT

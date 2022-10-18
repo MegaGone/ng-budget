@@ -78,8 +78,13 @@ export const getSession = async (_req: Request, res: Response) => {
     }
 };
 
-export const renewToken = (_req: Request, res: Response) => {
+export const renewToken = async (_req: Request, res: Response) => {
 
-    res.status(200).send("OK");
-
+    try {
+        const { uid } = _req.user;
+        const token: any = await generateJWT(uid!);
+        return res.status(200).json(new AuthResponse(200, token, _req.user));
+    } catch (error) {
+        return res.status(400).json(new ResponseStatus(400, "Error to renew token"));
+    }
 }

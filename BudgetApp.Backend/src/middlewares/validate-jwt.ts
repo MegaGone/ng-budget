@@ -17,7 +17,7 @@ export const validateJWT = async (_req: Request, res: Response, next: NextFuncti
 
         if (!userDB) return res.status(404).json(new ResponseStatus(404, "User not found"));
 
-        // _req.user = userDB;
+        _req.user = userDB;
 
         return next();
 
