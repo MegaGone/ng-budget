@@ -77,3 +77,9 @@ export const getSession = async (_req: Request, res: Response) => {
         return res.status(400).json(new ResponseStatus(400, "Error getting token"));
     }
 };
+
+export const renewToken = (_req: Request, res: Response) => {
+
+    res.status(200).send("OK");
+
+}

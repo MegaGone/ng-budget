@@ -1,4 +1,5 @@
 import { Route } from '@angular/router';
+import { AuthGuard } from './guards';
 
 export const appRoutes: Route[] = [
     {
@@ -7,7 +8,8 @@ export const appRoutes: Route[] = [
     },
     {
         path: 'expenses',
-        loadChildren: () => import("./modules/budget").then(m => m.ExpensesModule)
+        canActivate: [AuthGuard],
+        loadChildren: () => import("./modules/budget").then(m => m.ExpensesModule),
     },
     {
         path: '**',

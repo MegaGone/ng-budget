@@ -1,7 +1,10 @@
 import { Router } from "express";
 
 // CONTROLLERS
-import { getSession, loginWithCredentials, loginWithGoogle, register } from "../controllers";
+import { getSession, loginWithCredentials, loginWithGoogle, register, renewToken } from "../controllers";
+
+// MIDDLEWARES
+import { validateJWT } from "../middlewares";
 
 const router = Router();
 
@@ -82,5 +85,10 @@ router.post('/google',      loginWithGoogle);
  *          description: User
  */
 router.post('/session',     getSession);
+
+router.post('/renew',
+[
+    validateJWT
+], renewToken);
 
 export default router;
