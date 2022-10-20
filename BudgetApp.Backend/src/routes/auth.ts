@@ -110,7 +110,7 @@ router.post('/session',     getSession);
  *        '200':
  *          description: New token
  */
-router.post('/renew',
+router.get('/renew',
 [
     validateJWT,
     validateFields

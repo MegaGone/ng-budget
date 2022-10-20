@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import jwt from 'jsonwebtoken';
 
 import { IJwt } from "../interfaces";
-import { ResponseStatus, User } from "../models";
+import { ResponseStatus } from "../models";
 
 export const validateJWT = async (_req: Request, res: Response, next: NextFunction) => {
 
@@ -13,11 +13,7 @@ export const validateJWT = async (_req: Request, res: Response, next: NextFuncti
     try {
         const { uid } = jwt.verify(token, process.env.SECRETKEY!) as IJwt;
 
-        const userDB = await User.findById(uid);
-
-        if (!userDB) return res.status(404).json(new ResponseStatus(404, "User not found"));
-
-        _req.user = userDB;
+        _req.uid = uid;
 
         return next();
 

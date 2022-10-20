@@ -81,9 +81,17 @@ export const getSession = async (_req: Request, res: Response) => {
 export const renewToken = async (_req: Request, res: Response) => {
 
     try {
-        const { uid } = _req.user;
-        const token: any = await generateJWT(uid!);
-        return res.status(200).json(new AuthResponse(200, token, _req.user));
+        
+        const { uid } = _req;
+
+        const token: any = await generateJWT(uid);
+
+        const user: IUser | null = await User.findById(uid);
+
+        if (!user) return res.status(404).json(new ResponseStatus(404, "User not found"));
+
+        return res.status(200).json(new AuthResponse(200, token, user));
+
     } catch (error) {
         return res.status(400).json(new ResponseStatus(400, "Error to renew token"));
     }
