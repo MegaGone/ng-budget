@@ -1,4 +1,5 @@
 export interface IField {
     param   : string;
-    msg     : string;   
+    msg     : string;
+    location: string; 
 }

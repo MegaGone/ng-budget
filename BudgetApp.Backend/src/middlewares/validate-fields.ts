@@ -10,7 +10,8 @@ export const validateFields = async (_req: Request, res: Response, next: NextFun
     const fields: IField[] = await errors.array().map((error: any) => {
         return {
             param   : error.param,
-            msg     : error.msg
+            msg     : error.msg,
+            location: error.location
         }
     });
 
