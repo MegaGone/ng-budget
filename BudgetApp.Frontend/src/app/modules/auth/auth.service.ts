@@ -30,7 +30,8 @@ export class AuthService {
           }
 
         }),
-        map((res: IAuthResponse) => res.statusCode)
+        map((res: IAuthResponse) => res.statusCode),
+        catchError(err => of(400))
       )
   }
 
