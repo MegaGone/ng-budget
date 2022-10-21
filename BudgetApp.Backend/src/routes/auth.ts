@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { check } from "express-validator";
 
 // CONTROLLERS
 import { getSession, loginWithCredentials, loginWithGoogle, register, renewToken } from "../controllers";
@@ -37,7 +38,12 @@ const router = Router();
  *          '200':
  *              description: Returns JWT & User info
  */
-router.post('/login',       loginWithCredentials);
+router.post('/login',
+[
+    check('email', 'Email required').isEmail(),
+    check('password', 'Password required').not().isEmpty(),
+    validateFields
+], loginWithCredentials);
 
 /**
  *  @openapi
