@@ -65,7 +65,15 @@ router.post('/login',
  *              '400':
  *                  description: Error creating user
  */
-router.post('/register',    register);
+router.post('/register',    
+[
+    check("name", "Name required").not().isEmpty(),
+    check("lastName", "Last name required").not().isEmpty(),
+    check('email', 'Email required').isEmail(),
+    check("password", "Password required").not().isEmpty(),
+    check("password", "Password not valid").matches("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$"),
+    validateFields
+], register);
 router.post('/google',      loginWithGoogle);
 
 /**
