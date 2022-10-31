@@ -82,7 +82,7 @@ router.post('/google',      loginWithGoogle);
  *    get:
  *      tags:
  *        - Auth
- *      summary: "Get user by ID"
+ *      summary: "Get user session"
  *      parameters:
  *      - name: x-token
  *        in: path
@@ -93,12 +93,14 @@ router.post('/google',      loginWithGoogle);
  *      responses:
  *        '404':
  *          description: User not found
- *        '400':
- *          description: Error getting user
+ *        '500':
+ *          description: Error getting session
  *        '200':
  *          description: User
+ *        '400':
+ *          description: Token unexpected
  */
-router.post('/session',     getSession);
+router.get('/session',     getSession);
 
 /**
  * @openapi

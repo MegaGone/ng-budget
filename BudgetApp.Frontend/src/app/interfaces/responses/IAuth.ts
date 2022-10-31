@@ -5,14 +5,14 @@ export interface IAuthResponse {
     message?    : string,
 }
 
-interface IUser {
+export interface IUser {
     email       : string;
     name        : string;
     lastName    : string;
     displayName : string;
     password    : string;
     avatar?     : string;
-    role        : string[];
+    role        : "USER_ROLE" | "ADMIN_ROLE";
     enabled     : boolean;
     google      : boolean;
 }

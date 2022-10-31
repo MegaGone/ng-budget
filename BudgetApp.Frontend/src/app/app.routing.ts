@@ -12,6 +12,11 @@ export const appRoutes: Route[] = [
         loadChildren: () => import("./modules/budget").then(m => m.ExpensesModule),
     },
     {
+        path: 'users',
+        canActivate: [AuthGuard],
+        loadChildren: () => import("./modules/admin").then(m => m.UsersModule)
+    },
+    {
         path: '**',
         pathMatch: 'full',
         redirectTo: 'auth'
