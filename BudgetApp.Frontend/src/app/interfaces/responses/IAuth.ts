@@ -10,9 +10,9 @@ export interface IUser {
     name        : string;
     lastName    : string;
     displayName : string;
-    password    : string;
     avatar?     : string;
     role        : "USER_ROLE" | "ADMIN_ROLE";
     enabled     : boolean;
     google      : boolean;
+    uid         : string;
 }
