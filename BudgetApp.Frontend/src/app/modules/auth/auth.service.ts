@@ -34,7 +34,6 @@ export class AuthService {
           if (res.statusCode === 200) {
             const { email, name, lastName, displayName, avatar, role, enabled, google, uid } = res.user;
             this.user = new User(email, name, lastName, displayName, avatar, role, enabled, google, uid);
-
             localStorage.setItem("x-token", res.token)
           }
 
@@ -96,8 +95,8 @@ export class AuthService {
    * @param user - Current user
    * @returns User role
    */
-  getRole(user: IUser): 'ADMIN_ROLE' | 'USER_ROLE' {
-    return user.role;
+  get getRole(): 'ADMIN_ROLE' | 'USER_ROLE' {
+    return this.user.role;
   }
 
   /**
