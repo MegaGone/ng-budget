@@ -60,9 +60,14 @@ export const loginWithGoogle = async (_req: Request, res: Response) => {
 
 export const getSession = async (_req: Request, res: Response) => {
     
+    console.log(_req.header('x-token'));
+    
+
     const token = _req.header('x-token');
 
     try {
+
+        if (!token) return res.status(400).json(new ResponseStatus(400, "Token unexpected"));
 
         const jwt: any = await verify(token!, process.env.SECRETKEY!);
 
@@ -74,6 +79,25 @@ export const getSession = async (_req: Request, res: Response) => {
         
     } catch(e) {
         console.log(e);
-        return res.status(400).json(new ResponseStatus(400, "Error getting token"));
+        return res.status(500).json(new ResponseStatus(500, "Error getting token"));
     }
 };
+
+export const renewToken = async (_req: Request, res: Response) => {
+
+    try {
+        
+        const { uid } = _req;
+
+        const token: any = await generateJWT(uid);
+
+        const user: IUser | null = await User.findById(uid);
+
+        if (!user) return res.status(404).json(new ResponseStatus(404, "User not found"));
+
+        return res.status(200).json(new AuthResponse(200, token, user));
+
+    } catch (error) {
+        return res.status(400).json(new ResponseStatus(400, "Error to renew token"));
+    }
+}

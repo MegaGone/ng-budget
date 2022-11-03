@@ -1,7 +1,9 @@
 import { Router } from "express";
+import { check } from "express-validator";
 
 // CONTROLLERS
 import { blockUser, getUser, getUsers, updateUser, deleteAll } from "../controllers";
+import { validateFields, validateJWT } from "../middlewares";
 
 const router = Router();
 
@@ -31,7 +33,11 @@ const router = Router();
   *             '400':
   *                 description: Error getting users
   */
-router.get('/users', getUsers);
+router.get('/users', 
+[
+  validateJWT,
+  validateFields
+], getUsers);
 
 /**
  * @openapi
@@ -55,7 +61,12 @@ router.get('/users', getUsers);
  *        '200':
  *          description: User
  */
-router.get('/:id', getUser);
+router.get('/:id', 
+[
+  validateJWT,
+  check('id', 'ID not valid').isMongoId(),
+  validateFields
+], getUser);
 
 /**
  * @openapi
@@ -79,7 +90,12 @@ router.get('/:id', getUser);
  *        '200':
  *          description: User updated
  */
-router.put('/update/:id', updateUser);
+router.put('/update/:id', 
+[
+  validateJWT,
+  check('id', 'ID not valid').isMongoId(),
+  validateFields
+], updateUser);
 
 /**
  *  @openapi
@@ -98,7 +114,11 @@ router.put('/update/:id', updateUser);
  *              '400':
  *                  description: Error deleting users
  */
-router.delete('/delete/all', deleteAll);
+router.delete('/delete/all', 
+[
+  validateJWT,
+  validateFields
+], deleteAll);
 
 /**
  * @openapi
@@ -124,6 +144,13 @@ router.delete('/delete/all', deleteAll);
  *        '200':
  *          description: User blocked
  */
-router.delete('/delete/:id', blockUser);
+router.delete('/delete/:id', 
+[
+  validateJWT,
+  check('id', 'ID not valid').isMongoId(),
+  validateFields
+], blockUser);
+
+// TODO: VALIDATE ROLES TO PURGE USERS
 
 export default router;
