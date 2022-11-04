@@ -1,7 +1,11 @@
 <div class="navbar">
     <ul class="nav">
         <ng-container *ngFor="let item of navList; index as i">
-            <li class="nav__item" [ngClass]="{ active: i === selected }" #elem (click)="onSelect(elem, i, item)">
+            <li 
+            class="nav__item" 
+            [ngClass]="{ active: i === selected }" 
+            #elem 
+            (click)="onSelect(elem, i, item)">
                 <svg class="icon">
                     <use attr.href="./assets/icons.svg#{{ item.icon }}"></use>
                 </svg>

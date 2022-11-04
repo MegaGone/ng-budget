@@ -7,14 +7,10 @@ import { ExpensesTableComponent } from './expenses-table/expenses-table.componen
 
 // EXTERNAL
 import { AuthService } from '../../auth/auth.service';
-import { NavbarComponent } from 'app/components/navbar/navbar.component';
-
-
 @NgModule({
   declarations: [
     ExpensesComponent,
-    ExpensesTableComponent,
-    NavbarComponent
+    ExpensesTableComponent
   ],
   imports: [
     CommonModule,

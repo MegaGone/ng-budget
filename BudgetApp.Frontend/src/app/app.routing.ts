@@ -12,6 +12,11 @@ export const appRoutes: Route[] = [
         loadChildren: () => import("./modules/budget").then(m => m.ExpensesModule),
     },
     {
+        path: 'settings',
+        canActivate: [AuthGuard],
+        loadChildren: () => import("./modules/budget").then(m => m.SettingsModule)
+    },
+    {
         path: 'users',
         canActivate: [AuthGuard, AdminGuard],
         loadChildren: () => import("./modules/admin").then(m => m.UsersModule)
