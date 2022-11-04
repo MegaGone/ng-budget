@@ -13,22 +13,22 @@ export class NavbarComponent implements OnInit {
     {
       title : 'Expenses',
       icon  : 'icon-home',
-      route : "/expenses"
+      route : "/budget/expenses"
     },
     {
       title : 'Fixed Expenses',
       icon  : 'icon-magnifying-glass',
-      route : '/fixed-expenses'
+      route : '/budget/fixed-expenses'
     },
     {
       title : 'Reports',
       icon  : 'icon-heart-outlined',
-      route : '/reports'
+      route : '/budget/reports'
     },
     {
       title : 'Settings',
       icon  : 'icon-user',
-      route : '/settings'
+      route : '/budget/settings'
     },
   ];
 

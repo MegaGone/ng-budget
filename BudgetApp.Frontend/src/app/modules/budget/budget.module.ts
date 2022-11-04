@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { BudgetRoutingModule } from './budget-routing.module';
 import { BudgetComponent } from './budget.component';
+import { ComponentsModule } from 'app/components';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { BudgetComponent } from './budget.component';
   ],
   imports: [
     CommonModule,
-    BudgetRoutingModule
+    BudgetRoutingModule,
+    ComponentsModule
   ]
 })
 export class BudgetModule { }
