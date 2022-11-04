@@ -61,7 +61,7 @@ export class LoginComponent implements OnInit {
       (statusCode: number) => {
         if(statusCode === 200) {
           (remember) ? localStorage.setItem("credentials", JSON.stringify(credentials)) : localStorage.removeItem("credentials");
-          this.router.navigate(["/expenses"]);
+          this.router.navigate(["/budget"]);
         }
       },
       err => {

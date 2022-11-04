@@ -1,15 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
-import { SettingsComponent } from './settings.component';
+import { BudgetComponent } from './budget.component';
 
 const routes: Routes = [
   {
-    path: "",
-    children: [
-      { path: "",   component: SettingsComponent },
-      { path: "**", redirectTo: "" }
+    path      : "",
+    component : BudgetComponent,
+    children  : [
+      
     ]
+  },
+  {
+    path      : "**",
+    redirectTo: ""
   }
 ];
 
@@ -17,4 +20,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class SettingsRoutingModule { }
+export class BudgetRoutingModule { }
