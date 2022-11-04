@@ -7,7 +7,18 @@ const routes: Routes = [
     path      : "",
     component : BudgetComponent,
     children  : [
-      
+      {
+        path        : "expenses",
+        loadChildren: () => import('./expenses').then(m => m.ExpensesModule)
+      },
+      {
+        path        : "",
+        redirectTo  : "expenses"
+      },
+      {
+        path        : "**",
+        redirectTo  : "expenses"
+      }
     ]
   },
   {
