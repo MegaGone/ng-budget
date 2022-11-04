@@ -5,7 +5,8 @@
             class="nav__item" 
             [ngClass]="{ active: i === selected }" 
             #elem 
-            (click)="onSelect(elem, i, item)">
+            (click)="onSelect(elem, i, item)"
+            [routerLink]="['item.route']">
                 <svg class="icon">
                     <use attr.href="./assets/icons.svg#{{ item.icon }}"></use>
                 </svg>

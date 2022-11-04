@@ -11,20 +11,24 @@ export class NavbarComponent implements OnInit {
 
   public navList = [
     {
-      title: 'Expenses',
-      icon: 'icon-home',
+      title : 'Expenses',
+      icon  : 'icon-home',
+      route : "/expenses"
     },
     {
-      title: 'Fixed Expenses',
-      icon: 'icon-magnifying-glass',
+      title : 'Fixed Expenses',
+      icon  : 'icon-magnifying-glass',
+      route : '/fixed-expenses'
     },
     {
-      title: 'Reports',
-      icon: 'icon-heart-outlined',
+      title : 'Reports',
+      icon  : 'icon-heart-outlined',
+      route : '/reports'
     },
     {
-      title: 'Profile',
-      icon: 'icon-user',
+      title : 'Settings',
+      icon  : 'icon-user',
+      route : '/settings'
     },
   ];
 
