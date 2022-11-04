@@ -16,6 +16,14 @@ const routes: Routes = [
         loadChildren: () => import('./reports').then(m => m.ReportsModule)
       },
       {
+        path        : "settings",
+        loadChildren: () => import('./settings').then(m => m.SettingsModule)
+      },
+      {
+        path        : "fixed-expenses",
+        loadChildren: () => import('./fixed-expenses').then(m => m.FixedExpensesModule)
+      },
+      {
         path        : "",
         redirectTo  : "expenses"
       },
