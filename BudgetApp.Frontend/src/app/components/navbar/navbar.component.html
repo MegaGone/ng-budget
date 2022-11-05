@@ -6,13 +6,14 @@
             [ngClass]="{ active: i === selected }" 
             #elem 
             (click)="onSelect(elem, i, item)"
-            [routerLink]="[item.route]">
+            [routerLink]="[item.route]"
+            routerLinkActive="active">
                 <svg class="icon">
                     <use attr.href="./assets/icons.svg#{{ item.icon }}"></use>
                 </svg>
                 <a class="nav__link">{{ item.title }}</a>
             </li>
         </ng-container>
-        <div class="slider" [ngStyle]="animate"></div>
+        <div class="slider" [ngStyle]="animate" routerLinkActive="active"></div>
     </ul>
 </div>
