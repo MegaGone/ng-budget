@@ -5,6 +5,7 @@
             class="nav__item" 
             [ngClass]="{ active: i === selected }" 
             #elem 
+            [attr.select]="item.route == completeRoute.route ? true : null"
             (click)="onSelect(elem, i, item)"
             [routerLink]="[item.route]"
             routerLinkActive="active">

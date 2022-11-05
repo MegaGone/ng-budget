@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef, QueryList, ViewChildren } from '@angular/core';
 import { Router } from "@angular/router";
 
 @Component({
@@ -8,7 +8,7 @@ import { Router } from "@angular/router";
 })
 export class NavbarComponent implements OnInit, AfterViewInit {
 
-  // TODO: Fix activatedRouterLink
+  @ViewChildren("elem") elReference: QueryList<ElementRef>;
 
   public completeRoute: any;
   public selected: number;
@@ -58,7 +58,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
   }
 
   onSelect(elem, i) {
-    this.selected = i;
+    this.selected = i;    
     this.updateSizes(elem, i);
   }
 
@@ -74,7 +74,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    console.log(this.completeRoute);
-    console.log(this.selected);
+    const elementHTML: HTMLElement = this.elReference.toArray().filter(r => r.nativeElement.hasAttribute('select'))[0].nativeElement;
+    this.onSelect(elementHTML, this.selected);
   }
 }
