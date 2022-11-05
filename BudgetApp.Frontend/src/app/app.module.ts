@@ -40,8 +40,7 @@ const routerConfig: ExtraOptions = {
         LayoutModule,
 
         // 3rd party modules that require global configuration via forRoot
-        MarkdownModule.forRoot({}),
-        ComponentsModule
+        MarkdownModule.forRoot({})
     ],
     bootstrap   : [
         AppComponent
