@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Router } from "@angular/router";
 
 @Component({
@@ -6,32 +6,33 @@ import { Router } from "@angular/router";
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, AfterViewInit {
 
   // TODO: Fix activatedRouterLink
 
+  public completeRoute: any;
   public selected: number;
 
   public navList = [
     {
-      title : 'Expenses',
-      icon  : 'icon-home',
-      route : "/budget/expenses"
+      title: 'Expenses',
+      icon: 'icon-home',
+      route: "/budget/expenses"
     },
     {
-      title : 'Fixed Expenses',
-      icon  : 'icon-magnifying-glass',
-      route : '/budget/fixed-expenses'
+      title: 'Fixed Expenses',
+      icon: 'icon-magnifying-glass',
+      route: '/budget/fixed-expenses'
     },
     {
-      title : 'Reports',
-      icon  : 'icon-heart-outlined',
-      route : '/budget/reports'
+      title: 'Reports',
+      icon: 'icon-heart-outlined',
+      route: '/budget/reports'
     },
     {
-      title : 'Settings',
-      icon  : 'icon-user',
-      route : '/budget/settings'
+      title: 'Settings',
+      icon: 'icon-user',
+      route: '/budget/settings'
     },
   ];
 
@@ -62,11 +63,18 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getRouteIndex();
   }
 
-  getRouteIndex(): number {
+  getRouteIndex(): void {
     const currentRoute = this.router.url;
     const element = this.navList.find(route => route.route === currentRoute);
-    return this.navList.indexOf(element);
+    this.completeRoute = this.navList[this.navList.indexOf(element)]
+    this.selected = this.navList.indexOf(element);
+  }
+
+  ngAfterViewInit() {
+    console.log(this.completeRoute);
+    console.log(this.selected);
   }
 }
