@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'navbar',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
+
+  // TODO: Fix activatedRouterLink
 
   public selected: number;
 
@@ -37,7 +40,7 @@ export class NavbarComponent implements OnInit {
     translateX: 0,
   };
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   public get animate() {
     return {
@@ -61,4 +64,9 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  getRouteIndex(): number {
+    const currentRoute = this.router.url;
+    const element = this.navList.find(route => route.route === currentRoute);
+    return this.navList.indexOf(element);
+  }
 }
