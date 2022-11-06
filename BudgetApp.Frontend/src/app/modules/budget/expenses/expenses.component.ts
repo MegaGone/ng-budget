@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'app/modules/auth';
 
 @Component({
   selector: 'app-expenses',
@@ -8,7 +7,7 @@ import { AuthService } from 'app/modules/auth';
 })
 export class ExpensesComponent implements OnInit {
 
-  constructor(private _authService: AuthService) { }
+  constructor() { }
 
   ngOnInit(): void {
   }

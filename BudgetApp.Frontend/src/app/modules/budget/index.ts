@@ -1,1 +1,2 @@
-export * from './expenses/expenses.module';
+export * from './budget.module';
+export * from './budget.component';

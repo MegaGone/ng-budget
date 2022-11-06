@@ -1,0 +1,20 @@
+<div class="navbar">
+    <ul class="nav">
+        <ng-container *ngFor="let item of navList; index as i">
+            <li 
+            class="nav__item" 
+            [ngClass]="{ active: i === selected }" 
+            #elem 
+            [attr.select]="item.route == completeRoute.route ? true : null"
+            (click)="onSelect(elem, i, item)"
+            [routerLink]="[item.route]"
+            routerLinkActive="active">
+                <svg class="icon">
+                    <use attr.href="./assets/icons.svg#{{ item.icon }}"></use>
+                </svg>
+                <a class="nav__link">{{ item.title }}</a>
+            </li>
+        </ng-container>
+        <div class="slider" [ngStyle]="animate" routerLinkActive="active"></div>
+    </ul>
+</div>
