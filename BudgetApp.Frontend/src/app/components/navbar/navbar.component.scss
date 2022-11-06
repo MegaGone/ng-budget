@@ -2,7 +2,7 @@ $easeCubic: cubic-bezier(0.65, 0, 0.35, 1);
 
 .navbar {
   margin: 50px;
-  max-width: 716px;
+  // max-width: 716px;
 
   .nav {
     padding: 0 20px;
@@ -46,7 +46,7 @@ $easeCubic: cubic-bezier(0.65, 0, 0.35, 1);
       }
 
       .icon {
-        fill: #4f67fe;
+        fill: #0367A6;
         animation: interaction 0.4s;
         animation-iteration-count: 1;
       }
@@ -64,8 +64,7 @@ $easeCubic: cubic-bezier(0.65, 0, 0.35, 1);
       top: 0;
       width: inherit;
       height: 4px;
-      // background: #4f67fe;
-      background: #4f67fe;
+      background: #0367A6;
       border-radius: 10px;
       transition: all 0.5s $easeCubic;
     }
