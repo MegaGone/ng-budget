@@ -6,6 +6,7 @@ import { verify } from "jsonwebtoken";
 import { IUser } from "../interfaces";
 import { AuthResponse, ResponseStatus, User, UserResponse } from "../models";
 import { generateJWT } from "../helpers";
+import { SECRETKEY } from "../config";
 
 export const register = async (_req: Request, res: Response) => {
     const { name, lastName, email, password, role } = _req.body;
@@ -69,7 +70,7 @@ export const getSession = async (_req: Request, res: Response) => {
 
         if (!token) return res.status(400).json(new ResponseStatus(400, "Token unexpected"));
 
-        const jwt: any = await verify(token!, process.env.SECRETKEY!);
+        const jwt: any = await verify(token!, SECRETKEY);
 
         const userDB = await User.findById({ _id: jwt.uid });
 

@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from 'jsonwebtoken';
+import { SECRETKEY } from "../config";
 
 import { IJwt } from "../interfaces";
 import { ResponseStatus } from "../models";
@@ -11,7 +12,7 @@ export const validateJWT = async (_req: Request, res: Response, next: NextFuncti
     if (!token) return res.status(403).json(new ResponseStatus(403, "Token unexpected"));
 
     try {
-        const { uid } = jwt.verify(token, process.env.SECRETKEY!) as IJwt;
+        const { uid } = jwt.verify(token, SECRETKEY) as IJwt;
 
         _req.uid = uid;
 

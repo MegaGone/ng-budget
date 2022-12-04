@@ -1,11 +1,12 @@
 import jwt from "jsonwebtoken";
+import { SECRETKEY } from "../config";
 
 export const generateJWT = (uid: string) => {
     return new Promise((resolve, reject) => {
         
         const payload = { uid };
 
-        jwt.sign(payload, process.env.SECRETKEY!, {
+        jwt.sign(payload, SECRETKEY, {
             expiresIn: "4h"
         }, (err, token) => {
 

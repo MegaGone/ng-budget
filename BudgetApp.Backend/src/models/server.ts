@@ -5,6 +5,7 @@ import { openApiConfig } from "../docs";
 
 import { Auth, User } from '../routes';
 import { dbConnection } from '../database/';
+import { PORT } from "../config";
 
 class Server {
     private app  : Application;
@@ -18,7 +19,7 @@ class Server {
 
     constructor() {
         this.app = express();
-        this.port = process.env.PORT || '3000';
+        this.port = PORT;
 
         this.connectDB();
         this.middlewares();
