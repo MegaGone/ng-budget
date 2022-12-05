@@ -1,5 +1,5 @@
-import { genericStringRule } from "../../helpers";
-// import { PARAM_LOCATION } from "../../types";
+import { genericMongoIdRule, genericStringRule } from "../../helpers";
+import { PARAM_LOCATION } from "../../types";
 
 export const updateUserValidationRules = (additionalRules: any = null) => {
     const newRules = additionalRules || [];
@@ -21,13 +21,13 @@ export const updateUserValidationRules = (additionalRules: any = null) => {
             null,
             false
         ),
-        // genericMongoIdRule(
-        //     'id',
-        //     {
-        //         location: PARAM_LOCATION.QUERY_PARAM,
-        //         warnings: "The parameter doesn't exist or is not a mongo Id"
-        //     }
-        // ),
+        genericMongoIdRule(
+            'id',
+            {
+                location: PARAM_LOCATION.QUERY_PARAM,
+                warnings: "The parameter doesn't exist or is not a mongo id"
+            }
+        ),
         ...newRules
     ]
 };

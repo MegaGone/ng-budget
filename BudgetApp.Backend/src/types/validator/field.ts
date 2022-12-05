@@ -1,7 +1,7 @@
 enum PARAM_LOCATION {
-    BODY = "BODY",
-    QUERY_PARAM = "QUERY_PARAM",
-    HEADER = "HEADER"
+    BODY = "Body",
+    QUERY_PARAM = "Query param",
+    HEADER = "Header"
 };
 
 type FieldValidationError = {
