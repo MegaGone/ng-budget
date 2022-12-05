@@ -5,7 +5,7 @@ import { getSession, loginWithCredentials, loginWithGoogle, register, renewToken
 
 // MIDDLEWARES
 import { validateFields, validateJWT } from "../middlewares";
-import { createUserValidationRules, loginValidatonRules } from "../validators";
+import { registerUserValidationRules, loginValidatonRules } from "../validators";
 
 const router = Router();
 
@@ -67,7 +67,7 @@ router.post(
  */
 router.post(
     '/register',
-    createUserValidationRules(),
+    registerUserValidationRules(),
     validateFields,
     register
 );

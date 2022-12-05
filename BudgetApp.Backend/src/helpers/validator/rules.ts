@@ -1,5 +1,5 @@
 import { check } from 'express-validator';
-import { FieldValidationMessage } from '../../types';
+import { FieldIdValidationMessage, FieldValidationMessage } from '../../types';
 
 export const genericStringRule = (
     field: string | string[],
@@ -46,4 +46,14 @@ export const genericBooleanRule = (
     const booleanRule = check(field, message);
     (required) ? booleanRule.exists() : booleanRule.optional();
     return booleanRule.isBoolean();
+};
+
+export const genericMongoIdRule = (
+    field: string | string[],
+    message: FieldIdValidationMessage,
+    required: boolean = true
+) => {
+    const mongoIdRule = check(field, message);
+    (required) ? mongoIdRule.exists() : mongoIdRule.optional();
+    return mongoIdRule.isMongoId();
 };

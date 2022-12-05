@@ -1,7 +1,7 @@
-import { genericStringRule } from "../../helpers/validator";
+import { genericStringRule } from "../../helpers";
 
 
-export const createUserValidationRules = (additionalRules: any = null) => {
+export const registerUserValidationRules = (additionalRules: any = null) => {
     const newRules = additionalRules || [];
 
     return [
