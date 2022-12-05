@@ -25,7 +25,7 @@ export const updateUserValidationRules = (additionalRules: any = null) => {
             'id',
             {
                 location: PARAM_LOCATION.QUERY_PARAM,
-                warnings: "The parameter doesn't exist or is not a mongo id"
+                warnings: "The parameter doesn't exist or is not a mongo id."
             }
         ),
         ...newRules
