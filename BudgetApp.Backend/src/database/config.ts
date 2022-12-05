@@ -6,8 +6,6 @@ import { DB_CNN } from "../config";
  */
 const dbConnection = async() => {
     try {
-        console.log(DB_CNN);
-        
         await connect(DB_CNN)
         console.log(`DATABASE CONNECTED`);
     } catch (error) {

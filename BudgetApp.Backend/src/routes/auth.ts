@@ -1,12 +1,11 @@
 import { Router } from "express";
-import { check } from "express-validator";
 
 // CONTROLLERS
 import { getSession, loginWithCredentials, loginWithGoogle, register, renewToken } from "../controllers";
 
 // MIDDLEWARES
 import { validateFields, validateJWT } from "../middlewares";
-import { createUserValidationRules } from "../validators";
+import { createUserValidationRules, loginValidatonRules } from "../validators";
 
 const router = Router();
 
@@ -39,12 +38,12 @@ const router = Router();
  *          '200':
  *              description: Returns JWT & User info
  */
-router.post('/login',
-    [
-        check('email', 'Email required').isEmail(),
-        check('password', 'Password required').not().isEmpty(),
-        validateFields
-    ], loginWithCredentials);
+router.post(
+    '/login',
+    loginValidatonRules(),
+    validateFields,
+    loginWithCredentials
+);
 
 /**
  *  @openapi
@@ -70,8 +69,9 @@ router.post(
     '/register',
     createUserValidationRules(),
     validateFields,
-    register);
-    
+    register
+);
+
 router.post('/google', loginWithGoogle);
 
 /**
