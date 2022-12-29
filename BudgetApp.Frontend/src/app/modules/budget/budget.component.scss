@@ -4,10 +4,14 @@
     // animation: animate-backgroud 10s infinite ease-in-out;
     height: 100vh;
 
-    .body-content {
-        // margin: 50px;
-        min-height: 500px;
-        background-color: white;
+    .max-w-4xl {
+        max-width: 66rem !important;
+        
+            .body-content {
+                // margin: 50px;
+                min-height: 600px;
+                background-color: white;
+            }
     }
 }
 
