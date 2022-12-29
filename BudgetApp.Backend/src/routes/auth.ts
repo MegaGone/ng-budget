@@ -1,11 +1,13 @@
 import { Router } from "express";
-import { check } from "express-validator";
 
 // CONTROLLERS
 import { getSession, loginWithCredentials, loginWithGoogle, register, renewToken } from "../controllers";
 
 // MIDDLEWARES
 import { validateFields, validateJWT } from "../middlewares";
+
+// Validators
+import { loginValidatonRules, registerUserValidationRules } from "../validators";
 
 const router = Router();
 
@@ -38,12 +40,12 @@ const router = Router();
  *          '200':
  *              description: Returns JWT & User info
  */
-router.post('/login',
-[
-    check('email', 'Email required').isEmail(),
-    check('password', 'Password required').not().isEmpty(),
-    validateFields
-], loginWithCredentials);
+router.post(
+    '/login',
+    loginValidatonRules(),
+    validateFields,
+    loginWithCredentials
+);
 
 /**
  *  @openapi
@@ -65,16 +67,14 @@ router.post('/login',
  *              '400':
  *                  description: Error creating user
  */
-router.post('/register',    
-[
-    check("name", "Name required").not().isEmpty(),
-    check("lastName", "Last name required").not().isEmpty(),
-    check('email', 'Email required').isEmail(),
-    check("password", "Password required").not().isEmpty(),
-    check("password", "Password not valid").matches("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$"),
-    validateFields
-], register);
-router.post('/google',      loginWithGoogle);
+router.post(
+    '/register',
+    registerUserValidationRules(),
+    validateFields,
+    register
+);
+
+router.post('/google', loginWithGoogle);
 
 /**
  * @openapi
@@ -100,7 +100,7 @@ router.post('/google',      loginWithGoogle);
  *        '400':
  *          description: Token unexpected
  */
-router.get('/session',     getSession);
+router.get('/session', getSession);
 
 /**
  * @openapi
@@ -127,9 +127,9 @@ router.get('/session',     getSession);
  *          description: New token
  */
 router.get('/renew',
-[
-    validateJWT,
-    validateFields
-], renewToken);
+    [
+        validateJWT,
+        validateFields
+    ], renewToken);
 
 export default router;
