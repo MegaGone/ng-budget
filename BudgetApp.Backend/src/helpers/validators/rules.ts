@@ -1,4 +1,4 @@
-import { check } from 'express-validator';
+import { check, header } from 'express-validator';
 import { FieldIdValidationMessage, FieldValidationMessage } from '../../typings';
 
 export const genericStringRule = (
@@ -56,4 +56,15 @@ export const genericMongoIdRule = (
     const mongoIdRule = check(field, message);
     (required) ? mongoIdRule.exists() : mongoIdRule.optional();
     return mongoIdRule.isMongoId();
+};
+
+export const genericHeaderRule = (
+    field: string | string[],
+    message: FieldIdValidationMessage,
+    required = true
+) => {
+    const headerRule = header(field, message);
+    (required) ? headerRule.exists() : headerRule.optional();
+    headerRule.notEmpty().isString();
+    return headerRule;
 };

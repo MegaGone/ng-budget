@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { check } from "express-validator";
 
 // CONTROLLERS
 import { blockUser, getUser, getUsers, updateUser, deleteAll } from "../controllers";
@@ -36,11 +35,12 @@ const router = Router();
   *             '400':
   *                 description: Error getting users
   */
-router.get('/users', 
-[
+router.get(
+  '/users', 
   validateJWT,
-  validateFields
-], getUsers);
+  validateFields, 
+  getUsers
+);
 
 /**
  * @openapi
@@ -67,7 +67,7 @@ router.get('/users',
 router.get(
   '/:id', 
   validateJWT,
-  check('id', 'ID not valid').isMongoId(),
+  genericMongoIdValidationRules(),
   validateFields, 
   getUser
 );
@@ -119,11 +119,12 @@ router.put(
  *              '400':
  *                  description: Error deleting users
  */
-router.delete('/delete/all', 
-[
+router.delete(
+  '/delete/all', 
   validateJWT,
-  validateFields
-], deleteAll);
+  validateFields,
+  deleteAll
+);
 
 /**
  * @openapi
@@ -149,7 +150,8 @@ router.delete('/delete/all',
  *        '200':
  *          description: User blocked
  */
-router.delete('/delete/:id',
+router.delete(
+  '/delete/:id',
   validateJWT,
   genericMongoIdValidationRules(),
   validateFields, 
