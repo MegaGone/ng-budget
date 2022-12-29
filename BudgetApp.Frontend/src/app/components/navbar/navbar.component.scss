@@ -58,6 +58,10 @@ $easeCubic: cubic-bezier(0.65, 0, 0.35, 1);
       height: 30px;
       fill: #c1cad3;
       transition: all 0.2s $easeCubic;
+
+      .customIconSize {
+        transform: scale(1.5);
+      }
     }
 
     .slider {
