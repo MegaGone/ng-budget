@@ -5,6 +5,9 @@ import { check } from "express-validator";
 import { blockUser, getUser, getUsers, updateUser, deleteAll } from "../controllers";
 import { validateFields, validateJWT } from "../middlewares";
 
+// VALIDATORS RULES
+import { genericMongoIdValidationRules } from "../validators";
+
 const router = Router();
 
  /**
@@ -61,12 +64,13 @@ router.get('/users',
  *        '200':
  *          description: User
  */
-router.get('/:id', 
-[
+router.get(
+  '/:id', 
   validateJWT,
   check('id', 'ID not valid').isMongoId(),
-  validateFields
-], getUser);
+  validateFields, 
+  getUser
+);
 
 /**
  * @openapi
@@ -90,12 +94,13 @@ router.get('/:id',
  *        '200':
  *          description: User updated
  */
-router.put('/update/:id', 
-[
+router.put(
+  '/update/:id', 
   validateJWT,
-  check('id', 'ID not valid').isMongoId(),
-  validateFields
-], updateUser);
+  genericMongoIdValidationRules(),
+  validateFields, 
+  updateUser
+);
 
 /**
  *  @openapi
@@ -144,12 +149,12 @@ router.delete('/delete/all',
  *        '200':
  *          description: User blocked
  */
-router.delete('/delete/:id', 
-[
+router.delete('/delete/:id',
   validateJWT,
-  check('id', 'ID not valid').isMongoId(),
-  validateFields
-], blockUser);
+  genericMongoIdValidationRules(),
+  validateFields, 
+  blockUser
+);
 
 // TODO: VALIDATE ROLES TO PURGE USERS
 
