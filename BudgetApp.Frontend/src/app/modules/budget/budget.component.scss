@@ -1,8 +1,14 @@
 .background {
-    background: linear-gradient(to right, #0366A6,#BEE5FD, #ccc);
+    background: linear-gradient(to right, #0366A6,#000, #0366A6);
     background-size: 400% 400%;
     // animation: animate-backgroud 10s infinite ease-in-out;
     height: 100vh;
+
+    .body-content {
+        // margin: 50px;
+        min-height: 500px;
+        background-color: white;
+    }
 }
 
 @keyframes animate-backgroud {
