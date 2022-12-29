@@ -2,6 +2,8 @@ import { Router } from "express";
 
 // CONTROLLERS
 import { blockUser, getUser, getUsers, updateUser, deleteAll } from "../controllers";
+
+// MIDDLEWARES
 import { validateFields, validateJWT } from "../middlewares";
 
 // VALIDATORS RULES
