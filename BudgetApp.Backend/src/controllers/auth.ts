@@ -6,6 +6,8 @@ import { verify } from "jsonwebtoken";
 import { IUser } from "../interfaces";
 import { AuthResponse, ResponseStatus, User, UserResponse } from "../models";
 import { generateJWT } from "../helpers";
+
+// CONFIG
 import { SECRETKEY } from "../config";
 
 export const register = async (_req: Request, res: Response) => {

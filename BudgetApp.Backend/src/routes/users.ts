@@ -6,42 +6,43 @@ import { blockUser, getUser, getUsers, updateUser, deleteAll } from "../controll
 // MIDDLEWARES
 import { validateFields, validateJWT } from "../middlewares";
 
-// VALIDATION RULES
-import { genericMongoIdValidationRules, updateUserValidationRules } from "../validators";
+// VALIDATORS RULES
+import { genericMongoIdValidationRules } from "../validators";
 
 const router = Router();
 
-/**
- * @openapi
- * /api/user/users:
- *     get:
- *         tags:
- *             - Users
- *         summary: "Get all users"
- *         parameters: 
- *             -   in: query
- *                 name: page
- *                 type: number
- *                 description: Number of page
- *                 default: 1
- *             -   in: query
- *                 name: limit
- *                 type: number
- *                 description: Items per page
- *                 default: 5
- *         responses:
- *             '201':
- *                 description: No users to show
- *             '200':
- *                 description: All users
- *             '400':
- *                 description: Error getting users
- */
-router.get('/users',
-  [
-    validateJWT,
-    validateFields
-  ], getUsers);
+ /**
+  * @openapi
+  * /api/user/users:
+  *     get:
+  *         tags:
+  *             - Users
+  *         summary: "Get all users"
+  *         parameters: 
+  *             -   in: query
+  *                 name: page
+  *                 type: number
+  *                 description: Number of page
+  *                 default: 1
+  *             -   in: query
+  *                 name: limit
+  *                 type: number
+  *                 description: Items per page
+  *                 default: 5
+  *         responses:
+  *             '201':
+  *                 description: No users to show
+  *             '200':
+  *                 description: All users
+  *             '400':
+  *                 description: Error getting users
+  */
+router.get(
+  '/users', 
+  validateJWT,
+  validateFields, 
+  getUsers
+);
 
 /**
  * @openapi
@@ -66,10 +67,10 @@ router.get('/users',
  *          description: User
  */
 router.get(
-  '/:id',
+  '/:id', 
   validateJWT,
   genericMongoIdValidationRules(),
-  validateFields,
+  validateFields, 
   getUser
 );
 
@@ -95,10 +96,11 @@ router.get(
  *        '200':
  *          description: User updated
  */
-router.put('/update/:id',
+router.put(
+  '/update/:id', 
   validateJWT,
-  updateUserValidationRules(),
-  validateFields,
+  genericMongoIdValidationRules(),
+  validateFields, 
   updateUser
 );
 
@@ -119,11 +121,12 @@ router.put('/update/:id',
  *              '400':
  *                  description: Error deleting users
  */
-router.delete('/delete/all',
-  [
-    validateJWT,
-    validateFields
-  ], deleteAll);
+router.delete(
+  '/delete/all', 
+  validateJWT,
+  validateFields,
+  deleteAll
+);
 
 /**
  * @openapi
@@ -149,10 +152,11 @@ router.delete('/delete/all',
  *        '200':
  *          description: User blocked
  */
-router.delete('/delete/:id',
+router.delete(
+  '/delete/:id',
   validateJWT,
   genericMongoIdValidationRules(),
-  validateFields,
+  validateFields, 
   blockUser
 );
 

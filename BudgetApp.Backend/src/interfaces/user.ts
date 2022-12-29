@@ -1,6 +1,6 @@
 import { Document } from "mongoose";
 
-interface IUser extends Document {
+export interface IUser extends Document {
     email       : string;
     name        : string;
     lastName    : string;
@@ -11,6 +11,4 @@ interface IUser extends Document {
     enabled     : boolean;
     google      : boolean;
     uid         ?: string;
-}
-
-export default IUser;
+};

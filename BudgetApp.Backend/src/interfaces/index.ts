@@ -1,2 +1,3 @@
+export * from './header-validator';
 export * from './jwt';
-export { default as IUser } from './user';
+export * from './user';

@@ -1,9 +1,12 @@
 import express, { Application } from "express";
 import cors from "cors";
 import Swagger from "swagger-ui-express";
-import { openApiConfig } from "../docs";
 
+// ROUTES
 import { Auth, User } from '../routes';
+
+// CONFIGURATIONS
+import { openApiConfig } from "../docs";
 import { dbConnection } from '../database/';
 import { PORT } from "../config";
 

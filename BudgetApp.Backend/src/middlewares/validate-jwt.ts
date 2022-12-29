@@ -1,15 +1,32 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from 'jsonwebtoken';
-import { SECRETKEY } from "../config";
+import { SECRETKEY, TOKEN } from "../config";
 
-import { IJwt } from "../interfaces";
+import { IHeaderValidators, IJwt } from "../interfaces";
+
+// CONFIG
 import { ResponseStatus } from "../models";
+import { PARAM_LOCATION } from "../typings";
 
 export const validateJWT = async (_req: Request, res: Response, next: NextFunction) => {
 
     const token = _req.header("x-token");
 
-    if (!token) return res.status(403).json(new ResponseStatus(403, "Token unexpected"));
+    if (!token) {
+        const message: IHeaderValidators = {
+            errors: [
+                {
+                    field: TOKEN,
+                    message: {
+                        location: PARAM_LOCATION.HEADER,
+                        warnings: "Token unexpected."
+                    }
+                }
+            ]
+        };
+
+        return res.status(422).send(message);
+    }
 
     try {
         const { uid } = jwt.verify(token, SECRETKEY) as IJwt;
@@ -19,6 +36,6 @@ export const validateJWT = async (_req: Request, res: Response, next: NextFuncti
         return next();
 
     } catch (error) {
-        return res.status(400).json(new ResponseStatus(400, "Error to renew token"));
+        return res.status(400).json(new ResponseStatus(400, "Error validating token."));
     }
 };

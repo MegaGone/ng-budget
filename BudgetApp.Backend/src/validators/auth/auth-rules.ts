@@ -1,6 +1,5 @@
 import { genericStringRule } from "../../helpers";
 
-
 export const registerUserValidationRules = (additionalRules: any = null) => {
     const newRules = additionalRules || [];
 

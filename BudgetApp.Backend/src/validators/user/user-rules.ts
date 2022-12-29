@@ -1,5 +1,5 @@
 import { genericMongoIdRule, genericStringRule } from "../../helpers";
-import { PARAM_LOCATION } from "../../types";
+import { PARAM_LOCATION } from "../../typings";
 
 export const updateUserValidationRules = (additionalRules: any = null) => {
     const newRules = additionalRules || [];

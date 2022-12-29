@@ -5,7 +5,9 @@ import { getSession, loginWithCredentials, loginWithGoogle, register, renewToken
 
 // MIDDLEWARES
 import { validateFields, validateJWT } from "../middlewares";
-import { registerUserValidationRules, loginValidatonRules } from "../validators";
+
+// Validators
+import { loginValidatonRules, registerUserValidationRules } from "../validators";
 
 const router = Router();
 
