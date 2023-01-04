@@ -9,9 +9,9 @@
             (click)="onSelect(elem, i, item)"
             [routerLink]="[item.route]"
             routerLinkActive="active">
-                <svg class="icon">
-                    <use attr.href="./assets/icons.svg#{{ item.icon }}"></use>
-                </svg>
+                <div class="icon">
+                    <mat-icon class="customIconSize" [svgIcon]="item.icon"></mat-icon>
+                </div>
                 <a class="nav__link">{{ item.title }}</a>
             </li>
         </ng-container>

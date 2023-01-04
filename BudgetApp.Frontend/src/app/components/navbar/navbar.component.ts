@@ -16,22 +16,22 @@ export class NavbarComponent implements OnInit, AfterViewInit {
   public navList = [
     {
       title: 'Expenses',
-      icon: 'icon-home',
+      icon: 'iconsmind:money_2',
       route: "/budget/expenses"
     },
     {
       title: 'Fixed Expenses',
-      icon: 'icon-magnifying-glass',
+      icon: 'iconsmind:calendar_4',
       route: '/budget/fixed-expenses'
     },
     {
       title: 'Reports',
-      icon: 'icon-heart-outlined',
+      icon: 'iconsmind:file_clipboardfiletext',
       route: '/budget/reports'
     },
     {
       title: 'Settings',
-      icon: 'icon-user',
+      icon: 'iconsmind:support',
       route: '/budget/settings'
     },
   ];

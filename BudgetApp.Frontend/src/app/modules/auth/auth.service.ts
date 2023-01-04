@@ -6,6 +6,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { IAccount, IAuthResponse, ILogin, IResponseStatus, ISession, IUser } from 'app/interfaces';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { User } from 'app/models';
+import { Router } from '@angular/router';
 
 const base_url = environment.base_url;
 @Injectable({
@@ -20,7 +21,10 @@ export class AuthService {
    */
   public currentUser: BehaviorSubject<IUser> = new BehaviorSubject(null);
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private router: Router
+  ) { }
 
   /**
    * 
@@ -110,5 +114,19 @@ export class AuthService {
       })
     }
     return this.currentUser.asObservable();
+  }
+
+  /**
+   * LOG OUT
+   */
+  logOut() {
+    this.getSession().subscribe(res => {
+
+      if (!res.user.google) {
+        localStorage.removeItem('x-token');
+        return this.router.navigateByUrl('/auth/login');
+      }
+
+    });
   }
 }

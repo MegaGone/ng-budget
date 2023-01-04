@@ -11,4 +11,4 @@ export interface IUser extends Document {
     enabled     : boolean;
     google      : boolean;
     uid         ?: string;
-}
+};
