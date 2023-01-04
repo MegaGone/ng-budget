@@ -1,8 +1,30 @@
 <div class="navbar">
-    <div class="nav">
+    <div class="nav-header">
         <h1 class="title">HEADER</h1>
-        <div class="icon text-center">
-            <mat-icon class="customIconSize" [svgIcon]="'iconsmind:user'"></mat-icon>
+        <div class="icon-header text-center">
+
+            <button mat-icon-button [matMenuTriggerFor]="languages">
+                <mat-icon class="customIconSize" [svgIcon]="'iconsmind:user'"></mat-icon>
+            </button>
+
+            <!-- Language menu -->
+            <mat-menu backdropClass="customize" [xPosition]="'before'" #languages="matMenu">
+                <ng-container *ngFor="let option of options">
+                    <button mat-menu-item (click)="callMethod(option?.method)">
+                        <span class-="flex items-center">
+                            <mat-icon class="customIconSize" [svgIcon]="option.icon"></mat-icon>
+                            <span class="ml-3">{{ option.description }}</span>
+                        </span>
+                    </button>
+                </ng-container>
+            </mat-menu>
+
+            <ng-template let-lang #flagImage>
+                <span class="relative w-6 shadow rounded-sm overflow-hidden">
+                    <span class="absolute inset-0 ring-1 ring-inset ring-black ring-opacity-10"></span>
+                </span>
+            </ng-template>
+
         </div>
     </div>
 </div>

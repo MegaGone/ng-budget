@@ -25,7 +25,7 @@ export const validateJWT = async (_req: Request, res: Response, next: NextFuncti
             ]
         };
 
-        return res.status(422).send(message);
+        return res.status(403).send(message);
     }
 
     try {
