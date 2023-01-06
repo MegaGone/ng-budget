@@ -3,7 +3,7 @@ import cors from "cors";
 import Swagger from "swagger-ui-express";
 
 // ROUTES
-import { Auth, User } from '../routes';
+import { Auth, User, Profile } from '../routes';
 
 // CONFIGURATIONS
 import { openApiConfig } from "../docs";
@@ -17,7 +17,8 @@ class Server {
     private paths = {
         auth: '/api/auth',
         docs: '/api/docs',
-        user: '/api/user'
+        profile: '/api/profile',
+        user: '/api/user',
     }
 
     constructor() {
@@ -41,6 +42,7 @@ class Server {
 
     private routes() {
         this.app.use(this.paths.auth, Auth.default);
+        this.app.use(this.paths.profile, Profile.default);
         this.app.use(this.paths.user, User.default);
         this.app.use(this.paths.docs, Swagger.serve, Swagger.setup(openApiConfig));
     }
