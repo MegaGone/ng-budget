@@ -1,12 +1,14 @@
-import { ICurrency } from "../../interfaces";
 import ResponseStatus from "../response";
 
-export class CountryResponse extends ResponseStatus {
+export class CountryData<T> extends ResponseStatus {
+    public data: T;
+
     constructor(
+        data: T,
         public statusCode  : number,
-        public countries?  : ICurrency[],
         public message?    : string,
     ) {
         super(statusCode, message);
+        this.data = data;
     }
-};
+}
