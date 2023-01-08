@@ -1,12 +1,17 @@
 import { Router } from "express";
 
-import { getCurrencies, saveUserSettings } from "../controllers";
+import { getCurrencies, getLanguages, saveUserSettings } from "../controllers";
 
 const router = Router();
 
 router.get(
-    '/countryCurrencies',
+    '/currencies',
     getCurrencies
+)
+
+router.get(
+    '/languages',
+    getLanguages
 )
 
 router.get(

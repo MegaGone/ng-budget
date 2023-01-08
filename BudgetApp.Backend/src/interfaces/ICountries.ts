@@ -37,7 +37,32 @@ export interface ICurrency {
     country: string;
     flag: string;
     symbol: string;
+};
+
+export interface ILocalCountry {
+    id:         number;
+    name:       string;
+    isoAlpha2:  string;
+    isoAlpha3:  string;
+    isoNumeric: number;
+    currency:   Currency;
+    flag:       string;
+    locale:     string;
+    phone:      string;
 }
+
+export interface Currency {
+    code:   string;
+    name:   string;
+    symbol: string;
+}
+
+export interface ILanguage {
+    country: string;
+    flag: string;
+    lang: string;
+};
+
 
 interface CapitalInfo {
     latlng: number[];
