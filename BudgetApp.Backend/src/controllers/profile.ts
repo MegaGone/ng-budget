@@ -8,7 +8,7 @@ export const getCurrencies = async (_req: Request, res: Response) => {
     try {
         const data = await getCountriesData<ICountryData[]>();
 
-        if (!data.length || !data) return res.status(404).json(new CountryData(undefined, 400, `[ERROR][CURRENCIES][NOT FOUND]`));
+        if (!data.length || !data) return res.status(404).json(new CountryData(400, `[ERROR][CURRENCIES][NOT FOUND]`));
 
         const currencies: ICurrency[] = data.map((c: ICountryData) => {
             return {
@@ -18,9 +18,9 @@ export const getCurrencies = async (_req: Request, res: Response) => {
             };
         });
 
-        return res.status(200).json(new CountryData<ICurrency[]>(currencies, 200));
+        return res.status(200).json(new CountryData<ICurrency[]>(200, undefined, undefined, currencies));
     } catch (error) {
-        return res.status(200).json(new CountryData(undefined, 200, `[ERROR][GET][CURRENCIES] - ${error}`));
+        return res.status(200).json(new CountryData(200, `[ERROR][GET][CURRENCIES] - ${error}`));
     }
 };
 
@@ -36,7 +36,7 @@ export const getLanguages = async (_req: Request, res: Response) => {
             }
         });
 
-        return res.status(200).send(new CountryData<ILanguage[]>(languages, 200));
+        return res.status(200).send(new CountryData<ILanguage[]>(200, undefined, languages));
 
     } catch (error) {
         return res.status(500).json(new ResponseStatus(500, `[ERROR][GET][LANGUAGES] - ${error}`));
