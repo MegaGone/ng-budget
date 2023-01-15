@@ -1,0 +1,16 @@
+.currency-option {
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    .currency-symbol {
+        font-weight: bold;
+    }
+    
+    .currency-flag {
+        max-width: 30px !important;
+        max-height: 30px !important;
+    }
+}

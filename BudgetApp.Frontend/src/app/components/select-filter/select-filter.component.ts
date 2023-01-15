@@ -1,12 +1,15 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Subject } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { takeUntil } from 'rxjs/operators';
+import { fuseAnimations } from '@fuse/animations';
 
 @Component({
   selector: 'mat-select-filter',
   templateUrl: './select-filter.component.html',
-  styleUrls: ['./select-filter.component.scss']
+  styleUrls: ['./select-filter.component.scss'],
+  animations: fuseAnimations,
+  encapsulation: ViewEncapsulation.None
 })
 export class SelectFilterComponent implements OnInit {
 
