@@ -3,7 +3,17 @@ import { CommonModule } from '@angular/common';
 
 // MODULES
 import { SettingsRoutingModule } from './settings-routing.module';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+
+// FUSE
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FuseCardModule } from '@fuse/components/card';
+import { MatSelectModule } from "@angular/material/select";
 
 // COMPONENTS
 import { SettingsComponent } from './settings.component';
@@ -19,7 +29,16 @@ import { SnackbarService } from 'app/utils';
   imports: [
     CommonModule,
     SettingsRoutingModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatInputModule,
+    MatProgressSpinnerModule,
+    MatIconModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    FuseCardModule,
+    MatSelectModule
   ],
   providers: [SnackbarService]
 })

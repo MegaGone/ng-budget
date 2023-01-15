@@ -1,1 +1,12 @@
-<p>settings works!</p>
+<form [formGroup]="settingsForm">
+
+    <mat-form-field appearance="outline" floatLabel="always" class="w-full">
+        <mat-label>Email address</mat-label>
+        <mat-select name="currency" formControlName="currency" required>
+            <mat-option [value]="currency.symbol" *ngFor="let currency of currencies">
+               {{ currency.country }} {{ currency.symbol }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+</form>
