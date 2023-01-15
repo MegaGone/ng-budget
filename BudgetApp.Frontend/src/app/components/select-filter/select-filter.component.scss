@@ -1,12 +1,22 @@
-.mat-input-auto-fill  {
+.test {
     display: flex;
-    position: relative;
-    width: 100%;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    padding: 12px 16px;
+    width: 100% !important;
+
+    .mat-input-auto-fill  {
+        display: flex;
+        position: relative;
+        width: 96% !important;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 12px 16px;
+    }
+    
+    .cancel-button {
+        width: 4% !important;
+    }
 }
+
 
 .mat-select-panel {
     background-color: white;

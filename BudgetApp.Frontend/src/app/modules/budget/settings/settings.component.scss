@@ -1,5 +1,4 @@
 .mat-option-text {
-    background-color: red !important;
     display: flex !important;
     justify-content: flex-start;
     align-items: center;
@@ -9,6 +8,9 @@
 
     .currency-text {
         width: 95% !important;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center
     }
 
     .currency-symbol {
@@ -22,5 +24,6 @@
     .currency-flag {
         max-width: 30px !important;
         max-height: 30px !important;
+        margin-right: 15px;
     }
 }

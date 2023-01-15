@@ -1,14 +1,19 @@
-<input matInput
-       #searchSelectInput
-       [formControl]="searchInputFormControl"
-       (keydown)="handleKeydown($event)"
-       [placeholder]="placeholderLabel"
-       autocomplete="off"
-       class="mat-input-auto-fill">
-<button mat-button
-        mat-icon-button
-        aria-label="Clear filters"
-        (click)="onClearFilter()"
-        *ngIf="searchInputFormControl.value">
-    <mat-icon>close</mat-icon>
-</button>
+<div class="test">
+    <input 
+        matInput 
+        #searchSelectInput 
+        [formControl]="searchInputFormControl" 
+        (keydown)="handleKeydown($event)"
+        [placeholder]="placeholderLabel" 
+        autocomplete="off" 
+        class="mat-input-auto-fill">
+        <button
+            class="cancel-button"
+            mat-button 
+            mat-icon-button 
+            aria-label="Clear filters" 
+            (click)="onClearFilter()"
+            *ngIf="searchInputFormControl.value">
+            <mat-icon>close</mat-icon>
+        </button>
+</div>
