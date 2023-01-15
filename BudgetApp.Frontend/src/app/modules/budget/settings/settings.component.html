@@ -9,7 +9,10 @@
                 #currenciesFilter>
             </mat-select-filter>
             <mat-option *ngFor="let currency of currenciesFiltered | async" [value]="currency.symbol" class="currency-option">
-               <span class="currency-symbol">{{ currency.symbol }}</span> <img class="currency-flag" width="30" height="30" [src]="currency.flag" alt="currency.country">
+                <p class="currency-text">
+                    <img class="currency-flag" width="30" height="30" [src]="currency.flag" [alt]="currency.country"> {{ currency.country }}
+                </p>
+                <span class="currency-symbol">{{ currency.symbol }}</span>
             </mat-option>
         </mat-select>
     </mat-form-field>

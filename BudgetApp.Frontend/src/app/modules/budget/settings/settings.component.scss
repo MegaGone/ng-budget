@@ -1,12 +1,22 @@
+.mat-option-text {
+    background-color: red !important;
+    display: flex !important;
+    justify-content: flex-start;
+    align-items: center;
+}
+
 .currency-option {
 
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
+    .currency-text {
+        width: 95% !important;
+    }
 
     .currency-symbol {
+        display: flex;
+        width: 5%;
         font-weight: bold;
+        justify-content: flex-end;
+        margin-right: 10px;
     }
     
     .currency-flag {
