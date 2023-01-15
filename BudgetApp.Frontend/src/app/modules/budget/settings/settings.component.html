@@ -3,7 +3,12 @@
     <mat-form-field appearance="outline" floatLabel="always" class="w-full">
         <mat-label>Email address</mat-label>
         <mat-select name="currency" formControlName="currency" required>
-            <mat-option [value]="currency.symbol" *ngFor="let currency of currencies">
+            <mat-select-filter
+                placeholder="Buscar"
+                (searchValueOutput)="onFilterCurrency($event)"
+                #currenciesFilter>
+            </mat-select-filter>
+            <mat-option *ngFor="let currency of currenciesFiltered | async" [value]="currency.symbol">
                {{ currency.country }} {{ currency.symbol }}
             </mat-option>
         </mat-select>

@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { fuseAnimations } from '@fuse/animations';
 import { SettingsService } from './settings.service';
-import { Subject } from 'rxjs';
+import { ReplaySubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ICurrency } from 'app/interfaces';
-import { SnackbarService } from 'app/utils';
+import { searchByLowerCaseText, SnackbarService } from 'app/utils';
 
 @Component({
   selector: 'app-settings',
@@ -19,6 +19,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
   private _unsubscribeAll = new Subject<any>();
   public settingsForm: FormGroup;
   public currencies: ICurrency[];
+  public currenciesFiltered = new ReplaySubject<ICurrency[]>(1);
 
   constructor(
     private _service: SettingsService,
@@ -51,9 +52,19 @@ export class SettingsComponent implements OnInit, OnDestroy {
       res => {
         if (!res.length) return this._snackbarService.open('Something was wrong, please try again.', false);
         this.currencies = res;
+        this.currenciesFiltered.next([...this.currencies]);
       },
       err => this._snackbarService.open('Ooops... An error ocurred, try later.', false) 
     );
+  }
+
+  /**
+   * 
+   * @param value VALUE TO FILTER
+   */
+  onFilterCurrency(value: string): void {
+    const result = value ? this.currencies.filter(it => searchByLowerCaseText(it.country, value)) : [...this.currencies];
+    this.currenciesFiltered.next(result);
   }
 
   /**

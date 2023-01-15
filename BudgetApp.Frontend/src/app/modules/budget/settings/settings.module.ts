@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 // MODULES
 import { SettingsRoutingModule } from './settings-routing.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { ComponentsModule } from 'app/components';
 
 // FUSE
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -38,7 +39,8 @@ import { SnackbarService } from 'app/utils';
     MatButtonModule,
     MatFormFieldModule,
     FuseCardModule,
-    MatSelectModule
+    MatSelectModule,
+    ComponentsModule
   ],
   providers: [SnackbarService]
 })
