@@ -26,7 +26,7 @@ export const getCurrencies = async (_req: Request, res: Response) => {
 
 export const getLanguages = async (_req: Request, res: Response) => {
     try {
-        const localData = await getLocalCountries();
+        const localData = await getLocalCountries("languages");
 
         const languages: ILanguage[] = await localData.map(c => {
             return {

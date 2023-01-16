@@ -15,10 +15,10 @@ export const getCountriesData = async <T>() => {
     }
 };
 
-export const getLocalCountries = async (): Promise<ILocalCountry[]> => {
+export const getLocalCountries = async (type: "countries" | "languages"): Promise<ILocalCountry[]> => {
     try {
-        
-        const path = join(__dirname, '../constants/countries.json');
+    
+        const path = join(__dirname, `../constants/${type}.json`);
 
         if (!existsSync(path)) return [];
 
