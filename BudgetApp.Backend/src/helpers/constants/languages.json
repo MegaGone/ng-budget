@@ -1,7 +1,7 @@
 [
     {
         "id": 88,
-        "name": "Guatemala",
+        "name": "Spanish",
         "isoAlpha2": "GT",
         "isoAlpha3": "GTM",
         "isoNumeric": 320,
@@ -16,7 +16,7 @@
     },
     {
         "id": 227,
-        "name": "United States",
+        "name": "English",
         "isoAlpha2": "US",
         "isoAlpha3": "USA",
         "isoNumeric": 840,

@@ -6,6 +6,7 @@ import { takeUntil } from 'rxjs/operators';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ICurrency, ILanguage } from 'app/interfaces';
 import { searchByLowerCaseText, SnackbarService } from 'app/utils';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-settings',
@@ -25,7 +26,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
   constructor(
     private _service: SettingsService,
     private _fb: FormBuilder,
-    private _snackbarService: SnackbarService
+    private _snackbarService: SnackbarService,
+    private _sanitizer: DomSanitizer
   ) {
     this._unsubscribeAll = new Subject();
   }
@@ -80,6 +82,10 @@ export class SettingsComponent implements OnInit, OnDestroy {
       },
       err => this._snackbarService.open('Ooops... An error ocurred with the languages, try later.', false)
     )
+  }
+
+  convertToSafeBase64(path: string) {
+    return this._sanitizer.bypassSecurityTrustResourceUrl(path);
   }
 
   /**

@@ -31,7 +31,7 @@ export const getLanguages = async (_req: Request, res: Response) => {
         const languages: ILanguage[] = await localData.map(c => {
             return {
                 country: c.name,
-                flag: c.flag,
+                flag: `data:image/jpg;base64,${c.flag}`,
                 lang: c.locale
             }
         });

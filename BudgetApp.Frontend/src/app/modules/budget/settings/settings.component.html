@@ -57,7 +57,10 @@
                     <mat-label>Language</mat-label>
                     <mat-select name="language" formControlName="language" required>
                         <mat-option *ngFor="let language of languages" [value]="language.lang" class="currency-option">
-                           {{ language.country }}
+                            <p class="currency-text">
+                                {{ language.country }} 
+                            </p>
+                           <span class="currency-symbol"><img class="currency-flag" width="30" height="30" [src]="convertToSafeBase64(language.flag)"></span>
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
