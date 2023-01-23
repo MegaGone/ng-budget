@@ -5,7 +5,7 @@ import { ReplaySubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ICurrency, ILanguage } from 'app/interfaces';
-import { searchByLowerCaseText, SnackbarService } from 'app/utils';
+import { passwordRegex, searchByLowerCaseText, SnackbarService } from 'app/utils';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
@@ -38,13 +38,18 @@ export class SettingsComponent implements OnInit, OnDestroy {
     this.getLanguages();
   }
 
+  /**
+   * INIT FORM
+   */
   initForm() {
     this.settingsForm = this._fb.group({
       'language': ['', Validators.required],
       'currency': ['', Validators.required],
       'displayName': ['', [Validators.required]],
       'email': ['', Validators.required],
-      'avatar': ['']
+      'avatar': [''],
+      'oldPassword': ['', [Validators.pattern(passwordRegex)]],
+      'newPassword': ['', [Validators.pattern(passwordRegex)]]
     })
   }
 
@@ -71,6 +76,9 @@ export class SettingsComponent implements OnInit, OnDestroy {
     this.currenciesFiltered.next(result);
   }
 
+  /**
+   * GET LANGUAGES
+   */
   getLanguages() {
     this._service.getLanguages().pipe(takeUntil(this._unsubscribeAll)).subscribe(
       langs => {
@@ -84,6 +92,11 @@ export class SettingsComponent implements OnInit, OnDestroy {
     )
   }
 
+  /**
+   * 
+   * @param path base64 path
+   * @returns URL Secure to src image
+   */
   convertToSafeBase64(path: string) {
     return this._sanitizer.bypassSecurityTrustResourceUrl(path);
   }

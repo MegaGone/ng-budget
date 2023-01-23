@@ -1,11 +1,11 @@
 <div id="root" class="flex flex-col sm:flex-row items-center md:items-start sm:justify-center md:justify-start flex-auto min-w-0">
 
     <!-- IMAGE -->
-    <div class="relative hidden md:flex md:h-full flex-auto items-center justify-center h-full p-16 lg:px-28 overflow-hidden">
+    <div class="relative hidden md:flex flex-auto items-center justify-center h-full p-16 lg:px-28 overflow-hidden">
         <h1>OK</h1>
     </div>
 
-    <div class="md:flex md:justify-end w-full sm:w-auto md:h-full py-8 px-4 sm:p-12 md:p-16 md:pt-24 sm:rounded-2xl md:rounded-none sm:shadow md:shadow-none sm:bg-card">
+    <div class="md:flex md:justify-end w-full sm:w-auto py-8 px-4 sm:p-12 sm:rounded-2xl md:rounded-none sm:shadow md:shadow-none sm:bg-card">
         <div class="w-full max-w-100 sm:w-100 mx-auto sm:mx-0">
             <form [formGroup]="settingsForm">
 
@@ -65,6 +65,64 @@
                     </mat-select>
                 </mat-form-field>
                 <!-- /CURRENCY -->
+
+                <!-- OLD PASSWORD -->
+                <mat-form-field appearance="outline" floatLabel="always" class="w-full">
+                    <mat-label>Old password</mat-label>
+                    <input 
+                        id="oldPassword" 
+                        matInput 
+                        type="password"
+                        formControlName="oldPassword"
+                        #oldPassword>
+                    <button 
+                        mat-icon-button 
+                        type="button" 
+                        matSuffix
+                        (click)="oldPassword.type === 'password' ? oldPassword.type = 'text' : oldPassword.type = 'password'">
+                        <mat-icon 
+                            *ngIf="oldPassword.type === 'password'"
+                            class="icon-size-5" 
+                            [svgIcon]="'heroicons_solid:eye'"
+                            >
+                        </mat-icon>
+                        <mat-icon 
+                            *ngIf="oldPassword.type === 'text'"
+                            class="icon-size-5" 
+                            [svgIcon]="'heroicons_solid:eye-off'">
+                        </mat-icon>
+                    </button>
+                </mat-form-field>
+                <!-- /OLD PASSWORD -->
+
+                <!-- NEW PASSWORD -->
+                <mat-form-field appearance="outline" floatLabel="always" class="w-full">
+                    <mat-label>New password</mat-label>
+                    <input 
+                        id="newPassword" 
+                        matInput 
+                        type="password"
+                        formControlName="newPassword"
+                        #newPassword>
+                    <button 
+                        mat-icon-button 
+                        type="button" 
+                        matSuffix
+                        (click)="newPassword.type === 'password' ? newPassword.type = 'text' : newPassword.type = 'password'">
+                        <mat-icon 
+                            *ngIf="newPassword.type === 'password'"
+                            class="icon-size-5" 
+                            [svgIcon]="'heroicons_solid:eye'"
+                            >
+                        </mat-icon>
+                        <mat-icon 
+                            *ngIf="newPassword.type === 'text'"
+                            class="icon-size-5" 
+                            [svgIcon]="'heroicons_solid:eye-off'">
+                        </mat-icon>
+                    </button>
+                </mat-form-field>
+                <!-- /NEW PASSWORD -->
 
             </form>
         </div>
