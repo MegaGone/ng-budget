@@ -49,7 +49,9 @@ export class Server {
         this.app.use('/api/', [userRouter]);
     };
 
-
+    /**
+     * INITIALIZE DB CONNECTION
+     */
     private async dbConnection() {
         try {
             await this.datasource.connect();
@@ -77,7 +79,8 @@ export class Server {
      */
     private onFinish() {
         process.on('SIGINT', async () => {
-            process.exit()
+            await this.datasource.disconnect();
+            process.exit();
         })
     }
 };
