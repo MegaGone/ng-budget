@@ -1,2 +1,1 @@
-export * as Auth from './auth';
-export * as User from './users';
+export * from './user.routing';
