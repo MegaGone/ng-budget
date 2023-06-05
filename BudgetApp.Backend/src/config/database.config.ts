@@ -1,5 +1,9 @@
-const DB_CNN = process.env.DB_CNN  || "mongodb+srv://admin:*****.*****.mongodb.net/Admin";
+import "dotenv/config";
+
+const MONGO_DB_HOSTNAME = process.env.MONGO_DB_HOSTNAME  || "mongodb+srv://admin:*****.*****.mongodb.net/Admin";
+const MONGO_DB_NAME = process.env.MONGO_DB_NAME || "Sandbox";
 
 export {
-    DB_CNN
+    MONGO_DB_HOSTNAME,
+    MONGO_DB_NAME
 };
