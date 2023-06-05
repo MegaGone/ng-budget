@@ -1,9 +1,13 @@
 import "dotenv/config";
 
-const MONGO_DB_HOSTNAME = process.env.MONGO_DB_HOSTNAME  || "mongodb+srv://admin:*****.*****.mongodb.net/Admin";
-const MONGO_DB_NAME = process.env.MONGO_DB_NAME || "Sandbox";
+const DB_HOSTNAME = process.env.MONGO_DB_HOSTNAME  || "mongodb+srv://admin:*****.*****.mongodb.net/Admin";
+const DB_NAME = process.env.MONGO_DB_NAME || "Sandbox";
+const DB_TLS = process.env.MONGO_DB_TLS || true;
+const DB_SSL = process.env.MONGO_DB_SSL || true;
 
 export {
-    MONGO_DB_HOSTNAME,
-    MONGO_DB_NAME
+    DB_HOSTNAME,
+    DB_NAME,
+    DB_SSL,
+    DB_TLS
 };
