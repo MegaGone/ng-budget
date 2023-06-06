@@ -1,11 +1,11 @@
 import { Document, Model, FilterQuery, UpdateQuery } from 'mongoose';
 
 export class BaseRepository<T extends Document> {
-  private readonly repository: Model<T>;
+  private readonly entity: Model<T>;
 
-  constructor(model: Model<T>) {
-    this.repository = model;
-  }
+  constructor(entity: Model<T>) {
+    this.entity = entity;
+  };
 
   async findWithPagination(
     where: FilterQuery<T>,
@@ -13,14 +13,14 @@ export class BaseRepository<T extends Document> {
     take = 10,
     skip = 0
   ) {
-    const data = await this.repository
+    const data = await this.entity
       .find(where)
       .sort(order)
       .limit(take)
       .skip(skip)
       .exec();
 
-    const count = await this.repository.countDocuments(where).exec();
+    const count = await this.entity.countDocuments(where).exec();
 
     return {
       data,
@@ -29,19 +29,19 @@ export class BaseRepository<T extends Document> {
   };
 
   async findOne(where: FilterQuery<T> | undefined, order: Record<string, any>) {
-    const data = await this.repository.findOne(where).sort(order).exec();
+    const data = await this.entity.findOne(where).sort(order).exec();
 
     return data;
   };
 
   async insert(records: T | T[]) {
-    const inserted = await this.repository.create(records);
+    const inserted = await this.entity.create(records);
 
     return inserted;
   };
 
   async update(where: FilterQuery<T>, record: UpdateQuery<T>) {
-    const updated = await this.repository.updateMany(where, record).exec();
+    const updated = await this.entity.updateMany(where, record).exec();
 
     return updated;
   };

@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import { Document, Schema, model } from 'mongoose';
 import { IUser } from 'src/interfaces';
 
 const UserSchema: Schema = new Schema({
@@ -48,4 +48,5 @@ UserSchema.methods.toJSON = function() {
     return user;
 };
 
-export default model<IUser>("User", UserSchema);
+export const UserModel = model<IUser & Document>('User', UserSchema);
+// export default model<IUser>("User", UserSchema);

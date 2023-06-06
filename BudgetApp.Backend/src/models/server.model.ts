@@ -9,6 +9,7 @@ import { LoggerClient } from "src/clients";
 import { MorganMiddleware, ErrorHandler } from "src/middlewares";
 import { userRouter } from "src/routes";
 import { GenericDataSource } from "src/database";
+import { Locals } from "./";
 
 export class Server {
     private app: Application
@@ -27,6 +28,7 @@ export class Server {
         this.dbConnection();
         this.middlewares();
         this.routes();
+        this.locals();
         this.onFinish();
     };
 
@@ -64,6 +66,11 @@ export class Server {
             console.log(error)
         };
     };
+
+    private locals() {
+        this.app.locals.logger = this.logger;
+        this.app.locals.service = new Locals();
+    }
 
     /**
      * START HTTP SERVER
