@@ -1,11 +1,13 @@
 import { Request, Response, NextFunction } from "express";
 import { IUserModel, UserModel } from "src/database";
+import { BaseService } from "src/services";
 
 export const createUser = async (_req: Request, _res: Response, next: NextFunction) => {
     try {
 
         const { name, lastName, displayName, password, avatar, email, role } = _req.body;
 
+        const userService: BaseService<IUserModel> = _req.app.locals.userService;
         const user: IUserModel = new UserModel({
             name,
             lastName,
@@ -15,7 +17,7 @@ export const createUser = async (_req: Request, _res: Response, next: NextFuncti
             avatar
         });
 
-        const inserted = await user.save();
+        const inserted = await userService.insertRecord(user);
 
         return _res.status(200).json({inserted});
     } catch (error: any) {
