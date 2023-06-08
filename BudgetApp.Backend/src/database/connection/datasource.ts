@@ -1,14 +1,19 @@
-import { connect } from "mongoose";
+import { Connection, connect } from "mongoose";
 import { DB_HOSTNAME } from "src/config";
 
-/**
- * CONNECT TO MONGO DB CONNECTION
- */
-export const dbConnection = async() => {
-    try {
-        await connect(DB_HOSTNAME)
-        // console.log(`DATABASE CONNECTED`);
-    } catch (error) {
-        throw new Error("ERROR CONNECTING TO DB");
-    }
+export class Datasource {
+    private connection!: Connection;
+
+    public async connect() {
+        try {
+            const { connection } = await connect(DB_HOSTNAME);
+            this.connection = connection;
+        } catch (error: any) {
+            throw new Error(error);
+        }
+    };
+
+    public status() {
+        return this.connection.readyState;
+    };
 };

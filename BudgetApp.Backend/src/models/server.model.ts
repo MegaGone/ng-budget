@@ -8,19 +8,21 @@ import { SwaggerOptions } from "src/documentation";
 import { LoggerClient } from "src/clients";
 import { MorganMiddleware, ErrorHandler } from "src/middlewares";
 import { userRouter } from "src/routes";
-import { dbConnection } from "src/database";
+import { Datasource } from "src/database";
 
 export class Server {
     private app: Application
     private port: string;
     private logger: LoggerClient;
     private specs: object;
+    private datasource: Datasource;
 
     constructor() {
         this.app = express();
         this.port = PORT;
         this.logger = new LoggerClient();
         this.specs = swaggerJSDoc(SwaggerOptions);
+        this.datasource = new Datasource();
 
         this.dbConnection();
         this.middlewares();
@@ -53,10 +55,14 @@ export class Server {
      */
     private async dbConnection() {
         try {
-            await dbConnection();
+            await this.datasource.connect();
+            const status = this.datasource.status();
+
+            if (status !== 1) throw new Error("[ERROR][DATABASE][INIT]");
+
             console.log("[DATABASE][INIT]", "Connected")
         } catch (error) {
-            console.log(error)
+            console.log(error, "ERROR TO CONNECT");
         };
     };
 
