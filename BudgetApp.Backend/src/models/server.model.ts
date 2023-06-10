@@ -40,7 +40,6 @@ export class Server {
         this.app.use(express.json());
         this.app.use(express.urlencoded({ extended: false }));
         this.app.use(MorganMiddleware(this.logger));
-        this.app.use(ErrorHandler);
     };
 
     /**
@@ -49,6 +48,7 @@ export class Server {
     private routes(): void {
         this.app.use('/api/docs', Swagger.serve, Swagger.setup(this.specs));
         this.app.use('/api/', [authRouter, userRouter]);
+        this.app.use(ErrorHandler);
     };
 
     /**

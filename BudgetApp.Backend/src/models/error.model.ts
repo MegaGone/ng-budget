@@ -5,5 +5,5 @@ export class ResponseStatus extends Error {
         super()
         this.statusCode = statusCode
         this.message = message
-    };
+    }
 };

@@ -23,7 +23,7 @@ export const registerUser = async (_req: Request, _res: Response, next: NextFunc
 
         if (!id) throw new Error("Error to insert user");
 
-        return _res.status(200).json({ id });
+        return _res.status(200).json({ statusCode: 200, id });
     } catch (error) {
         next(error);
     }
