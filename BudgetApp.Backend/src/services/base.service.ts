@@ -14,6 +14,15 @@ export class BaseService<T extends Document> {
             return _id;
         } catch (error) {
             return 0;
-        }
+        };
+    };
+
+    async getRecord(email: string) {
+        try {
+            const record = await this.repository.findOne({ email });
+            return record;
+        } catch (error) {
+            return null;
+        };
     };
 };
