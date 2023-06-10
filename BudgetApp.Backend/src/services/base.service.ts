@@ -10,8 +10,8 @@ export class BaseService<T extends Document> {
 
     async insertRecord(entity: Partial<T>) {
         try {
-            const record = await this.repository.insert(entity);
-            return record;
+            const { _id } = await this.repository.insert(entity);
+            return _id;
         } catch (error) {
             return 0;
         }

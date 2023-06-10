@@ -3,7 +3,7 @@ import { createUser } from "src/controllers";
 
 export const userRouter = Router();
 
-userRouter.post(
-    "/user/create",
+userRouter.get(
+    "/user/get",
     createUser
 );
