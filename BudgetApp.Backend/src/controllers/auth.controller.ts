@@ -22,7 +22,7 @@ export const registerUser = async (_req: Request, _res: Response, next: NextFunc
 
         const id = await userService.insertRecord(user);
 
-        if (!id) throw new Error("Error to insert user");
+        if (!id || id == 0) throw new Error("Error to create user");
 
         return _res.status(200).json({ statusCode: 200, id });
     } catch (error) {
@@ -45,7 +45,7 @@ export const loginWithCredentials = async (_req: Request, _res: Response, next: 
         if (!isValidPassword) throw new ResponseStatus(401, "Email/Password incorrect.")
 
         const token = await generateJWT(user.uid!);
-        if (!token) throw new Error("Error to generate JWT.");
+        if (!token) throw new Error("Error to validate credentials.");
 
         return _res.status(200).json({ statusCode: 200, token, user });
     } catch (error) {
