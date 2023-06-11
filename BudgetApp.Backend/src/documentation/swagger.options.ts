@@ -1,4 +1,5 @@
 import { PORT } from "src/config"
+import { FieldsResponse, ResponseStatus } from './';
 
 export const SwaggerOptions = {
     definition: {
@@ -12,7 +13,13 @@ export const SwaggerOptions = {
             {
                 url: `http://localhost:${PORT}`
             }
-        ]
+        ],
+        components: {
+            schemas: {
+                FieldsResponse,
+                ResponseStatus
+            }
+        }
     },
     apis: ['**/routes/*.ts']
 };
