@@ -5,10 +5,12 @@ const NODE_ENV = process.env.NODE_ENV || 'development'
 
 const SECRETKEY = process.env.SECRETKEY || "abdefg123456";
 const TOKEN = process.env.TOKEN = "x-token";
+const SESSION_LIFETIME = process.env.SESSION_LIFETIME || "1h"
 
 export {
     PORT,
     SECRETKEY,
     TOKEN,
-    NODE_ENV
+    NODE_ENV,
+    SESSION_LIFETIME
 };

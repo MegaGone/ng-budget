@@ -17,9 +17,9 @@ export class BaseService<T extends Document> {
         };
     };
 
-    async getRecord(email: string) {
+    async getRecord(email: string, select: string[] = []) {
         try {
-            const record = await this.repository.findOne({ email });
+            const record = await this.repository.findOne({ email }, select);
             return record;
         } catch (error) {
             return null;

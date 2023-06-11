@@ -13,8 +13,8 @@ export class BaseRepository<T extends Document> {
         return inserted;
     };
 
-    async findOne(where: FilterQuery<T>): Promise<T | null> {
-        const record = await this.model.findOne(where);
+    async findOne(where: FilterQuery<T>, select: string[] = []): Promise<T | null> {
+        const record = await this.model.findOne(where).select(select);
         return record;
     };
 }

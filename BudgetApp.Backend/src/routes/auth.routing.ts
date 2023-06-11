@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { registerUser } from "src/controllers";
+import { loginWithCredentials, registerUser } from "src/controllers";
 import { validateFields } from "src/middlewares";
 import { createUserValidationRules } from "src/validators";
 
@@ -11,3 +11,8 @@ authRouter.post(
     validateFields,
     registerUser
 );
+
+authRouter.post(
+    "/auth/login",
+    loginWithCredentials
+)
