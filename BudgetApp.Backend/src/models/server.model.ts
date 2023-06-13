@@ -5,9 +5,9 @@ import swaggerJSDoc from "swagger-jsdoc";
 
 import { PORT } from "src/config";
 import { SwaggerOptions } from "src/documentation";
-import { LoggerClient } from "src/clients";
+import { LoggerClient, Mailer } from "src/clients";
 import { MorganMiddleware, ErrorHandler } from "src/middlewares";
-import { authRouter, userRouter } from "src/routes";
+import { authRouter, mailRouter, userRouter } from "src/routes";
 import { Datasource } from "src/database";
 import { Local } from "./";
 
@@ -17,6 +17,7 @@ export class Server {
     private logger: LoggerClient;
     private specs: object;
     private datasource: Datasource;
+    private mailer: Mailer;
 
     constructor() {
         this.app = express();
@@ -24,6 +25,7 @@ export class Server {
         this.logger = new LoggerClient();
         this.specs = swaggerJSDoc(SwaggerOptions);
         this.datasource = new Datasource();
+        this.mailer = new Mailer();
 
         this.dbConnection();
         this.middlewares();
@@ -47,7 +49,7 @@ export class Server {
      */
     private routes(): void {
         this.app.use('/api/docs', Swagger.serve, Swagger.setup(this.specs));
-        this.app.use('/api/', [authRouter, userRouter]);
+        this.app.use('/api/', [authRouter, userRouter, mailRouter]);
         this.app.use(ErrorHandler);
     };
 
@@ -58,6 +60,7 @@ export class Server {
         try {
             await this.datasource.connect();
             const status = this.datasource.status();
+            // const mailer = await this.mailer.status();
 
             if (status !== 1) throw new Error("[ERROR][DATABASE][INIT]");
 
