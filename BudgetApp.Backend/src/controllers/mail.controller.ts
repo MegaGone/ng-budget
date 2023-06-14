@@ -5,7 +5,6 @@ import { BaseService } from "src/services";
 
 export const createTemplate = async (_req: Request, _res: Response, next: NextFunction) => {
     try {
-
         const { subject, from, template } = _req.body;
 
         const emailService: BaseService<IEmailModel> = _req.app.locals.mailService;
