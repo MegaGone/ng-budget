@@ -12,7 +12,7 @@ export const registerUser = async (_req: Request, _res: Response, next: NextFunc
         const userService: BaseService<IUserModel> = _req.app.locals.userService;
         const user = <IUser>_req.body;
 
-        const emailExists = await userService.getRecord(user.email);
+        const emailExists = await userService.getRecord({ email: user.email });
         if (emailExists) throw new ResponseStatus(400, "Email already exists");
 
         const salt = genSaltSync();
@@ -22,7 +22,7 @@ export const registerUser = async (_req: Request, _res: Response, next: NextFunc
 
         const id = await userService.insertRecord(user);
 
-        if (!id || id == 0) throw new Error("Error to create user");
+        if (!id) throw new Error("Error to create user");
 
         return _res.status(200).json({ statusCode: 200, id });
     } catch (error) {
@@ -35,7 +35,7 @@ export const loginWithCredentials = async (_req: Request, _res: Response, next: 
         const { email, password } = _req.body;
 
         const userService: BaseService<IUserModel> = _req.app.locals.userService;
-        const user = await userService.getRecord(email);
+        const user = await userService.getRecord({ email });
 
         if (!user) throw new ResponseStatus(404, "User not found");
 

@@ -24,4 +24,9 @@ const EmailSchema: Schema = new Schema({
     }
 });
 
+EmailSchema.methods.toJSON = function() {
+    const { __v, _id, ...template } = this.toObject();
+    return template;
+};
+
 export const EmailModel = model<IEmailModel>("Email", EmailSchema);

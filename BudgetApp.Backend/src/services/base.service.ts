@@ -44,12 +44,17 @@ export class BaseService<T extends Document> {
         }
     };
 
-    async getRecords(where: FilterQuery<T>, page: number, size: number, select: string[] = []) {
+    async getRecords(
+        where: FilterQuery<T>, 
+        page: number, 
+        size: number, 
+        select: string[] = []
+    ): Promise<any> {
         try {
             const skip = (page - 1) * size;
             const take = size;
 
-            const { count, data, currentPage, pageCount } = await this.repository.findWithPagination(
+            const { data, count } = await this.repository.findWithPagination(
                 where,
                 "",
                 take,
@@ -59,14 +64,12 @@ export class BaseService<T extends Document> {
 
             const pagination = {
                 data: data,
-                totalItems: count,
-                currentPage,
-                totalPages: pageCount
+                totalItems: count
             };
 
-            return pagination
-        } catch (error) {
-            return null;
+            return pagination;
+        } catch (error: any) {
+            throw new Error(error);
         };
     }
 };

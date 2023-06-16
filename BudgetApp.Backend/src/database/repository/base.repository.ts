@@ -1,4 +1,4 @@
-import { Document, Model, FilterQuery, UpdateQuery } from "mongoose";
+import { Document, Model, FilterQuery, UpdateQuery, Query } from "mongoose";
 
 export class BaseRepository<T extends Document> {
     private model: Model<T>;
@@ -35,20 +35,20 @@ export class BaseRepository<T extends Document> {
         skip = 0,
         select: string[] = []
     ) {
-        const query = this.model.find(where).select(select);
+        const query: Query<T[], T> = this.model.find(where).select(select);
         query.sort(order);
         query.limit(take);
         query.skip(skip);
 
-        const [result, total] = await Promise.all([query.exec(), this.model.countDocuments(where)]);
-
-        const pageCount = Math.ceil(total / take);
+        const [result, total] = await Promise.all([
+            query.exec(),
+            this.model.countDocuments(where),
+        ]);
 
         return {
             data: result,
-            count: total,
-            pageCount: pageCount,
-            currentPage: skip / take + 1,
+            count: total
         };
-    };
+    }
+
 }
