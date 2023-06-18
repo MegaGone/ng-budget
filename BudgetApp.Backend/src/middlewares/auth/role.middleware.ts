@@ -9,6 +9,7 @@ export const validateRoles = (roles: string[]) => {
 
             if (!roles.includes(req.role)) throw new ResponseStatus(403, "Unauthorized.");
 
+            next();
         } catch (error) {
             next(error);  
         };

@@ -12,8 +12,9 @@ export const validateJWT = async (_req: Request, _res: Response, next: NextFunct
 
         try 
         {
-            const { uid } = verify(token, SECRETKEY) as UserPayload;
+            const { uid, role } = verify(token, SECRETKEY) as UserPayload;
             _req.uid = uid;
+            _req.role = role;
 
         } catch {
             throw new ResponseStatus(400, "Token not valid.")
