@@ -10,6 +10,10 @@ export const createTemplate = async (_req: Request, _res: Response, next: NextFu
         const { subject, from, template } = _req.body;
 
         const emailService: BaseService<IEmailModel> = _req.app.locals.mailService;
+
+        const wasSubjectDuplicated = await emailService.getRecord({ subject });
+        if (wasSubjectDuplicated) throw new ResponseStatus(400, "Subject duplicated in another template");
+
         const id = await emailService.insertRecord({ subject, from, template });
         if (!id) throw new Error("Error to create template");
 

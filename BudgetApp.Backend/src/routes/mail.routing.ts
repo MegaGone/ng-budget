@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { createTemplate, deleteTemplate, getTemplate, getTemplates, updateTemplate } from "src/controllers";
-import { validateFields } from "src/middlewares";
+import { validateFields, validateJWT } from "src/middlewares";
 import { createTemplateValidationRules, genericTemplateIdValidationRules, getTemplatesValidationRules, updateTemplateValidationRules } from "src/validators";
 
 export const mailRouter = Router();
@@ -8,6 +8,7 @@ export const mailRouter = Router();
 mailRouter.post(
     "/template/create",
     createTemplateValidationRules(),
+    validateJWT,
     validateFields,
     createTemplate
 );
