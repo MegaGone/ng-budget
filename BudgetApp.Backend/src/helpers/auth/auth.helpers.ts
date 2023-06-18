@@ -1,12 +1,12 @@
 import { sign } from "jsonwebtoken";
 import { SECRETKEY, SESSION_LIFETIME } from "src/config";
+import { ROLE_ENUM } from "src/enums";
 
-export const generateJWT = (uid: string): Promise<string | undefined> => {
+export const generateJWT = (uid: string, role: ROLE_ENUM): Promise<string | undefined> => {
     return new Promise((resolve, reject) => {
 
-        const payload = { uid };
-
-        sign(payload, SECRETKEY, 
+        console.log('----------------------------------------------------->', uid);
+        sign({ uid, role }, SECRETKEY, 
         { 
             expiresIn: SESSION_LIFETIME
         }, 

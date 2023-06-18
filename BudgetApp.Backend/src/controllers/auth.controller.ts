@@ -44,7 +44,7 @@ export const loginWithCredentials = async (_req: Request, _res: Response, next: 
         const isValidPassword = compareSync(password, user.password);
         if (!isValidPassword) throw new ResponseStatus(401, "Email/Password incorrect.")
 
-        const token = await generateJWT(user.uid!);
+        const token = await generateJWT(user.id!, user.role);
         if (!token) throw new Error("Error to validate credentials.");
 
         return _res.status(200).json({ statusCode: 200, token, user });
