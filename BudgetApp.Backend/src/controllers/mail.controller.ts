@@ -21,7 +21,7 @@ export const createTemplate = async (_req: Request, _res: Response, next: NextFu
 
 export const getTemplate = async (_req: Request, _res: Response, next: NextFunction) => {
     try {
-        const { id } = _req.query;
+        const { id } = _req.params;
 
         const emailService: BaseService<IEmailModel> = _req.app.locals.mailService;
         const template = await emailService.getRecord({ identificator: id });
@@ -54,6 +54,48 @@ export const getTemplates = async (_req: Request, _res: Response, next: NextFunc
             pages
         });
 
+    } catch (error) {
+        next(error);
+    };
+};
+
+export const updateTemplate = async (_req: Request, _res: Response, next: NextFunction) => {
+    try {
+        const request = <IEmail>_req.body;
+
+        const emailService: BaseService<IEmailModel> = _req.app.locals.mailService;
+        const template = await emailService.getRecord({ identificator: request.identificator });
+
+        if (!template) throw new ResponseStatus(404, "Template not found");
+        
+        template.from = request.from;
+        template.subject = request.subject;
+        template.template = request.template;
+
+        const wasUpdated = await emailService.updateRecord({ identificator: request.identificator }, template);
+
+        if (!wasUpdated) return new Error("Error to update template");
+
+        return _res.status(200).json({ statusCode: 200 });
+    } catch (error) {
+      next(error);  
+    };
+};
+
+export const deleteTemplate = async (_req: Request, _res: Response, next: NextFunction) => {
+    try {
+        const { id } = _req.params;
+
+        const emailService: BaseService<IEmailModel> = _req.app.locals.mailService;
+        const exitsTemplate = await emailService.getRecord({ identificator: id }) != null;
+
+        if (!exitsTemplate) return new ResponseStatus(404, "Template not found");
+
+        const wasDeleted = await emailService.deleteRecord({ identificator: id });
+        
+        if (!wasDeleted) return new Error("Error to delete template");
+
+        return _res.status(200).json({ statusCode: 200 });
     } catch (error) {
         next(error);
     };

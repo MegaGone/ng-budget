@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createTemplate, getTemplate, getTemplates } from "src/controllers";
+import { createTemplate, deleteTemplate, getTemplate, getTemplates, updateTemplate } from "src/controllers";
 
 export const mailRouter = Router();
 
@@ -16,4 +16,14 @@ mailRouter.get(
 mailRouter.get(
     "/template",
     getTemplates
-)
+);
+
+mailRouter.put(
+    "/template/update",
+    updateTemplate  
+);
+
+mailRouter.delete(
+    "/template/:id",
+    deleteTemplate
+);

@@ -28,7 +28,7 @@ export class BaseService<T extends Document> {
 
     async updateRecord(where: FilterQuery<T>, query: UpdateQuery<T>): Promise<boolean> {
         try {
-            const record = await this.repository.update(where, query);
+            await this.repository.update(where, query);
             return true;
         } catch (error) {
             return false;
@@ -37,8 +37,8 @@ export class BaseService<T extends Document> {
 
     async deleteRecord(where: FilterQuery<T>): Promise<boolean> {
         try {
-            const deleted = await this.deleteRecord(where);
-            return true;
+            const deleted = await this.repository.delete(where);
+            return deleted;
         } catch (error) {
             return false;
         }
