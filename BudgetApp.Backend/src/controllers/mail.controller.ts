@@ -87,13 +87,12 @@ export const deleteTemplate = async (_req: Request, _res: Response, next: NextFu
         const { id } = _req.params;
 
         const emailService: BaseService<IEmailModel> = _req.app.locals.mailService;
-        const exitsTemplate = await emailService.getRecord({ identificator: id }) != null;
+        const exitsTemplate = await emailService.getRecord({ identificator: id });
 
-        if (!exitsTemplate) return new ResponseStatus(404, "Template not found");
+        if (!exitsTemplate) throw new ResponseStatus(404, "Template not found");
 
-        const wasDeleted = await emailService.deleteRecord({ identificator: id });
-        
-        if (!wasDeleted) return new Error("Error to delete template");
+        const wasDeleted = await emailService.deleteRecord({ identificator: id });        
+        if (!wasDeleted) throw new Error("Error to delete template");
 
         return _res.status(200).json({ statusCode: 200 });
     } catch (error) {

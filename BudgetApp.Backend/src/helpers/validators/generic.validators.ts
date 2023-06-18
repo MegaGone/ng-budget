@@ -4,7 +4,7 @@ import { FieldIdValidationMessage, FieldValidationMessage } from 'src/types';
 export const genericStringRule = (
     field: string | string[],
     message: FieldValidationMessage,
-    matches: string | null = null,
+    matches: string | null | RegExp = null,
     required: boolean = true
 ) => {
     const stringRule = check(field, message);
@@ -39,8 +39,8 @@ export const genericFloatRule = (
 };
 
 export const genericBooleanRule = (
-    field   : string | string[],
-    message : FieldValidationMessage,
+    field: string | string[],
+    message: FieldValidationMessage,
     required = true
 ) => {
     const booleanRule = check(field, message);
@@ -83,6 +83,7 @@ export const genericQueryParamRule = (
     field: string | string[],
     message: FieldIdValidationMessage,
     required: boolean = true,
+    matches: string = ""
 ) => {
     const stringRule = check(field, message);
     (required) ? stringRule.exists() : stringRule.optional();
@@ -105,4 +106,31 @@ export const genericRolesRule = (
     rolesRule.isIn(roles);
 
     return rolesRule;
+};
+
+export const genericGuidRule = (
+    field: string | string[],
+    message: FieldIdValidationMessage,
+    required: boolean = true
+) => {
+    const guidRule = check(field, message);
+    (required) ? guidRule.exists() : guidRule.optional();
+
+    guidRule.notEmpty().isString();
+    
+    guidRule.matches(/^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$/);
+    return guidRule;
+};
+
+export const genericPaginationRule = (
+    field: string | string[],
+    message: FieldIdValidationMessage,
+    required: boolean = true
+) => {
+    const numberRule = check(field, message);
+    (required) ? numberRule.exists() : numberRule.optional();
+
+    numberRule.notEmpty().isString().matches(/^\d+$/);
+
+    return numberRule;
 };
