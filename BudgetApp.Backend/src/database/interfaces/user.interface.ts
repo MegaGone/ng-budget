@@ -1,4 +1,5 @@
 import { Document } from "mongoose";
+import { ROLE_ENUM } from "src/enums";
 
 export interface IUserModel extends Document {
     email       : string;
@@ -7,7 +8,7 @@ export interface IUserModel extends Document {
     displayName : string;
     password    : string;
     avatar?     : string;
-    role        : string[];
+    role        : ROLE_ENUM;
     enabled     : boolean;
     google      : boolean;
     uid         ?: string;
