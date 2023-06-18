@@ -36,17 +36,22 @@ export const getTemplate = async (_req: Request, _res: Response, next: NextFunct
 
 export const getTemplates = async (_req: Request, _res: Response, next: NextFunction) => {
     try {
-        const { pageSize, page } = _req.params;
+        const { pageSize, page } = _req.query;
+
+        const take = parseInt(page as string);
+        const skip = parseInt(pageSize as string);
 
         const emailService: BaseService<IEmailModel> = _req.app.locals.mailService;
-        const { data, totalItems } = await emailService.getRecords({}, parseInt(page), parseInt(pageSize), []);
+        const { data, totalItems, currentPage, pages } = await emailService.getRecords({}, take, skip, []);
 
         if (!data && !totalItems) throw new Error("Error to get templates");
 
         return _res.status(200).json({ 
             responseStatus: 200, 
             templates: data,
-            count: totalItems
+            count: totalItems,
+            currentPage: currentPage,
+            pages
         });
 
     } catch (error) {

@@ -45,31 +45,26 @@ export class BaseService<T extends Document> {
     };
 
     async getRecords(
-        where: FilterQuery<T>, 
-        page: number, 
-        size: number, 
+        where: FilterQuery<T>,
+        page: number,
+        size: number,
         select: string[] = []
     ): Promise<any> {
-        try {
-            const skip = (page - 1) * size;
-            const take = size;
+        const { data, count, totalPages, currentPage } = await this.repository.findWithPagination(
+            where,
+            "",
+            size,
+            page,
+            select
+        );
 
-            const { data, count } = await this.repository.findWithPagination(
-                where,
-                "",
-                take,
-                skip,
-                select
-            );
-
-            const pagination = {
-                data: data,
-                totalItems: count
-            };
-
-            return pagination;
-        } catch (error: any) {
-            throw new Error(error);
+        const pagination = {
+            data: data,
+            totalItems: count,
+            currentPage: currentPage,
+            pages: totalPages
         };
-    }
+
+        return pagination;
+    };
 };

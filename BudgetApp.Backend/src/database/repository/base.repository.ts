@@ -31,14 +31,14 @@ export class BaseRepository<T extends Document> {
     async findWithPagination(
         where: FilterQuery<T>,
         order: string,
-        take = 10,
-        skip = 0,
+        take: number = 10,
+        skip: number = 0,
         select: string[] = []
     ) {
         const query: Query<T[], T> = this.model.find(where).select(select);
         query.sort(order);
-        query.limit(take);
-        query.skip(skip);
+        query.limit(take * 1);
+        query.skip((skip - 1) * take);
 
         const [result, total] = await Promise.all([
             query.exec(),
@@ -47,7 +47,9 @@ export class BaseRepository<T extends Document> {
 
         return {
             data: result,
-            count: total
+            count: total,
+            totalPages: Math.ceil(total / take),
+            currentPage: skip
         };
     }
 
