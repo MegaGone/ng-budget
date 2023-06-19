@@ -2,10 +2,10 @@ import { Transporter, createTransport } from "nodemailer";
 import { SMTP_HOST, SMTP_PASSWORD, SMTP_PORT, SMTP_SSL, SMTP_USER } from "src/config";
 
 export class Mailer {
-    private readonly trasporter: Transporter;
+    private readonly transporter: Transporter;
 
     constructor() {
-        this.trasporter = createTransport({
+        this.transporter = createTransport({
             host: SMTP_HOST,
             port: parseInt(SMTP_PORT),
             secure: SMTP_SSL === "true",
@@ -18,10 +18,32 @@ export class Mailer {
 
     async status(): Promise<boolean> {
         try {
-            await this.trasporter.verify();
+            await this.transporter.verify();
             return true;
         } catch (error) {
             console.log("[SMTP][ERROR]", error);
+            return false;
+        };
+    };
+
+    async sendMail(
+        sender: string,
+        subject: string,
+        to: string,
+        template: string
+    ): Promise<boolean> {
+        try {
+            const sended = await this.transporter.sendMail({
+                from: sender,
+                to,
+                subject,
+                html: template
+            });
+
+            console.log('-------------------------------->', sended);
+
+            return true;
+        } catch (error) {
             return false;
         };
     };
