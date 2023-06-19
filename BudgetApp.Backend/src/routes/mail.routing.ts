@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { createTemplate, deleteTemplate, getTemplate, getTemplates, updateTemplate } from "src/controllers";
-import { validateFields, validateJWT, validateRoles } from "src/middlewares";
+import { protectAdminRoute, validateFields } from "src/middlewares";
 import { createTemplateValidationRules, genericTemplateIdValidationRules, getTemplatesValidationRules, updateTemplateValidationRules } from "src/validators";
 
 export const mailRouter = Router();
@@ -8,8 +8,7 @@ export const mailRouter = Router();
 mailRouter.post(
     "/template/create",
     createTemplateValidationRules(),
-    validateJWT,
-    validateRoles(["ADMIN_ROLE"]),
+    protectAdminRoute(),
     validateFields,
     createTemplate
 );
@@ -17,6 +16,7 @@ mailRouter.post(
 mailRouter.get(
     "/template/:id",
     genericTemplateIdValidationRules(),
+    protectAdminRoute(),
     validateFields,
     getTemplate
 );
@@ -24,6 +24,7 @@ mailRouter.get(
 mailRouter.get(
     "/template",
     getTemplatesValidationRules(),
+    protectAdminRoute(),
     validateFields,
     getTemplates
 );
@@ -31,6 +32,7 @@ mailRouter.get(
 mailRouter.put(
     "/template/update",
     updateTemplateValidationRules(),
+    protectAdminRoute(),
     validateFields,
     updateTemplate  
 );
@@ -38,6 +40,7 @@ mailRouter.put(
 mailRouter.delete(
     "/template/:id",
     genericTemplateIdValidationRules(),
+    protectAdminRoute(),
     validateFields,
     deleteTemplate
 );
