@@ -40,8 +40,6 @@ export class Mailer {
                 html: template
             });
 
-            console.log('-------------------------------->', sended);
-
             return true;
         } catch (error) {
             return false;

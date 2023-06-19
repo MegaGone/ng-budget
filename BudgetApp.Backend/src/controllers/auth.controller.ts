@@ -60,7 +60,7 @@ export const forgotPassword = async (_req: Request, _res: Response, next: NextFu
         const { email } = _req.body;      
 
         const emailService: BaseService<IEmailModel> = _req.app.locals.mailService;
-        const mailerService: Mailer = _req.app.locals.mailerService;
+        const mailerService: Mailer = _req.app.locals.mailer;
         
         const template = await emailService.getRecord({ identificator: FORGOT_PASSWORD_TEMPLATE_ID });
 
@@ -70,7 +70,7 @@ export const forgotPassword = async (_req: Request, _res: Response, next: NextFu
             template.from,
             template.subject,
             email,
-            ""
+            template.template
         );   
 
         if (!sended) throw new Error("Error to send email");

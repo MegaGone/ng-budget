@@ -28,6 +28,7 @@ export class Server {
         this.mailer = new Mailer();
 
         this.dbConnection();
+        this.initMailer();
         this.middlewares();
         this.routes();
         this.locals();
@@ -60,7 +61,6 @@ export class Server {
         try {
             await this.datasource.connect();
             const status = this.datasource.status();
-            // const mailer = await this.mailer.status();
 
             if (status !== 1) throw new Error("[ERROR][DATABASE][INIT]");
 
@@ -70,12 +70,25 @@ export class Server {
         };
     };
 
+    private async initMailer() {
+        try {
+            const mailer = await this.mailer.status();
+
+            if (!mailer) throw new Error("[ERROR][NODMAILER][INIT]");
+
+            this.app.locals.mailer = this.mailer; // TODO VALIDATE WHY IN LOCALS NOT WOWRKS.
+        } catch (error) {
+            console.error(error);
+        };
+    };
+
     /**
      * INITIALIZE LOCALS
      */
     private locals() {
         this.app.locals.logger = this.logger;
         this.app.locals = new Local();
+        // this.app.locals.mailer = this.mailer;
     }
 
     /**
