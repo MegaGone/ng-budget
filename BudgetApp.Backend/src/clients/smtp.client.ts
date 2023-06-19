@@ -8,7 +8,7 @@ export class Mailer {
         this.transporter = createTransport({
             host: SMTP_HOST,
             port: parseInt(SMTP_PORT),
-            secure: SMTP_SSL === "true",
+            secure: (SMTP_SSL === "true") ? true : false,
             auth: {
                 user: SMTP_USER,
                 pass: SMTP_PASSWORD

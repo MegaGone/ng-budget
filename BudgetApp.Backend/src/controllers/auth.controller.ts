@@ -1,11 +1,13 @@
 import { Request, Response, NextFunction } from "express";
 import { hashSync, genSaltSync, compareSync } from "bcrypt";
 
-import { IUserModel, UserModel } from "src/database";
+import { IEmailModel, IUserModel, UserModel } from "src/database";
 import { BaseService } from "src/services";
 import { IUser } from "src/interfaces";
 import { ResponseStatus } from "src/models";
 import { generateJWT } from "src/helpers";
+import { FORGOT_PASSWORD_TEMPLATE_ID } from "src/config";
+import { Mailer } from "src/clients";
 
 export const registerUser = async (_req: Request, _res: Response, next: NextFunction) => {
     try {
@@ -48,6 +50,32 @@ export const loginWithCredentials = async (_req: Request, _res: Response, next: 
         if (!token) throw new Error("Error to validate credentials.");
 
         return _res.status(200).json({ statusCode: 200, token, user });
+    } catch (error) {
+        next(error);
+    };
+};
+
+export const forgotPassword = async (_req: Request, _res: Response, next: NextFunction) => {
+    try {
+        const { email } = _req.body;      
+
+        const emailService: BaseService<IEmailModel> = _req.app.locals.mailService;
+        const mailerService: Mailer = _req.app.locals.mailerService;
+        
+        const template = await emailService.getRecord({ identificator: FORGOT_PASSWORD_TEMPLATE_ID });
+
+        if (!template) throw new ResponseStatus(404, "Template not found");
+
+        const sended = await mailerService.sendMail(
+            template.from,
+            template.subject,
+            email,
+            ""
+        );   
+
+        if (!sended) throw new Error("Error to send email");
+
+        return _res.status(200).json({ statusCode: 200, sended });
     } catch (error) {
         next(error);
     };

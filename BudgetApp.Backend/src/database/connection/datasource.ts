@@ -16,4 +16,8 @@ export class Datasource {
     public status() {
         return this.connection.readyState;
     };
+
+    public disconnect(): void {
+        this.connection.close(true);
+    };
 };

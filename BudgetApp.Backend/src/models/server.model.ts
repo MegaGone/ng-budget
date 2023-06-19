@@ -92,6 +92,7 @@ export class Server {
      */
     private onFinish() {
         process.on('SIGINT', async () => {
+            await this.datasource.disconnect();
             process.exit();
         })
     }
