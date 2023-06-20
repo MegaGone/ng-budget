@@ -5,4 +5,5 @@ export interface ITemplateModel extends Document {
     from: string;
     subject: string;
     template: string;
+    fields: string[];
 };

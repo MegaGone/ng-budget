@@ -3,4 +3,5 @@ export interface ITemplate {
     from: string;
     subject: string;
     template: string;
+    fields: string[];
 };

@@ -117,7 +117,7 @@ export const genericGuidRule = (
     (required) ? guidRule.exists() : guidRule.optional();
 
     guidRule.notEmpty().isString();
-    
+
     guidRule.matches(/^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$/);
     return guidRule;
 };
@@ -133,4 +133,29 @@ export const genericPaginationRule = (
     numberRule.notEmpty().isString().matches(/^\d+$/);
 
     return numberRule;
+};
+
+export const genericStringArrayRule = (
+    field: string,
+    message: FieldValidationMessage,
+    matches: string | null | RegExp = null,
+    required: boolean = true
+) => {
+    const arrayRule = check(field).isArray().withMessage(message);
+
+    if (required) arrayRule.exists({ checkNull: true, checkFalsy: true }).withMessage(message);
+
+    arrayRule.custom((value: any) => {
+        if (!Array.isArray(value)) return false;
+
+        for (const element of value) {
+            if (typeof element !== 'string') return false;
+
+            if (matches && !element.match(matches)) return false;
+        };
+
+        return true;
+    });
+
+    return arrayRule;
 };

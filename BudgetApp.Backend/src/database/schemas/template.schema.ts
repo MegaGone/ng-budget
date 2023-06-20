@@ -21,6 +21,10 @@ const TemplateSchema: Schema = new Schema({
     template: {
         type: String,
         required: [true, "Subject required"]
+    },
+    fields: {
+        type: [String],
+        required: [true, "Fields required"]
     }
 });
 

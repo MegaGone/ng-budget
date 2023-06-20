@@ -1,5 +1,5 @@
 import { PARAM_LOCATION } from "src/enums";
-import { genericStringRule, genericGuidRule, genericPaginationRule } from "src/helpers";
+import { genericStringRule, genericGuidRule, genericPaginationRule, genericStringArrayRule } from "src/helpers";
 
 export const createTemplateValidationRules = (additionalRules: any = null) => {
     const newRules = additionalRules || [];
@@ -19,6 +19,13 @@ export const createTemplateValidationRules = (additionalRules: any = null) => {
                 warnings: "This field doesn't exist, is not a string or is empty."
             },
             /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        ),
+        genericStringArrayRule(
+            "fields",
+            {
+                requiredType: "string array",
+                warnings: "This field doesn't exist, is not a string array or is empty."
+            }
         ),
         ...newRules
     ];
