@@ -24,6 +24,14 @@ const TemplateSchema: Schema = new Schema({
     }
 });
 
+TemplateSchema.pre("save", function(next) {
+    if (this.from && !this.from.includes("<megagone.dev@gmail.com>")) {
+        this.from += " <megagone.dev@gmail.com>";
+    };
+    
+    next();
+});
+
 TemplateSchema.methods.toJSON = function() {
     const { __v, _id, ...template } = this.toObject();
     return template;
