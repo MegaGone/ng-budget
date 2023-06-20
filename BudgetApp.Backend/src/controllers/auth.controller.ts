@@ -5,7 +5,7 @@ import { ITemplateModel, IUserModel, UserModel } from "src/database";
 import { BaseService } from "src/services";
 import { IUser } from "src/interfaces";
 import { ResponseStatus } from "src/models";
-import { generateJWT } from "src/helpers";
+import { convertTemplate, generateJWT } from "src/helpers";
 import { FORGOT_PASSWORD_TEMPLATE_ID } from "src/config";
 import { Mailer } from "src/clients";
 
@@ -57,21 +57,29 @@ export const loginWithCredentials = async (_req: Request, _res: Response, next: 
 
 export const forgotPassword = async (_req: Request, _res: Response, next: NextFunction) => {
     try {
-        const { email } = _req.body;      
+        const { email } = _req.body;
 
         const emailService: BaseService<ITemplateModel> = _req.app.locals.mailService;
         const mailerService: Mailer = _req.app.locals.mailer;
-        
+
         const template = await emailService.getRecord({ identificator: FORGOT_PASSWORD_TEMPLATE_ID });
 
         if (!template) throw new ResponseStatus(404, "Template not found");
+
+        const fields = {
+            NAME: 'Jimmy',
+            URL: 'https://google.com',
+            TIME: '1 hora',
+        };
+
+        const fullTemplate = convertTemplate(template.template, fields);
 
         const sended = await mailerService.sendMail(
             template.from,
             template.subject,
             email,
-            template.template
-        );   
+            fullTemplate
+        );
 
         if (!sended) throw new Error("Error to send email");
 
