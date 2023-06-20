@@ -1,1 +1,1 @@
-export * from './mail.interface';
+export * from './template.interface';

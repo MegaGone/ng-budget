@@ -1,2 +1,2 @@
-export * from './mail.interface';
+export * from './template.interface';
 export * from './user.interface';
