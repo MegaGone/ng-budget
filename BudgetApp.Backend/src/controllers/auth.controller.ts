@@ -60,19 +60,24 @@ export const forgotPassword = async (_req: Request, _res: Response, next: NextFu
         const { email } = _req.body;
 
         const emailService: BaseService<ITemplateModel> = _req.app.locals.mailService;
+        const userService: BaseService<IUserModel> = _req.app.locals.userService;
         const mailerService: Mailer = _req.app.locals.mailer;
 
         const template = await emailService.getRecord({ identificator: FORGOT_PASSWORD_TEMPLATE_ID });
-
         if (!template) throw new ResponseStatus(404, "Template not found");
 
+        const user = await userService.getRecord({ email }, ["displayName", "enabled"]);
+        if (!user) throw new ResponseStatus(404, "User not found");
+        if (!user.enabled) throw new ResponseStatus(403, "User blocked, talk with the administrator");
+
         const fields = {
-            NAME: 'Jimmy',
+            NAME: user.displayName,
             URL: 'https://google.com',
             TIME: '1 hora',
         };
 
-        const fullTemplate = convertTemplate(template.template, fields);
+        const fullTemplate = await convertTemplate(template.template, fields, template.fields);
+        if (!fullTemplate) throw new ResponseStatus(400, "Error to reset password.");
 
         const sended = await mailerService.sendMail(
             template.from,
