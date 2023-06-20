@@ -33,7 +33,7 @@ export class Mailer {
         template: string
     ): Promise<boolean> {
         try {
-            const sended = await this.transporter.sendMail({
+            await this.transporter.sendMail({
                 from: sender,
                 to,
                 subject,

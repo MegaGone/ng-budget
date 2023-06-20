@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { hashSync, genSaltSync, compareSync } from "bcrypt";
 
-import { IEmailModel, IUserModel, UserModel } from "src/database";
+import { ITemplateModel, IUserModel, UserModel } from "src/database";
 import { BaseService } from "src/services";
 import { IUser } from "src/interfaces";
 import { ResponseStatus } from "src/models";
@@ -59,7 +59,7 @@ export const forgotPassword = async (_req: Request, _res: Response, next: NextFu
     try {
         const { email } = _req.body;      
 
-        const emailService: BaseService<IEmailModel> = _req.app.locals.mailService;
+        const emailService: BaseService<ITemplateModel> = _req.app.locals.mailService;
         const mailerService: Mailer = _req.app.locals.mailer;
         
         const template = await emailService.getRecord({ identificator: FORGOT_PASSWORD_TEMPLATE_ID });

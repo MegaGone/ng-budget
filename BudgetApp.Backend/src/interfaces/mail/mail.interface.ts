@@ -1,4 +1,4 @@
-export interface IEmail {
+export interface ITemplate {
     identificator: string;
     from: string;
     subject: string;

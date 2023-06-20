@@ -1,8 +1,8 @@
 import { Schema, model } from "mongoose";
-import { IEmailModel } from "src/database";
+import { ITemplateModel } from "src/database";
 import { generateGUID } from "src/helpers";
 
-const EmailSchema: Schema = new Schema({
+const TemplateSchema: Schema = new Schema({
     identificator: {
         type: String,
         unique: true,
@@ -24,9 +24,9 @@ const EmailSchema: Schema = new Schema({
     }
 });
 
-EmailSchema.methods.toJSON = function() {
+TemplateSchema.methods.toJSON = function() {
     const { __v, _id, ...template } = this.toObject();
     return template;
 };
 
-export const EmailModel = model<IEmailModel>("Email", EmailSchema);
+export const TemplateModel = model<ITemplateModel>("Template", TemplateSchema);

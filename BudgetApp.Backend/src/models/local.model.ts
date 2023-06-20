@@ -1,12 +1,12 @@
 import { BaseService } from "src/services";
-import { EmailModel, IEmailModel, IUserModel, UserModel } from "src/database";
+import { TemplateModel, ITemplateModel, IUserModel, UserModel } from "src/database";
 
 export class Local {
     public userService: BaseService<IUserModel>;
-    public mailService: BaseService<IEmailModel>;
+    public mailService: BaseService<ITemplateModel>;
 
     constructor() {
         this.userService = new BaseService<IUserModel>(UserModel);
-        this.mailService = new BaseService<IEmailModel>(EmailModel);
+        this.mailService = new BaseService<ITemplateModel>(TemplateModel);
     };
 };

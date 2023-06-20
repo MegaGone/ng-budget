@@ -1,20 +1,21 @@
 import { Request, Response, NextFunction } from "express";
 
-import { IEmailModel, EmailModel } from "src/database";
-import { IEmail } from "src/interfaces";
+import { ITemplateModel, TemplateModel } from "src/database";
+import { ITemplate } from "src/interfaces";
 import { ResponseStatus } from "src/models";
 import { BaseService } from "src/services";
+import { SMTP_USER } from "src/config";
 
 export const createTemplate = async (_req: Request, _res: Response, next: NextFunction) => {
     try {
         const { subject, from, template } = _req.body;
 
-        const emailService: BaseService<IEmailModel> = _req.app.locals.mailService;
+        const emailService: BaseService<ITemplateModel> = _req.app.locals.mailService;
 
         const wasSubjectDuplicated = await emailService.getRecord({ subject });
         if (wasSubjectDuplicated) throw new ResponseStatus(400, "Subject duplicated in another template");
 
-        const id = await emailService.insertRecord({ subject, from, template });
+        const id = await emailService.insertRecord({ subject, from: `${from} <${SMTP_USER}>`, template });
         if (!id) throw new Error("Error to create template");
 
         return _res.status(200).json({ statusCode: 200, id });
@@ -27,7 +28,7 @@ export const getTemplate = async (_req: Request, _res: Response, next: NextFunct
     try {
         const { id } = _req.params;
 
-        const emailService: BaseService<IEmailModel> = _req.app.locals.mailService;
+        const emailService: BaseService<ITemplateModel> = _req.app.locals.mailService;
         const template = await emailService.getRecord({ identificator: id });
 
         if (!template) throw new ResponseStatus(404, "Template not found");
@@ -45,7 +46,7 @@ export const getTemplates = async (_req: Request, _res: Response, next: NextFunc
         const take = parseInt(page as string);
         const skip = parseInt(pageSize as string);
 
-        const emailService: BaseService<IEmailModel> = _req.app.locals.mailService;
+        const emailService: BaseService<ITemplateModel> = _req.app.locals.mailService;
         const { data, totalItems, currentPage, pages } = await emailService.getRecords({}, take, skip, []);
 
         if (!data && !totalItems) throw new Error("Error to get templates");
@@ -65,9 +66,9 @@ export const getTemplates = async (_req: Request, _res: Response, next: NextFunc
 
 export const updateTemplate = async (_req: Request, _res: Response, next: NextFunction) => {
     try {
-        const request = <IEmail>_req.body;
+        const request = <ITemplate>_req.body;
 
-        const emailService: BaseService<IEmailModel> = _req.app.locals.mailService;
+        const emailService: BaseService<ITemplateModel> = _req.app.locals.mailService;
         const template = await emailService.getRecord({ identificator: request.identificator });
 
         if (!template) throw new ResponseStatus(404, "Template not found");
@@ -90,7 +91,7 @@ export const deleteTemplate = async (_req: Request, _res: Response, next: NextFu
     try {
         const { id } = _req.params;
 
-        const emailService: BaseService<IEmailModel> = _req.app.locals.mailService;
+        const emailService: BaseService<ITemplateModel> = _req.app.locals.mailService;
         const exitsTemplate = await emailService.getRecord({ identificator: id });
 
         if (!exitsTemplate) throw new ResponseStatus(404, "Template not found");
