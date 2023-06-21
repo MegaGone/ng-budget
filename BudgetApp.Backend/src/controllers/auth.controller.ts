@@ -39,7 +39,7 @@ export const registerUser = async (_req: Request, _res: Response, next: NextFunc
 
         const fields = {
             NAME: user.displayName,
-            URL: `${BASE_URL}auth/restore-password?${otp}`
+            URL: `${BASE_URL}auth/activate-user?${otp}`
         };
 
         // GET TEMPLATE TO SEND
@@ -121,6 +121,27 @@ export const forgotPassword = async (_req: Request, _res: Response, next: NextFu
         if (!sended) throw new Error("Error to send email");
 
         return _res.status(200).json({ statusCode: 200, sended });
+    } catch (error) {
+        next(error);
+    };
+};
+
+export const verifyOTP = async (_req: Request, _res: Response, next: NextFunction) => {
+    try {
+
+        const { code } = _req.params;
+
+        const otpService: BaseService<IOtpModel> = _req.app.locals.otpService;
+        const otp = await otpService.getRecord({ code });
+
+        if (!otp) throw new Error("OTP not found");
+
+        const expireAt = new Date(otp.expiresAt);
+        const now = new Date();
+
+        if (now > expireAt) throw new Error("OTP has expired");
+
+        return _res.status(200).json({ statusCode: 200 })
     } catch (error) {
         next(error);
     };
