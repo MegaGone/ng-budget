@@ -9,6 +9,8 @@ const SMTP_SSL = process.env.SMTP_SSL || true;
 const FORGOT_PASSWORD_TEMPLATE_ID = process.env.FORGOT_PASSWORD_TEMPLATE_ID || "";
 const ACTIVATE_USER_TEMPLATE_ID = process.env.ACTIVATE_USER_TEMPLATE_ID || "";
 
+const BASE_URL = process.env.BASE_URL || "http://localhost:4200/";
+
 export { 
     SMTP_HOST, 
     SMTP_PORT, 
@@ -16,5 +18,6 @@ export {
     SMTP_PASSWORD,
     SMTP_SSL,
     FORGOT_PASSWORD_TEMPLATE_ID,
-    ACTIVATE_USER_TEMPLATE_ID
+    ACTIVATE_USER_TEMPLATE_ID,
+    BASE_URL
 };

@@ -13,6 +13,7 @@ export class BaseService<T extends Document> {
             const { _id } = await this.repository.insert(entity);
             return _id;
         } catch (error) {
+            console.log(error);
             return null;
         };
     };

@@ -4,11 +4,11 @@ import { TemplateModel, ITemplateModel, IUserModel, UserModel, IOtpModel, OtpMod
 export class Local {
     public userService: BaseService<IUserModel>;
     public mailService: BaseService<ITemplateModel>;
-    public optService: BaseService<IOtpModel>;
+    public otpService: BaseService<IOtpModel>;
 
     constructor() {
         this.userService = new BaseService<IUserModel>(UserModel);
         this.mailService = new BaseService<ITemplateModel>(TemplateModel);
-        this.optService = new BaseService<IOtpModel>(OtpModel);
+        this.otpService = new BaseService<IOtpModel>(OtpModel);
     };
 };

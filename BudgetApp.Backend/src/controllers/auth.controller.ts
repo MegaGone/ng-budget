@@ -1,29 +1,61 @@
 import { Request, Response, NextFunction } from "express";
 import { hashSync, genSaltSync, compareSync } from "bcrypt";
 
-import { ITemplateModel, IUserModel, UserModel } from "src/database";
+import { IOtpModel, ITemplateModel, IUserModel, UserModel } from "src/database";
 import { BaseService } from "src/services";
 import { IUser } from "src/interfaces";
 import { ResponseStatus } from "src/models";
-import { convertTemplate, generateJWT } from "src/helpers";
-import { FORGOT_PASSWORD_TEMPLATE_ID } from "src/config";
+import { convertTemplate, generateJWT, generateOTP } from "src/helpers";
+import { ACTIVATE_USER_TEMPLATE_ID, BASE_URL, FORGOT_PASSWORD_TEMPLATE_ID } from "src/config";
 import { Mailer } from "src/clients";
 
 export const registerUser = async (_req: Request, _res: Response, next: NextFunction) => {
     try {
-        const userService: BaseService<IUserModel> = _req.app.locals.userService;
         const user = <IUser>_req.body;
 
+        // SERVICES
+        const templateService: BaseService<ITemplateModel> = _req.app.locals.mailService;
+        const userService: BaseService<IUserModel> = _req.app.locals.userService;
+        const otpService: BaseService<IOtpModel> = _req.app.locals.otpService;
+        const mailerService: Mailer = _req.app.locals.mailer;
+
+        // EMAIL VALIDATION
         const emailExists = await userService.getRecord({ email: user.email });
         if (emailExists) throw new ResponseStatus(400, "Email already exists");
 
         const salt = genSaltSync();
-        user.enabled = true;
+        user.enabled = false;
         user.google = false;
         user.password = hashSync(user.password, salt);
 
-        const id = await userService.insertRecord(user);
+        // TEMPLATE
+        const template = await templateService.getRecord({ identificator: ACTIVATE_USER_TEMPLATE_ID });
+        if (!template) throw new ResponseStatus(404, "Template not found");
 
+        // OTP VALIDATION
+        const otp = generateOTP();
+        const otpDB = await otpService.insertRecord({ user: user.email, code: parseInt(otp) });
+        if (!otpDB) throw new ResponseStatus(400, "Error to generate otp");
+
+        const fields = {
+            NAME: user.displayName,
+            URL: `${BASE_URL}auth/restore-password?${otp}`
+        };
+
+        // GET TEMPLATE TO SEND
+        const fullTemplate = await convertTemplate(template.template, fields, template.fields);
+        if (!fullTemplate) throw new ResponseStatus(400, "Error to reset password.");
+
+        const sended = await mailerService.sendMail(
+            template.from,
+            template.subject,
+            user.email,
+            fullTemplate
+        );
+        if (!sended) throw new Error("Error to send email");
+
+        // FINALLY INSERT USER
+        const id = await userService.insertRecord(user);
         if (!id) throw new Error("Error to create user");
 
         return _res.status(200).json({ statusCode: 200, id });
@@ -59,11 +91,11 @@ export const forgotPassword = async (_req: Request, _res: Response, next: NextFu
     try {
         const { email } = _req.body;
 
-        const emailService: BaseService<ITemplateModel> = _req.app.locals.mailService;
+        const templateService: BaseService<ITemplateModel> = _req.app.locals.mailService;
         const userService: BaseService<IUserModel> = _req.app.locals.userService;
         const mailerService: Mailer = _req.app.locals.mailer;
 
-        const template = await emailService.getRecord({ identificator: FORGOT_PASSWORD_TEMPLATE_ID });
+        const template = await templateService.getRecord({ identificator: FORGOT_PASSWORD_TEMPLATE_ID });
         if (!template) throw new ResponseStatus(404, "Template not found");
 
         const user = await userService.getRecord({ email }, ["displayName", "enabled"]);

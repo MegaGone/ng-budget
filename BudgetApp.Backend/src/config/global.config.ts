@@ -7,7 +7,7 @@ const SECRETKEY = process.env.SECRETKEY || "";
 const TOKEN = process.env.TOKEN = "x-token";
 const SESSION_LIFETIME = process.env.SESSION_LIFETIME || "1h";
 
-const OTP_MS_LIFETIME = process.env.OTP_MS_LIFETIME || 3600000;
+const OTP_MS_LIFETIME = parseInt(process.env.OTP_MS_LIFETIME!, 10) || 3600000;
 
 export {
     PORT,
