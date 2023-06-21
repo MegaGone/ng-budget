@@ -6,3 +6,9 @@ export const generateGUID = (): string => {
 
     return `${s4()}${s4()}-${s4()}-${s4()}-${s4()}-${s4()}${s4()}${s4()}`;
 };
+
+export const generateOTP = (): string => {
+    const randomNumber = Math.floor(Math.random() * 9000000);
+    const otp = randomNumber.toString().padStart(7, "0");
+    return otp;
+};
