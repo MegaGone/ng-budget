@@ -4,7 +4,5 @@ import { ResponseStatus } from "src/models";
 export const ErrorHandler = (error: ResponseStatus, req: Request, res: Response, next: NextFunction) => {
     const { statusCode = 500, message } = error;
     res.status(statusCode).send({ statusCode, message });
-
-    if (statusCode == 500) req.app.locals.logger.error(message);
     next();
 };
