@@ -93,18 +93,23 @@ export const forgotPassword = async (_req: Request, _res: Response, next: NextFu
 
         const templateService: BaseService<ITemplateModel> = _req.app.locals.mailService;
         const userService: BaseService<IUserModel> = _req.app.locals.userService;
+        const otpService: BaseService<IOtpModel> = _req.app.locals.otpService;
         const mailerService: Mailer = _req.app.locals.mailer;
 
         const template = await templateService.getRecord({ identificator: FORGOT_PASSWORD_TEMPLATE_ID });
         if (!template) throw new ResponseStatus(404, "Template not found");
 
-        const user = await userService.getRecord({ email }, ["displayName", "enabled"]);
+        const user = await userService.getRecord({ email }, ["displayName", "enabled", "email"]);
         if (!user) throw new ResponseStatus(404, "User not found");
         if (!user.enabled) throw new ResponseStatus(403, "User blocked, talk with the administrator");
 
+        const otp = generateOTP();
+        const otpDB = await otpService.insertRecord({ user: user.email, code: parseInt(otp) });
+        if (!otpDB) throw new ResponseStatus(400, "Error to generate otp");
+
         const fields = {
             NAME: user.displayName,
-            URL: `${BASE_URL}auth/restore-password?0123456`,
+            URL: `${BASE_URL}auth/restore-password?${otp}}`,
             TIME: '1 hora',
         };
 
