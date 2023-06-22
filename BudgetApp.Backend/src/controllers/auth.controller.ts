@@ -5,7 +5,7 @@ import { IOtpModel, ITemplateModel, IUserModel, UserModel } from "src/database";
 import { BaseService } from "src/services";
 import { IUser } from "src/interfaces";
 import { ResponseStatus } from "src/models";
-import { convertTemplate, generateJWT, generateOTP, validateOtp } from "src/helpers";
+import { convertTemplate, generateJWT, generateOTP, generateRandomPassword, validateOtp } from "src/helpers";
 import { ACTIVATE_USER_TEMPLATE_ID, BASE_URL, FORGOT_PASSWORD_TEMPLATE_ID } from "src/config";
 import { Mailer } from "src/clients";
 
@@ -23,10 +23,9 @@ export const registerUser = async (_req: Request, _res: Response, next: NextFunc
         const emailExists = await userService.getRecord({ email: user.email });
         if (emailExists) throw new ResponseStatus(400, "Email already exists");
 
-        // const salt = genSaltSync();
         user.enabled = false;
         user.google = false;
-        // user.password = hashSync(user.password, salt);
+        user.password = generateRandomPassword();
 
         // TEMPLATE
         const template = await templateService.getRecord({ identificator: ACTIVATE_USER_TEMPLATE_ID });
@@ -161,6 +160,9 @@ export const activateUser = async (_req: Request, _res: Response, next: NextFunc
 
         const otp = await otpService.getRecord({ code });
         if (!otp) throw new ResponseStatus(404, "OTP not found");
+        
+        const wasOtpDeleted = await otpService.deleteRecord({ _id: otp._id });
+        if (!wasOtpDeleted) throw new ResponseStatus(400, "Error to validate otp");
 
         const user = await userService.getRecord({ email: otp.user });
         if (!user) throw new ResponseStatus(404, "User not found");
