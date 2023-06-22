@@ -5,7 +5,7 @@ import { IOtpModel, ITemplateModel, IUserModel, UserModel } from "src/database";
 import { BaseService } from "src/services";
 import { IUser } from "src/interfaces";
 import { ResponseStatus } from "src/models";
-import { convertTemplate, generateJWT, generateOTP } from "src/helpers";
+import { convertTemplate, generateJWT, generateOTP, validateOtp } from "src/helpers";
 import { ACTIVATE_USER_TEMPLATE_ID, BASE_URL, FORGOT_PASSWORD_TEMPLATE_ID } from "src/config";
 import { Mailer } from "src/clients";
 
@@ -33,13 +33,13 @@ export const registerUser = async (_req: Request, _res: Response, next: NextFunc
         if (!template) throw new ResponseStatus(404, "Template not found");
 
         // OTP VALIDATION
-        const otp = generateOTP();
-        const otpDB = await otpService.insertRecord({ user: user.email, code: parseInt(otp) });
-        if (!otpDB) throw new ResponseStatus(400, "Error to generate otp");
+        const code = generateOTP();
+        const otp = await validateOtp(user.email, code, otpService);
+        if (!otp) throw new ResponseStatus(400, "Error to generate otp");
 
         const fields = {
             NAME: user.displayName,
-            URL: `${BASE_URL}auth/activate-user?${otp}`
+            URL: `${BASE_URL}auth/activate-user?${code}`
         };
 
         // GET TEMPLATE TO SEND
@@ -103,13 +103,13 @@ export const forgotPassword = async (_req: Request, _res: Response, next: NextFu
         if (!user) throw new ResponseStatus(404, "User not found");
         if (!user.enabled) throw new ResponseStatus(403, "User blocked, talk with the administrator");
 
-        const otp = generateOTP();
-        const otpDB = await otpService.insertRecord({ user: user.email, code: parseInt(otp) });
-        if (!otpDB) throw new ResponseStatus(400, "Error to generate otp");
+        const code = generateOTP();
+        const otp = await validateOtp(user.email, code, otpService);
+        if (!otp) throw new ResponseStatus(400, "Error to generate otp");
 
         const fields = {
             NAME: user.displayName,
-            URL: `${BASE_URL}auth/restore-password?${otp}}`,
+            URL: `${BASE_URL}auth/restore-password?${code}}`,
             TIME: '1 hora',
         };
 
