@@ -83,7 +83,7 @@ export const genericQueryParamRule = (
     field: string | string[],
     message: FieldIdValidationMessage,
     required: boolean = true,
-    matches: string = ""
+    matches: string | RegExp | null = null
 ) => {
     const stringRule = check(field, message);
     (required) ? stringRule.exists() : stringRule.optional();
@@ -91,6 +91,7 @@ export const genericQueryParamRule = (
     stringRule.notEmpty().isString();
     if (field === "email") stringRule.isEmail();
 
+    if (matches) stringRule.matches(matches);
     return stringRule;
 };
 

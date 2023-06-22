@@ -104,7 +104,7 @@ export const forgotPassword = async (_req: Request, _res: Response, next: NextFu
 
         const fields = {
             NAME: user.displayName,
-            URL: 'https://google.com',
+            URL: `${BASE_URL}auth/restore-password?0123456`,
             TIME: '1 hora',
         };
 

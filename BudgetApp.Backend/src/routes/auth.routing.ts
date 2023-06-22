@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { activateUser, forgotPassword, loginWithCredentials, registerUser, verifyOTP } from "src/controllers";
 import { validateFields } from "src/middlewares";
-import { registerUserValidationRules, loginWithCredentialsValidationRules } from "src/validators";
+import { registerUserValidationRules, loginWithCredentialsValidationRules, verifyOtpValidationRules, activateUserValidationRules, forgotPasswordValidationRules } from "src/validators";
 
 export const authRouter = Router();
 
@@ -133,16 +133,22 @@ authRouter.post(
 );
 
 authRouter.post(
-    "/auth/password",
+    "/auth/forgot-password",
+    forgotPasswordValidationRules(),
+    validateFields,
     forgotPassword
 );
 
 authRouter.get(
     "/auth/:code",
+    verifyOtpValidationRules(),
+    validateFields,
     verifyOTP
 );
 
 authRouter.post(
     "/auth/activate",
+    activateUserValidationRules(),
+    validateFields,
     activateUser
 );
