@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { forgotPassword, loginWithCredentials, registerUser, verifyOTP } from "src/controllers";
+import { activateUser, forgotPassword, loginWithCredentials, registerUser, verifyOTP } from "src/controllers";
 import { validateFields } from "src/middlewares";
 import { registerUserValidationRules, loginWithCredentialsValidationRules } from "src/validators";
 
@@ -140,4 +140,9 @@ authRouter.post(
 authRouter.get(
     "/auth/:code",
     verifyOTP
+);
+
+authRouter.post(
+    "/auth/activate",
+    activateUser
 );

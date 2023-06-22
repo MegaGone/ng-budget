@@ -23,10 +23,10 @@ export const registerUser = async (_req: Request, _res: Response, next: NextFunc
         const emailExists = await userService.getRecord({ email: user.email });
         if (emailExists) throw new ResponseStatus(400, "Email already exists");
 
-        const salt = genSaltSync();
+        // const salt = genSaltSync();
         user.enabled = false;
         user.google = false;
-        user.password = hashSync(user.password, salt);
+        // user.password = hashSync(user.password, salt);
 
         // TEMPLATE
         const template = await templateService.getRecord({ identificator: ACTIVATE_USER_TEMPLATE_ID });
@@ -134,14 +134,40 @@ export const verifyOTP = async (_req: Request, _res: Response, next: NextFunctio
         const otpService: BaseService<IOtpModel> = _req.app.locals.otpService;
         const otp = await otpService.getRecord({ code });
 
-        if (!otp) throw new Error("OTP not found");
+        if (!otp) throw new ResponseStatus(404, "OTP not found");
 
         const expireAt = new Date(otp.expiresAt);
         const now = new Date();
 
-        if (now > expireAt) throw new Error("OTP has expired");
+        if (now > expireAt) throw new ResponseStatus(400, "OTP has expired");
 
-        return _res.status(200).json({ statusCode: 200 })
+        return _res.sendStatus(200);
+    } catch (error) {
+        next(error);
+    };
+};
+
+export const activateUser = async (_req: Request, _res: Response, next: NextFunction) => {
+    try {
+        const { code, password } = _req.body;
+
+        const otpService: BaseService<IOtpModel> = _req.app.locals.otpService;
+        const userService: BaseService<IUserModel> = _req.app.locals.userService;
+
+        const otp = await otpService.getRecord({ code });
+        if (!otp) throw new ResponseStatus(404, "OTP not found");
+
+        const user = await userService.getRecord({ email: otp.user });
+        if (!user) throw new ResponseStatus(404, "User not found");
+
+        const salt = genSaltSync();
+        user.enabled = true;
+        user.password = hashSync(password, salt);
+
+        const wasActivated = await userService.updateRecord({ email: otp.user }, user);
+        if (!wasActivated) throw new Error("Error to activate user");
+
+        return _res.status(200).json({ statusCode: 200, message: "User activated" });
     } catch (error) {
         next(error);
     };
