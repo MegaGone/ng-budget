@@ -132,6 +132,45 @@ authRouter.post(
     loginWithCredentials
 );
 
+/**
+ * @swagger
+ * /api/auth/forgot-password:
+ *   post:
+ *     summary: Forgot password
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              required:
+ *                - email
+ *              properties:
+ *               email:
+ *                   type: string
+ *                   description: User email
+ *                   example: client@ngbudget.com
+ *     responses:
+ *       200:
+ *         description: Petición de recuperación de contraseña exitosa
+ *       400:
+ *         description: Error to generate otp
+ *       404:
+ *         description: User not found
+ *       422:
+ *         description: Fields Error
+ *         content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                errors:
+ *                  type: object
+ *                  example: {"errors":[{"field":"email","message":{"requiredType":"string","warnings":"The field does not exist, is not a string or must be greater than 0."}}]}
+ *       500:
+ *         description: Error to send email
+ */
 authRouter.post(
     "/auth/forgot-password",
     forgotPasswordValidationRules(),
@@ -139,6 +178,39 @@ authRouter.post(
     forgotPassword
 );
 
+/**
+ * @swagger
+ * /api/auth/{code}:
+ *   get:
+ *     summary: Validate otp
+ *     tags: [Auth]
+ *     parameters:
+ *       - in: path
+ *         name: code
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Otp code
+ *     responses:
+ *       200:
+ *         description: Otp valid
+ *       400:
+ *         description: Otp has expired
+ *       404:
+ *         description: Otp not found
+ *       422:
+ *         description: Fields Error
+ *         content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                errors:
+ *                  type: object
+ *                  example: {"errors":[{"field":"code","message":{"locaction":"param","warnings":"The field does not exist, is not a string or must be greater than 0."}}]}
+ *       500:
+ *         description: Error to verify otp
+ */
 authRouter.get(
     "/auth/:code",
     verifyOtpValidationRules(),
@@ -146,8 +218,57 @@ authRouter.get(
     verifyOTP
 );
 
+/**
+ * @swagger
+ * /api/auth/activate-user:
+ *   post:
+ *     summary: Activate user
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              required:
+ *                - code
+ *                - password
+ *              properties:
+ *               code:
+ *                   type: string
+ *                   description: Otp code
+ *                   example: 9865381
+ *               password:
+ *                   type: string
+ *                   description: User password
+ *                   example: 87G!8g3xrF3Hif@H!5&Xx$QkbT8
+ *     responses:
+ *       200:
+ *         description:  
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: User activated
+ *               statusCode: 200
+ *       400:
+ *          description: Error to validate otp
+ *       404:
+ *         description: Otp not found
+ *       422:
+ *         description: Fields Error
+ *         content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                errors:
+ *                  type: object
+ *                  example: {"errors":[{"field":"email","message":{"requiredType":"string","warnings":"The field does not exist, is not a string or must be greater than 0."}}]}
+ *       500:
+ *         description: Error to activate user
+ */
 authRouter.post(
-    "/auth/activate",
+    "/auth/activate-user",
     activateUserValidationRules(),
     validateFields,
     activateUser
