@@ -22,7 +22,6 @@ export const authRouter = Router();
  *                - name
  *                - lastName
  *                - displayName
- *                - password
  *              properties:
  *               email:
  *                   type: string
@@ -40,10 +39,6 @@ export const authRouter = Router();
  *                   type: string
  *                   description: User display name
  *                   example: Jhon Smith
- *               password:
- *                   type: string
- *                   description: User password
- *                   example: 87G!8g3xrF3Hif@H!5&Xx$QkbT8
  *     responses:
  *       200:
  *         description:  

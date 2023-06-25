@@ -1,5 +1,5 @@
 import { PORT } from "src/config"
-import { FieldsResponse, ResponseStatus } from './';
+import { FieldsResponse, ResponseStatus, FieldsError, TemplateSchema } from './';
 
 export const SwaggerOptions = {
     definition: {
@@ -17,7 +17,24 @@ export const SwaggerOptions = {
         components: {
             schemas: {
                 FieldsResponse,
-                ResponseStatus
+                ResponseStatus,
+                TemplateSchema
+            },
+            securitySchemes: {
+                'x-token': {
+                    type: "apiKey",
+                    in: "header",
+                    name: "x-token"
+                }
+            },
+            responses: {
+                UnauthorizedError: {
+                    description: "Token unexpected"
+                },
+                ForbiddenError: {
+                    description: "Unauthorized"
+                },
+                FieldsError
             }
         }
     },
