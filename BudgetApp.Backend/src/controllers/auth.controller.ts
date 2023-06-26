@@ -196,7 +196,7 @@ export const setup2fa = async (_req: Request, _res: Response, next: NextFunction
 
         const user = await userService.getRecord({ _id: uid });
         if (!user) throw new ResponseStatus(404, "User not found");
-        if (user.seed) throw new ResponseStatus(400, "2FA already configured.");
+        if (user.seed) throw new ResponseStatus(403, "2FA already configured.");
 
         const isValidOtp = await verify2FA(code, seed);
         if (!isValidOtp) return _res.sendStatus(400);

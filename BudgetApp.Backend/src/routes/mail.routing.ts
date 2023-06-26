@@ -270,7 +270,7 @@ mailRouter.put(
  *       403:
  *         $ref: '#/components/responses/ForbiddenError'
  *       404:
- *          description: Template not found
+ *         description: Template not found
  *       422:
  *         $ref: '#/components/responses/FieldsError'
  *       500:

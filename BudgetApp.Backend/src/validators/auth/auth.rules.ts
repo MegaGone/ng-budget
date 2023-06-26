@@ -1,4 +1,4 @@
-import { genericStringRule, genericRolesRule, genericQueryParamRule } from "src/helpers";
+import { genericStringRule, genericRolesRule, genericQueryParamRule, genericMongoIdRule } from "src/helpers";
 import { ROLES_SEED } from "src/constants";
 import { PARAM_LOCATION } from "src/enums";
 
@@ -7,7 +7,7 @@ export const registerUserValidationRules = (additionalRules: any = null) => {
 
     return [
         genericStringRule(
-            ["email","name","lastName","displayName"],
+            ["email", "name", "lastName", "displayName"],
             {
                 requiredType: "string",
                 warnings: "This field doesn't exist, is not a string or is empty."
@@ -102,6 +102,60 @@ export const forgotPasswordValidationRules = (additionalRules: any = null) => {
             },
             true,
             /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/
+        ),
+        ...newRules
+    ];
+};
+
+export const setup2faValidationRules = (additionalRules: any = null) => {
+    const newRules = additionalRules || [];
+
+    return [
+        genericMongoIdRule(
+            "uid",
+            {
+                location: PARAM_LOCATION.BODY,
+                warnings: "This field is not a string, is empty or is not a valid mongo ID."
+            }
+        ),
+        genericStringRule(
+            "seed",
+            {
+                requiredType: "string",
+                warnings: "This field is not a string, is empty or is not a valid seed"
+            },
+            /^[A-Z2-7]+=*$/
+        ),
+        genericStringRule(
+            "code",
+            {
+                requiredType: "string",
+                warnings: "This field is not a string, is empty or is not a valid code"
+            },
+            /^[0-9]{6}$/
+        ),
+        ...newRules
+    ];
+};
+
+export const verify2faValidationRules = (additionalRules: any = null) => {
+    const newRules = additionalRules || [];
+
+    return [
+        genericMongoIdRule(
+            "uid",
+            {
+                location: PARAM_LOCATION.BODY,
+                warnings: "This field is not a string, is empty or is not a valid mongo ID."
+            }
+        ),
+        genericStringRule(
+            "code",
+            {
+                requiredType: "string",
+                warnings: "This field is not a string, is empty or is not a valid code"
+            },
+            /^[0-9]{6}$/
         ),
         ...newRules
     ];

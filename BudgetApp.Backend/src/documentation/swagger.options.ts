@@ -1,5 +1,5 @@
 import { PORT } from "src/config"
-import { FieldsResponse, ResponseStatus, FieldsError, TemplateSchema } from './';
+import { FieldsResponse, ResponseStatus, FieldsError, TemplateSchema, UserSchema } from './';
 
 export const SwaggerOptions = {
     definition: {
@@ -18,7 +18,8 @@ export const SwaggerOptions = {
             schemas: {
                 FieldsResponse,
                 ResponseStatus,
-                TemplateSchema
+                TemplateSchema,
+                UserSchema
             },
             securitySchemes: {
                 'x-token': {

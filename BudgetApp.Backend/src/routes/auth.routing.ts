@@ -6,7 +6,9 @@ import {
     loginWithCredentialsValidationRules,
     verifyOtpValidationRules,
     activateUserValidationRules,
-    forgotPasswordValidationRules
+    forgotPasswordValidationRules,
+    setup2faValidationRules,
+    verify2faValidationRules
 } from "src/validators";
 
 export const authRouter = Router();
@@ -105,7 +107,7 @@ authRouter.post(
  *         content:
  *           application/json:
  *             example:
- *               token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+ *               uid: 6483e4fc8e5ec2f024931c52
  *               statusCode: 200
  *       401:
  *          description: Email or password incorrect
@@ -275,12 +277,111 @@ authRouter.post(
     activateUser
 );
 
+/**
+ * @swagger
+ * /api/auth/setup-2fa:
+ *   post:
+ *     summary: Set up two factor authentication
+ *     tags: [Auth]
+ *     security:
+ *      - x-token: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              required:
+ *                - code
+ *                - seed
+ *                - uid
+ *              properties:
+ *               code:
+ *                   type: string
+ *                   description: Otp code
+ *                   example: 986538
+ *               uid:
+ *                   type: string
+ *                   description: User ID
+ *                   example: 6498d52fd0bf7511f8ab0995
+ *               seed:
+ *                   type: string
+ *                   description: Seed in base32
+ *                   example: IFQUKYJMEZ5EEVZTGZJEON35F42QWERTYUIOXCV
+ *     responses:
+ *       200:
+ *         description:  
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Two-factor authentication was set up successfully
+ *               statusCode: 200
+ *       400:
+ *         description: OTP not valid
+ *       403:
+ *         description: 2FA already configured.
+ *       404:
+ *         description: User not found
+ *       422:
+ *         $ref: '#/components/responses/FieldsError'
+ *       500:
+ *         description: Error unexpected
+ */
 authRouter.post(
     "/auth/setup-2fa",
+    setup2faValidationRules(),
+    validateFields,
     setup2fa
 );
 
+/**
+ * @swagger
+ * /api/auth/verify-2fa:
+ *   post:
+ *     summary: Verify otp two factor authentication
+ *     tags: [Auth]
+ *     security:
+ *      - x-token: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              required:
+ *                - code
+ *                - uid
+ *              properties:
+ *               code:
+ *                   type: string
+ *                   description: Otp code
+ *                   example: 986538
+ *               uid:
+ *                   type: string
+ *                   description: User ID
+ *                   example: 6498d52fd0bf7511f8ab0995
+ *     responses:
+ *       200:
+ *         description:  
+ *         content:
+ *           application/json:
+ *             example:
+ *               token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2MzhjMGIyMzU5YWIxMjUxOGQ0YWEyZjYiLCJpYXQiOjE2NzIyODE2NzMsImV4cCI6MTY3MjI5NjA3M30.CUGDO4WL5FB35I4HVb2jhyUiuB1Nr79X9tALqh0u5PI
+ *               statusCode: 200
+ *       400:
+ *         description: OTP not valid
+ *       403:
+ *         description: 2FA already configured.
+ *       404:
+ *         description: User not found
+ *       422:
+ *         $ref: '#/components/responses/FieldsError'
+ *       500:
+ *         description: Error unexpected
+ */
 authRouter.post(
     "/auth/verify-2fa",
+    verify2faValidationRules(),
+    validateFields,
     verify2fa
 );
