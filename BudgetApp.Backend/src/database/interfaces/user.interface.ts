@@ -12,4 +12,5 @@ export interface IUserModel extends Document {
     enabled     : boolean;
     google      : boolean;
     uid         ?: string;
+    seed        ?: string;
 };

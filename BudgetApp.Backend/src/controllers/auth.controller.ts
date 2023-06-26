@@ -11,7 +11,7 @@ import { Mailer } from "src/clients";
 
 export const registerUser = async (_req: Request, _res: Response, next: NextFunction) => {
     try {
-        const user = <IUser>_req.body;
+        const { email, name, lastName, displayName, avatar, role } = _req.body;
 
         // SERVICES
         const templateService: BaseService<ITemplateModel> = _req.app.locals.mailService;
@@ -20,12 +20,18 @@ export const registerUser = async (_req: Request, _res: Response, next: NextFunc
         const mailerService: Mailer = _req.app.locals.mailer;
 
         // EMAIL VALIDATION
-        const emailExists = await userService.getRecord({ email: user.email });
+        const emailExists = await userService.getRecord({ email: email });
         if (emailExists) throw new ResponseStatus(400, "Email already exists");
 
-        user.enabled = false;
-        user.google = false;
-        user.password = generateRandomPassword();
+        const user: IUser = {
+            email,
+            name,
+            lastName,
+            displayName,
+            avatar,
+            role,
+            password: generateRandomPassword()
+        };
 
         // TEMPLATE
         const template = await templateService.getRecord({ identificator: ACTIVATE_USER_TEMPLATE_ID });
@@ -160,7 +166,7 @@ export const activateUser = async (_req: Request, _res: Response, next: NextFunc
 
         const otp = await otpService.getRecord({ code });
         if (!otp) throw new ResponseStatus(404, "OTP not found");
-        
+
         const wasOtpDeleted = await otpService.deleteRecord({ _id: otp._id });
         if (!wasOtpDeleted) throw new ResponseStatus(400, "Error to validate otp");
 

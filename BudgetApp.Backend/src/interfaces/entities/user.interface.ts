@@ -11,4 +11,5 @@ export interface IUser {
     enabled     ?: boolean;
     google      ?: boolean;
     uid         ?: string;
+    seed        ?: string;
 };

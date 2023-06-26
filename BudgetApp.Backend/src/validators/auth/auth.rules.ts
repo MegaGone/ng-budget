@@ -7,7 +7,7 @@ export const registerUserValidationRules = (additionalRules: any = null) => {
 
     return [
         genericStringRule(
-            ["email","name","lastName","displayName","password"],
+            ["email","name","lastName","displayName"],
             {
                 requiredType: "string",
                 warnings: "This field doesn't exist, is not a string or is empty."
