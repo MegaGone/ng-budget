@@ -1,7 +1,13 @@
 import { Router } from "express";
-import { activateUser, forgotPassword, loginWithCredentials, registerUser, verifyOTP } from "src/controllers";
+import { activateUser, forgotPassword, loginWithCredentials, registerUser, setup2fa, verify2fa, verifyOTP } from "src/controllers";
 import { validateFields } from "src/middlewares";
-import { registerUserValidationRules, loginWithCredentialsValidationRules, verifyOtpValidationRules, activateUserValidationRules, forgotPasswordValidationRules } from "src/validators";
+import {
+    registerUserValidationRules,
+    loginWithCredentialsValidationRules,
+    verifyOtpValidationRules,
+    activateUserValidationRules,
+    forgotPasswordValidationRules
+} from "src/validators";
 
 export const authRouter = Router();
 
@@ -267,4 +273,14 @@ authRouter.post(
     activateUserValidationRules(),
     validateFields,
     activateUser
+);
+
+authRouter.post(
+    "/auth/setup-2fa",
+    setup2fa
+);
+
+authRouter.post(
+    "/auth/verify-2fa",
+    verify2fa
 );

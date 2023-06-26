@@ -7,7 +7,7 @@ import { PORT } from "src/config";
 import { SwaggerOptions } from "src/documentation";
 import { LoggerClient, Mailer } from "src/clients";
 import { MorganMiddleware, ErrorHandler } from "src/middlewares";
-import { authRouter, mailRouter, userRouter } from "src/routes";
+import { authRouter, mailRouter } from "src/routes";
 import { Datasource } from "src/database";
 import { Local } from "./";
 
@@ -50,7 +50,7 @@ export class Server {
      */
     private routes(): void {
         this.app.use('/api/docs', Swagger.serve, Swagger.setup(this.specs));
-        this.app.use('/api/', [authRouter, userRouter, mailRouter]);
+        this.app.use('/api/', [authRouter, mailRouter]);
         this.app.use(ErrorHandler);
     };
 

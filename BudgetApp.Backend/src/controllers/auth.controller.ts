@@ -5,7 +5,7 @@ import { IOtpModel, ITemplateModel, IUserModel, UserModel } from "src/database";
 import { BaseService } from "src/services";
 import { IUser } from "src/interfaces";
 import { ResponseStatus } from "src/models";
-import { convertTemplate, generateJWT, generateOTP, generateRandomPassword, validateOtp } from "src/helpers";
+import { convertTemplate, generateJWT, generateOTP, generateRandomPassword, generateSeed2FA, validateOtp, verify2FA } from "src/helpers";
 import { ACTIVATE_USER_TEMPLATE_ID, BASE_URL, FORGOT_PASSWORD_TEMPLATE_ID } from "src/config";
 import { Mailer } from "src/clients";
 
@@ -83,10 +83,12 @@ export const loginWithCredentials = async (_req: Request, _res: Response, next: 
         const isValidPassword = compareSync(password, user.password);
         if (!isValidPassword) throw new ResponseStatus(401, "Email/Password incorrect.")
 
-        const token = await generateJWT(user.id!, user.role);
-        if (!token) throw new Error("Error to validate credentials.");
+        if (!user.seed) {
+            const { data, secret } = await generateSeed2FA(user.email);
+            return _res.status(200).json({ statusCode: 200, uid: user._id, data, secret });
+        };
 
-        return _res.status(200).json({ statusCode: 200, token, user });
+        return _res.status(200).json({ statusCode: 200, uid: user._id });
     } catch (error) {
         next(error);
     };
@@ -181,6 +183,49 @@ export const activateUser = async (_req: Request, _res: Response, next: NextFunc
         if (!wasActivated) throw new Error("Error to activate user");
 
         return _res.status(200).json({ statusCode: 200, message: "User activated" });
+    } catch (error) {
+        next(error);
+    };
+};
+
+export const setup2fa = async (_req: Request, _res: Response, next: NextFunction) => {
+    try {
+        const { uid, seed, code } = _req.body;
+
+        const userService: BaseService<IUserModel> = _req.app.locals.userService;
+
+        const user = await userService.getRecord({ _id: uid });
+        if (!user) throw new ResponseStatus(404, "User not found");
+
+        const isValidOtp = await verify2FA(code, seed);
+        if (!isValidOtp) return _res.sendStatus(400);
+
+        user.seed = seed;
+        const wasUpdated = await userService.updateRecord({ _id: uid }, user);
+        if (!wasUpdated) throw new Error("Error unexpected");
+
+        return _res.status(200).json({ statusCode: 200, message: "Two-factor authentication was set up successfully." });
+    } catch (error) {
+        next(error);
+    };
+};
+
+export const verify2fa = async (_req: Request, _res: Response, next: NextFunction) => {
+    try {
+        const { uid, code } = _req.body;
+
+        const userService: BaseService<IUserModel> = _req.app.locals.userService;
+
+        const user = await userService.getRecord({ _id: uid });
+        if (!user) throw new ResponseStatus(404, "User not found");
+
+        const isValidOtp = await verify2FA(code, user.seed!);
+        if (!isValidOtp) throw new ResponseStatus(400, "OTP not valid");        
+
+        const token = await generateJWT(uid, user.role);
+        if (!token) throw new Error("Error unexpected");
+
+        return _res.status(200).json({ statusCode: 200, token });
     } catch (error) {
         next(error);
     };
