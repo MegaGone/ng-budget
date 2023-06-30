@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { IUserModel } from "src/database";
+import { ROLE_ENUM } from "src/enums";
 import { ResponseStatus } from "src/models";
 import { BaseService } from "src/services";
 
@@ -24,6 +25,7 @@ export const updateUser = async (_req: Request, _res: Response, next: NextFuncti
         const { name, lastName, displayName, avatar, role } = _req.body;
 
         if (_req.uid == id) throw new ResponseStatus(403, "Forbidden");
+        if (role == ROLE_ENUM.ADMIN && _req.role != ROLE_ENUM.ADMIN) throw new ResponseStatus(403, "Forbidden");
 
         const userService: BaseService<IUserModel> = _req.app.locals.userService;
         const user = await userService.getRecord({ _id: id });
