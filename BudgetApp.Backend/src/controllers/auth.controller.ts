@@ -8,10 +8,13 @@ import { ResponseStatus } from "src/models";
 import { convertTemplate, generateJWT, generateOTP, generateRandomPassword, generateSeed2FA, validateOtp, verify2FA } from "src/helpers";
 import { ACTIVATE_USER_TEMPLATE_ID, BASE_URL, FORGOT_PASSWORD_TEMPLATE_ID } from "src/config";
 import { Mailer } from "src/clients";
+import { ROLE_ENUM } from "src/enums";
 
 export const registerUser = async (_req: Request, _res: Response, next: NextFunction) => {
     try {
         const { email, name, lastName, displayName, avatar, role } = _req.body;
+
+        if (role == ROLE_ENUM.ADMIN && _req.role != ROLE_ENUM.ADMIN) throw new ResponseStatus(403, "Forbidden");
 
         // SERVICES
         const templateService: BaseService<ITemplateModel> = _req.app.locals.mailService;
