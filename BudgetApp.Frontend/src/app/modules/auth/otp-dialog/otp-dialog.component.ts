@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-otp-dialog',
+  selector: 'otp-dialog',
   templateUrl: './otp-dialog.component.html',
   styleUrls: ['./otp-dialog.component.scss'],
   encapsulation: ViewEncapsulation.None
