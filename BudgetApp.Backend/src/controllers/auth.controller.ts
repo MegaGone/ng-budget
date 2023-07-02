@@ -84,7 +84,7 @@ export const loginWithCredentials = async (_req: Request, _res: Response, next: 
         if (!user.enabled) throw new ResponseStatus(403, "User blocked, talk with the administrator");
 
         const isValidPassword = compareSync(password, user.password);
-        if (!isValidPassword) throw new ResponseStatus(401, "Email/Password incorrect.")
+        if (!isValidPassword) throw new ResponseStatus(400, "Email/Password incorrect.")
 
         if (!user.seed) {
             const { data, secret } = await generateSeed2FA(user.email);
