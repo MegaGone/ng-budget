@@ -1,6 +1,6 @@
 import { OpenAPIV3 } from 'openapi-types';
 
-export const ResponseStatus: OpenAPIV3.SchemaObject = {
+export const ResponseStatusSchema: OpenAPIV3.SchemaObject = {
     type: "object",
     required: ["statusCode", "message"],
     properties: {

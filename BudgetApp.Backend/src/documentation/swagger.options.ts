@@ -1,11 +1,11 @@
 import { PORT } from "src/config"
 import { 
-    FieldsResponse, 
-    ResponseStatus, 
+    FieldsResponseSchema, 
+    ResponseStatusSchema, 
     FieldsError, 
     TemplateSchema, 
     UserSchema,
-    LanguagesSchema,
+    LanguageSchema,
     CurrencySchema
 } from './';
 
@@ -24,11 +24,11 @@ export const SwaggerOptions = {
         ],
         components: {
             schemas: {
-                FieldsResponse,
-                ResponseStatus,
+                FieldsResponseSchema,
+                ResponseStatusSchema,
                 TemplateSchema,
                 UserSchema,
-                LanguagesSchema,
+                LanguageSchema,
                 CurrencySchema
             },
             securitySchemes: {

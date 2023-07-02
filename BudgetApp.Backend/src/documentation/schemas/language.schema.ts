@@ -1,6 +1,6 @@
 import { OpenAPIV3 } from 'openapi-types';
 
-export const LanguagesSchema: OpenAPIV3.SchemaObject = {
+export const LanguageSchema: OpenAPIV3.SchemaObject = {
     type: 'object',
     required: ["responseStatus", "languages"],
     properties: {

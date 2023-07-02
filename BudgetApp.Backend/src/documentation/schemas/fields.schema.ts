@@ -1,6 +1,6 @@
 import { OpenAPIV3 } from 'openapi-types';
 
-export const FieldsResponse: OpenAPIV3.SchemaObject = {
+export const FieldsResponseSchema: OpenAPIV3.SchemaObject = {
   type: 'object',
   required: ['errors'],
   properties: {
