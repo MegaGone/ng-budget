@@ -1,11 +1,11 @@
 import express from "express";
-import { IUser } from "../../interfaces";
+import { ROLE_ENUM } from "src/enums";
 
 declare global {
-  namespace Express {
-    interface Request {
-      user  : IUser;
-      uid   : string;
-    }
-  }
-}
+    namespace Express {
+        interface Request {
+            uid: string;
+            role: ROLE_ENUM;
+        };
+    };
+};

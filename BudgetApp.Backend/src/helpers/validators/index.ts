@@ -1,1 +1,1 @@
-export * from './rules';
+export * from './generic.validators';

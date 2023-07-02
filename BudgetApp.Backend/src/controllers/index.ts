@@ -1,3 +1,4 @@
-export * from './auth';
-export * from './profile';
-export * from './users';
+export * from './auth.controller';
+export * from './profile.controller';
+export * from './template.controller';
+export * from './user.controller';

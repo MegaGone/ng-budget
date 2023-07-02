@@ -1,0 +1,1 @@
+export const ROLES_SEED: string[] = ["USER_ROLE", "ADMIN_ROLE"];

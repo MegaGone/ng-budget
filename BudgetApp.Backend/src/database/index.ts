@@ -1,1 +1,4 @@
-export * as dbConnection from './config';
+export * from './connection';
+export * from './interfaces';
+export * from './repository';
+export * from './schemas';
