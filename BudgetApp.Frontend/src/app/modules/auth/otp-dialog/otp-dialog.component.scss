@@ -1,0 +1,14 @@
+.mat-dialog-container {
+    background-color: white;
+    // padding: 25px;
+}
+
+.fuse-confirmation-dialog-panel {
+    @screen md {
+        @apply w-128;
+    }
+
+    .mat-dialog-container {
+        padding: 0 !important;
+    }
+}

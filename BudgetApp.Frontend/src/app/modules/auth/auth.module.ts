@@ -18,12 +18,15 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FuseCardModule } from '../../../@fuse/components/card/card.module';
 import { FuseAlertModule } from '../../../@fuse/components/alert/alert.module';
 import { SharedModule } from '../../shared/shared.module';
+import { FuseHighlightModule } from '@fuse/components/highlight';
+import { OtpDialogComponent } from './otp-dialog/otp-dialog.component';
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   declarations: [
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    OtpDialogComponent
   ],
   imports: [
     CommonModule,
@@ -39,7 +42,8 @@ import { SharedModule } from '../../shared/shared.module';
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    FuseHighlightModule
   ]
 })
 export class AuthModule { }

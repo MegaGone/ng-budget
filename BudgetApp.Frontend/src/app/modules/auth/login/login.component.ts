@@ -4,7 +4,8 @@ import { fuseAnimations } from '@fuse/animations';
 import { IAlert, ILoginResponse, IRemember } from 'app/interfaces';
 import { AuthService } from '../auth.service';
 import { FormGroupDirective } from '@angular/forms';
-import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { OtpDialogComponent } from '../otp-dialog/otp-dialog.component';
 
 @Component({
   selector: 'app-login',
@@ -24,7 +25,11 @@ export class LoginComponent implements OnInit {
   public uid: string;
 
   // TODO: CHANGE FACEBOOK LOGIN FOR GOOGLE
-  constructor(private _fb: FormBuilder, private _authSvc: AuthService, private router: Router) {
+  constructor(
+    private _fb: FormBuilder,
+    private _authSvc: AuthService,
+    private _matDialog: MatDialog
+  ) {
     this.passwordRegex = new RegExp("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$");
   };
 
@@ -39,8 +44,8 @@ export class LoginComponent implements OnInit {
     const creds = JSON.parse(localStorage.getItem("credentials"));
 
     this.loginForm = this._fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.pattern(this.passwordRegex)]],
+      email: ['jimmymartinez016@gmail.com', [Validators.required, Validators.email]],
+      password: ['Password!234', [Validators.required, Validators.pattern(this.passwordRegex)]],
       remember: [false]
     })
 
@@ -60,8 +65,14 @@ export class LoginComponent implements OnInit {
 
     this._authSvc.login(creds).subscribe(
       (res: ILoginResponse) => {
-        if (res.statusCode === 200)
+        if (res.statusCode === 200) {
           this.uid = res.uid;
+          this._matDialog.open(OtpDialogComponent, {
+            autoFocus   : false,
+            data        : this.uid,
+            panelClass  : 'fuse-confirmation-dialog-panel'
+          })
+        }
       },
       err => {
         this.formRef.resetForm();

@@ -1,0 +1,70 @@
+<div class="relative flex flex-col w-full h-full">
+    <!-- Dismiss button -->
+    <ng-container>
+        <div class="absolute top-0 right-0 pt-4 pr-4">
+            <button mat-icon-button>
+                <mat-icon
+                    class="text-secondary"
+                    [svgIcon]="'heroicons_outline:x'"
+                ></mat-icon>
+            </button>
+        </div>
+    </ng-container>
+
+    <!-- Content -->
+    <div
+        class="flex flex-col sm:flex-row flex-auto items-center sm:items-start p-8 pb-6 sm:pb-8"
+    >
+        <ng-container>
+            <div
+                class="flex flex-col items-center sm:items-start mt-4 sm:mt-0 sm:pr-8 space-y-1 text-center sm:text-left"
+            >
+                <!-- TITLE -->
+                <ng-container>
+                    <div class="text-xl leading-6 font-medium">
+                        <h1>Verificar 2FA</h1>
+                    </div>
+                </ng-container>
+
+                <!-- CODE -->
+                <ng-container>
+                    <div class="text-secondary">
+                        <form
+                            class="mt-8"
+                            [formGroup]="authForm"
+                            (ngSubmit)="login()"
+                        >
+                            <mat-form-field class="w-full">
+                                <mat-label>Código</mat-label>
+                                <input
+                                    id="code"
+                                    matInput
+                                    type="text"
+                                    formControlName="code"
+                                    #codeControl
+                                />
+                            </mat-form-field>
+                        </form>
+                    </div>
+                </ng-container>
+            </div>
+        </ng-container>
+    </div>
+
+    <!-- Actions -->
+    <ng-container>
+        <div
+            class="flex items-center justify-center sm:justify-end px-6 py-4 space-x-3 bg-gray-50 dark:bg-black dark:bg-opacity-10"
+        >
+            <!-- Cancel -->
+            <ng-container>
+                <button mat-stroked-button>Cancelar</button>
+            </ng-container>
+
+            <!-- Confirm -->
+            <ng-container>
+                <button mat-flat-button>Confirmar</button>
+            </ng-container>
+        </div>
+    </ng-container>
+</div>
