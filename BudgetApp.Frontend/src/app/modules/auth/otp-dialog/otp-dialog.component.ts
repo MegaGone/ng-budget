@@ -1,5 +1,5 @@
-import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, ElementRef, Inject, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AuthService } from '../auth.service';
 import { SnackbarService } from 'app/utils';
@@ -11,6 +11,13 @@ import { SnackbarService } from 'app/utils';
   encapsulation: ViewEncapsulation.None
 })
 export class OtpDialogComponent implements OnInit {
+
+  @ViewChild('input1') input1: ElementRef;
+  @ViewChild('input2') input2: ElementRef;
+  @ViewChild('input3') input3: ElementRef;
+  @ViewChild('input4') input4: ElementRef;
+  @ViewChild('input5') input5: ElementRef;
+  @ViewChild('input6') input6: ElementRef;
 
   public authForm: FormGroup;
 
@@ -56,5 +63,12 @@ export class OtpDialogComponent implements OnInit {
 
         return this._snackbarService.openSnackBar("Ops! An error ocurred to verify OTP code");
       });
+  };
+
+  onInput(nextInputRef: string): void {
+    const nextInput = this[nextInputRef];
+    if (nextInput && nextInput.nativeElement) {
+      nextInput.nativeElement.focus();
+    }
   };
 };

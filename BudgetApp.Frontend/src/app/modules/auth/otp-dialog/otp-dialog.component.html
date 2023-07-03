@@ -30,6 +30,8 @@
                             application</label
                         >
                         <input
+                            #input1
+                            (input)="onInput('input2')"
                             type="tel"
                             name="pincode-1"
                             maxlength="1"
@@ -40,6 +42,8 @@
                             formControlName="number1"
                         />
                         <input
+                            #input2
+                            (input)="onInput('input3')"
                             type="tel"
                             name="pincode-2"
                             maxlength="1"
@@ -50,6 +54,8 @@
                             formControlName="number2"
                         />
                         <input
+                            #input3
+                            (input)="onInput('input4')"
                             type="tel"
                             name="pincode-3"
                             maxlength="1"
@@ -60,6 +66,8 @@
                             formControlName="number3"
                         />
                         <input
+                            #input4
+                            (input)="onInput('input5')"
                             type="tel"
                             name="pincode-4"
                             maxlength="1"
@@ -70,6 +78,8 @@
                             formControlName="number4"
                         />
                         <input
+                            #input5
+                            (input)="onInput('input6')"
                             type="tel"
                             name="pincode-5"
                             maxlength="1"
@@ -80,6 +90,7 @@
                             formControlName="number5"
                         />
                         <input
+                            #input6
                             type="tel"
                             name="pincode-6"
                             maxlength="1"
@@ -107,7 +118,13 @@
 
             <!-- Confirm -->
             <ng-container>
-                <button mat-flat-button [disabled]="!authForm.valid" (click)="login()">Confirmar</button>
+                <button
+                    mat-flat-button
+                    [disabled]="!authForm.valid"
+                    (click)="login()"
+                >
+                    Confirmar
+                </button>
             </ng-container>
         </div>
     </ng-container>
