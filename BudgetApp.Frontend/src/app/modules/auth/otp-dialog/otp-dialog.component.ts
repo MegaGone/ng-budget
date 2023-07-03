@@ -65,10 +65,39 @@ export class OtpDialogComponent implements OnInit {
       });
   };
 
-  onInput(nextInputRef: string): void {
+  // onInput(nextInputRef: string, previousInputRef: string): void {
+  //   const nextInput = this[nextInputRef];
+  //   const previousInput = this[previousInputRef];
+  //   const currentValue = nextInput.nativeElement.value;
+
+  //   if (currentValue === '') {
+  //     if (previousInput && previousInput.nativeElement) {
+  //       previousInput.nativeElement.focus();
+  //     }
+  //   } else if (nextInput && nextInput.nativeElement) {
+  //     nextInput.nativeElement.focus();
+  //   }
+  // }
+
+  // onInput(nextInputRef: string, previousInputRef: string): void {
+  //   const nextInput = this[nextInputRef];
+  //   const previousInput = this[previousInputRef];
+
+  //   if (nextInput && nextInput.nativeElement) {
+  //     nextInput.nativeElement.focus();
+  //   } else if (previousInput && previousInput.nativeElement) {
+  //     previousInput.nativeElement.focus();
+  //   }
+  // };
+
+  onInput(nextInputRef: string, previousInputRef: string): void {
     const nextInput = this[nextInputRef];
+    const previousInput = this[previousInputRef];
+    const currentValue = nextInput.nativeElement.value;
+
     if (nextInput && nextInput.nativeElement) {
-      nextInput.nativeElement.focus();
-    }
+      if (nextInputRef === "input1") return;
+      return nextInput.nativeElement.focus();
+    };
   };
 };
