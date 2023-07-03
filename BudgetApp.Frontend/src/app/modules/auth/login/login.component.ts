@@ -6,6 +6,7 @@ import { AuthService } from '../auth.service';
 import { FormGroupDirective } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { OtpDialogComponent } from '../otp-dialog/otp-dialog.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -28,7 +29,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private _fb: FormBuilder,
     private _authSvc: AuthService,
-    private _matDialog: MatDialog
+    private _matDialog: MatDialog,
+    private router: Router
   ) {
     this.passwordRegex = new RegExp("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$");
   };
@@ -67,13 +69,20 @@ export class LoginComponent implements OnInit {
       (res: ILoginResponse) => {
         if (res.statusCode === 200) {
           this.uid = res.uid;
-          this._matDialog.open(OtpDialogComponent, {
+          const dialogRef = this._matDialog.open(OtpDialogComponent, {
             autoFocus: true,
             data: this.uid,
             panelClass: 'fuse-confirmation-dialog-panel',
             height: '350px',
             disableClose: true
-          })
+          });
+
+          dialogRef.afterClosed().subscribe(res => {
+            if (res) {
+              (remember) ? localStorage.setItem("credentials", JSON.stringify(credentials)) : localStorage.removeItem("credentials");
+              this.router.navigate(["/budget"]);
+            }
+          });
         }
       },
       err => {

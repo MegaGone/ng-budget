@@ -43,7 +43,10 @@ export class AuthService {
 
         }),
         map((res: IAuthResponse) => res.statusCode),
-        catchError(err => of(400))
+        catchError(err => {
+          console.log(err);
+          return of(400);
+        })
       )
   }
 

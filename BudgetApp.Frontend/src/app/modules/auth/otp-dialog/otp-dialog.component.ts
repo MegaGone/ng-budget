@@ -47,8 +47,7 @@ export class OtpDialogComponent implements OnInit {
     const otpCode = Object.values(this.authForm.value).join('');
     this._authService.verify2fa(otpCode, this.data).subscribe(
       res => {
-        console.log(res)
-        // this.matDialogRef.close(true);
+        this.matDialogRef.close(true);
       },
       err => {
         if (err?.error?.statusCode) {
