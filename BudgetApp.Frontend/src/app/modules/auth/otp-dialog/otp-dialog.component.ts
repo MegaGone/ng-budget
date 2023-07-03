@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AuthService } from '../auth.service';
 import { SnackbarService } from 'app/utils';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'otp-dialog',
@@ -19,7 +18,8 @@ export class OtpDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: string,
     public matDialogRef: MatDialogRef<OtpDialogComponent>,
     private _fb: FormBuilder,
-    private _authService: AuthService
+    private _authService: AuthService,
+    private _snackbarService: SnackbarService
   ) { }
 
   ngOnInit(): void {
@@ -47,12 +47,14 @@ export class OtpDialogComponent implements OnInit {
     const otpCode = Object.values(this.authForm.value).join('');
     this._authService.verify2fa(otpCode, this.data).subscribe(
       res => {
+        // this._snackbarService.openSnackBar("Test");
         this.matDialogRef.close(true);
       },
       err => {
-        if (err?.error?.statusCode) {
-          console.log(err.error.statusCode);
-        }
+        if (err?.error?.statusCode == 400)
+          return this._snackbarService.openSnackBar("OTP code not valid");
+
+        return this._snackbarService.openSnackBar("Ops! An error ocurred to verify OTP code");
       });
   };
 };

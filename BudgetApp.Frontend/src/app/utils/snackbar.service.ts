@@ -12,10 +12,8 @@ export class SnackbarService {
   open(message: string, isSuccess = true, action = 'OK'): void {
     const options: MatSnackBarConfig = {
       verticalPosition: 'top',
-      // duration: 4000,
-      horizontalPosition: 'center',
-      panelClass: 'test',
-
+      duration: 3500,
+      horizontalPosition: 'center'
     };
 
     if (!isSuccess) {
