@@ -19,7 +19,9 @@
 
                 <!-- CODE -->
                 <ng-container>
-                    <div
+                    <form
+                        [formGroup]="authForm"
+                        name="authForm"
                         class="form__group form__pincode"
                         style="margin-top: 50px !important"
                     >
@@ -35,6 +37,7 @@
                             tabindex="1"
                             placeholder="·"
                             autocomplete="off"
+                            formControlName="number1"
                         />
                         <input
                             type="tel"
@@ -44,6 +47,7 @@
                             tabindex="2"
                             placeholder="·"
                             autocomplete="off"
+                            formControlName="number2"
                         />
                         <input
                             type="tel"
@@ -53,6 +57,7 @@
                             tabindex="3"
                             placeholder="·"
                             autocomplete="off"
+                            formControlName="number3"
                         />
                         <input
                             type="tel"
@@ -62,6 +67,7 @@
                             tabindex="4"
                             placeholder="·"
                             autocomplete="off"
+                            formControlName="number4"
                         />
                         <input
                             type="tel"
@@ -71,6 +77,7 @@
                             tabindex="5"
                             placeholder="·"
                             autocomplete="off"
+                            formControlName="number5"
                         />
                         <input
                             type="tel"
@@ -80,8 +87,9 @@
                             tabindex="6"
                             placeholder="·"
                             autocomplete="off"
+                            formControlName="number6"
                         />
-                    </div>
+                    </form>
                 </ng-container>
             </div>
         </ng-container>
@@ -94,12 +102,12 @@
         >
             <!-- Cancel -->
             <ng-container>
-                <button mat-stroked-button>Cancelar</button>
+                <button mat-stroked-button (click)="onClose()">Cancelar</button>
             </ng-container>
 
             <!-- Confirm -->
             <ng-container>
-                <button mat-flat-button>Confirmar</button>
+                <button mat-flat-button [disabled]="!authForm.valid" (click)="login()">Confirmar</button>
             </ng-container>
         </div>
     </ng-container>

@@ -72,7 +72,7 @@ export class LoginComponent implements OnInit {
             data: this.uid,
             panelClass: 'fuse-confirmation-dialog-panel',
             height: '350px',
-            disableClose: false
+            disableClose: true
           })
         }
       },

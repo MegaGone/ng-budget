@@ -33,8 +33,12 @@ export class OtpDialogComponent implements OnInit {
     });
   };
 
+  onClose() {
+    this.matDialogRef.close();
+  };
+
   login() {
-    if (!this.authForm.invalid) return Object.values(this.authForm.controls).forEach(c => c.markAsTouched());
+    if (this.authForm.invalid) return Object.values(this.authForm.controls).forEach(c => c.markAsTouched());
     
     console.log(this.authForm.value);
   };
