@@ -24,12 +24,18 @@ export class OtpDialogComponent implements OnInit {
 
   initForm() {
     this.authForm = this._fb.group({
-      code: ['', [Validators.required, Validators.maxLength(6)]],
-      uid: [this.data, [Validators.required]]
+      number1: ['', Validators.required],
+      number2: ['', Validators.required],
+      number3: ['', Validators.required],
+      number4: ['', Validators.required],
+      number5: ['', Validators.required],
+      number6: ['', Validators.required],
     });
   };
 
   login() {
+    if (!this.authForm.invalid) return Object.values(this.authForm.controls).forEach(c => c.markAsTouched());
+    
     console.log(this.authForm.value);
   };
 };

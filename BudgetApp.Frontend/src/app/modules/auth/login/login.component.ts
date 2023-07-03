@@ -68,9 +68,11 @@ export class LoginComponent implements OnInit {
         if (res.statusCode === 200) {
           this.uid = res.uid;
           this._matDialog.open(OtpDialogComponent, {
-            autoFocus   : false,
-            data        : this.uid,
-            panelClass  : 'fuse-confirmation-dialog-panel'
+            autoFocus: true,
+            data: this.uid,
+            panelClass: 'fuse-confirmation-dialog-panel',
+            height: '350px',
+            disableClose: false
           })
         }
       },
