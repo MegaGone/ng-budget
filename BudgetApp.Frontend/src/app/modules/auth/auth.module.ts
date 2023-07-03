@@ -20,6 +20,7 @@ import { FuseAlertModule } from '../../../@fuse/components/alert/alert.module';
 import { SharedModule } from '../../shared/shared.module';
 import { FuseHighlightModule } from '@fuse/components/highlight';
 import { OtpDialogComponent } from './otp-dialog/otp-dialog.component';
+import { SnackbarService } from 'app/utils';
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -43,7 +44,10 @@ import { OtpDialogComponent } from './otp-dialog/otp-dialog.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    FuseHighlightModule
+    FuseHighlightModule,
+  ],
+  providers: [
+    SnackbarService
   ]
 })
 export class AuthModule { }

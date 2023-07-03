@@ -1,6 +1,9 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { AuthService } from '../auth.service';
+import { SnackbarService } from 'app/utils';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'otp-dialog',
@@ -15,7 +18,8 @@ export class OtpDialogComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: string,
     public matDialogRef: MatDialogRef<OtpDialogComponent>,
-    private _fb: FormBuilder
+    private _fb: FormBuilder,
+    private _authService: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -39,7 +43,17 @@ export class OtpDialogComponent implements OnInit {
 
   login() {
     if (this.authForm.invalid) return Object.values(this.authForm.controls).forEach(c => c.markAsTouched());
-    
-    console.log(this.authForm.value);
+
+    const otpCode = Object.values(this.authForm.value).join('');
+    this._authService.verify2fa(otpCode, this.data).subscribe(
+      res => {
+        console.log(res)
+        // this.matDialogRef.close(true);
+      },
+      err => {
+        if (err?.error?.statusCode) {
+          console.log(err.error.statusCode);
+        }
+      });
   };
 };

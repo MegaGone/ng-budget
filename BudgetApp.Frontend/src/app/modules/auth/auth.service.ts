@@ -71,6 +71,28 @@ export class AuthService {
     return this.http.post<ILoginResponse>(`${base_url}/auth/login`, credentials);
   };
 
+  /**
+   * 
+   * @param code - OTP Verification code
+   * @param uid - User ID
+   * @returns Status code
+   */
+  verify2fa(code: string, uid: string): Observable<number> {
+    return this.http.post<IAuthResponse>(`${base_url}/auth/verify-2fa`, { code, uid })
+      .pipe(
+        tap((res: IAuthResponse) => {
+          console.log(res)
+          this.currentUser.next(res.user);
+          localStorage.setItem("x-token", res.token);
+        }),
+        map((res: IAuthResponse) => res.statusCode)
+      );
+  };
+
+  /**
+   * 
+   * @returns GET SESSION
+   */
   getSession(): Observable<ISession> {
     return this.http.get<ISession>(`${base_url}/auth/session`, { headers: { 'x-token': this.getToken } })
       .pipe(
@@ -122,4 +144,4 @@ export class AuthService {
 
     });
   }
-}
+};

@@ -8,7 +8,8 @@ export interface IAuthResponse {
 export interface ILoginResponse {
     statusCode: number;
     uid: string;
-}
+    data?: string;
+};
 
 export interface IUser {
     email: string;
