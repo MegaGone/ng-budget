@@ -90,14 +90,16 @@ export class OtpDialogComponent implements OnInit {
   //   }
   // };
 
-  onInput(nextInputRef: string, previousInputRef: string): void {
+  onInput(nextInputRef: string): void {
     const nextInput = this[nextInputRef];
-    const previousInput = this[previousInputRef];
-    const currentValue = nextInput.nativeElement.value;
+    return (nextInput && nextInput.nativeElement && nextInputRef !== "input1") ? nextInput.nativeElement.focus() : null;
+  };
 
-    if (nextInput && nextInput.nativeElement) {
-      if (nextInputRef === "input1") return;
-      return nextInput.nativeElement.focus();
+  onKeyDown(event: KeyboardEvent, previousInputRef: string): void {
+    const previousInput = this[previousInputRef];
+    if (event.code === 'Backspace') {
+      console.log(previousInputRef)
+      
     };
   };
 };
