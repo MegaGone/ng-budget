@@ -41,6 +41,7 @@
                             placeholder="·"
                             autocomplete="off"
                             formControlName="number1"
+                            (keypress)="onlyNumbers($event)"
                         />
                         <input
                             #input2
@@ -54,6 +55,7 @@
                             placeholder="·"
                             autocomplete="off"
                             formControlName="number2"
+                            (keypress)="onlyNumbers($event)"
                         />
                         <input
                             #input3
@@ -67,6 +69,7 @@
                             placeholder="·"
                             autocomplete="off"
                             formControlName="number3"
+                            (keypress)="onlyNumbers($event)"
                         />
                         <input
                             #input4
@@ -80,6 +83,7 @@
                             placeholder="·"
                             autocomplete="off"
                             formControlName="number4"
+                            (keypress)="onlyNumbers($event)"
                         />
                         <input
                             #input5
@@ -93,6 +97,7 @@
                             placeholder="·"
                             autocomplete="off"
                             formControlName="number5"
+                            (keypress)="onlyNumbers($event)"
                         />
                         <input
                             #input6
@@ -106,6 +111,7 @@
                             placeholder="·"
                             autocomplete="off"
                             formControlName="number6"
+                            (keypress)="onlyNumbers($event)"
                         />
                     </form>
                 </ng-container>
@@ -129,8 +135,12 @@
                     mat-flat-button
                     [disabled]="!authForm.valid"
                     (click)="login()"
+                    class="button"
                 >
                     Confirmar
+
+                    <!-- <mat-progress-spinner [diameter]="24" [mode]="'indeterminate'">
+                    </mat-progress-spinner> -->
                 </button>
             </ng-container>
         </div>

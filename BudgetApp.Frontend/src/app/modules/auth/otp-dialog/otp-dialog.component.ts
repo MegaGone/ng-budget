@@ -2,7 +2,7 @@ import { Component, ElementRef, Inject, OnInit, ViewChild, ViewEncapsulation } f
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AuthService } from '../auth.service';
-import { SnackbarService } from 'app/utils';
+import { SnackbarService, numberOnly } from 'app/utils';
 
 @Component({
   selector: 'otp-dialog',
@@ -84,4 +84,8 @@ export class OtpDialogComponent implements OnInit {
       }
     } catch { };
   };
+
+  onlyNumbers(event) {
+    return numberOnly(event);
+  }
 };
