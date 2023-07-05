@@ -65,41 +65,23 @@ export class OtpDialogComponent implements OnInit {
       });
   };
 
-  // onInput(nextInputRef: string, previousInputRef: string): void {
-  //   const nextInput = this[nextInputRef];
-  //   const previousInput = this[previousInputRef];
-  //   const currentValue = nextInput.nativeElement.value;
-
-  //   if (currentValue === '') {
-  //     if (previousInput && previousInput.nativeElement) {
-  //       previousInput.nativeElement.focus();
-  //     }
-  //   } else if (nextInput && nextInput.nativeElement) {
-  //     nextInput.nativeElement.focus();
-  //   }
-  // }
-
-  // onInput(nextInputRef: string, previousInputRef: string): void {
-  //   const nextInput = this[nextInputRef];
-  //   const previousInput = this[previousInputRef];
-
-  //   if (nextInput && nextInput.nativeElement) {
-  //     nextInput.nativeElement.focus();
-  //   } else if (previousInput && previousInput.nativeElement) {
-  //     previousInput.nativeElement.focus();
-  //   }
-  // };
-
   onInput(nextInputRef: string): void {
     const nextInput = this[nextInputRef];
     return (nextInput && nextInput.nativeElement && nextInputRef !== "input1") ? nextInput.nativeElement.focus() : null;
   };
 
-  onKeyDown(event: KeyboardEvent, previousInputRef: string): void {
-    const previousInput = this[previousInputRef];
-    if (event.code === 'Backspace') {
-      console.log(previousInputRef)
-      
-    };
+  onKeyDown(event: KeyboardEvent, i: number): void {
+    try {
+      var currentInput: ElementRef = this[`input${i}`];
+      var previousInput: ElementRef = this[`input${i - 1}`];
+
+      if (event.key === "Backspace") {
+        event.preventDefault();
+        currentInput.nativeElement.value = "";
+
+        if (i < 2) return;
+        previousInput.nativeElement.focus();
+      }
+    } catch { };
   };
 };

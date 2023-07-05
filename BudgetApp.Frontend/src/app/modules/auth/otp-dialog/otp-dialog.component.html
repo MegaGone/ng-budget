@@ -32,7 +32,7 @@
                         <input
                             #input1
                             (input)="onInput('input2')"
-                            (keydown)="onKeyDown($event,'input6')"
+                            (keydown)="onKeyDown($event, 1)"
                             type="tel"
                             name="pincode-1"
                             maxlength="1"
@@ -45,7 +45,7 @@
                         <input
                             #input2
                             (input)="onInput('input3')"
-                            (keydown)="onKeyDown($event,'input1')"
+                            (keydown)="onKeyDown($event, 2)"
                             type="tel"
                             name="pincode-2"
                             maxlength="1"
@@ -58,7 +58,7 @@
                         <input
                             #input3
                             (input)="onInput('input4')"
-                            (keydown)="onKeyDown($event,'input2')"
+                            (keydown)="onKeyDown($event, 3)"
                             type="tel"
                             name="pincode-3"
                             maxlength="1"
@@ -71,7 +71,7 @@
                         <input
                             #input4
                             (input)="onInput('input5')"
-                            (keydown)="onKeyDown($event,'input3')"
+                            (keydown)="onKeyDown($event, 4)"
                             type="tel"
                             name="pincode-4"
                             maxlength="1"
@@ -84,7 +84,7 @@
                         <input
                             #input5
                             (input)="onInput('input6')"
-                            (keydown)="onKeyDown($event,'input4')"
+                            (keydown)="onKeyDown($event, 5)"
                             type="tel"
                             name="pincode-5"
                             maxlength="1"
@@ -97,7 +97,7 @@
                         <input
                             #input6
                             (input)="onInput('input1')"
-                            (keydown)="onKeyDown($event,'input5')"
+                            (keydown)="onKeyDown($event, 6)"
                             type="tel"
                             name="pincode-6"
                             maxlength="1"
