@@ -7,17 +7,22 @@
         >
             <ng-template matStepLabel>Step 1</ng-template>
 
-            <div class="flex">
-                <img [src]="data?.qrcode" />
-            </div>
+            <a href="http://onelink.to/642j7a" target="_blank">
+                <img class="authenticator" [src]="data?.qrcode" />
+            </a>
+
+            <a href="http://onelink.to/642j7a" target="_blank">
+                <img class="getit" src="assets/images/authenticator/getit-icon.png">
+            </a>
 
             <div class="flex justify-end">
                 <button
-                    class="px-8"
+                    class="mt-8"
                     mat-flat-button
                     [color]="'primary'"
                     type="button"
                     matStepperNext
+                    class="button"
                 >
                     Next
                 </button>
@@ -28,9 +33,38 @@
             [stepControl]="authForm.get('step2')"
             #horizontalStepperStep2
         >
-            <ng-template matStepLabel
-                >Step 2</ng-template
-            >
+            <ng-template matStepLabel>Step 2</ng-template>
+
+            <img class="img" [src]="data?.qrcode" />
+
+            <div class="flex justify-end">
+                <button
+                    class="px-8 mr-2"
+                    mat-flat-button
+                    [color]="'accent'"
+                    type="button"
+                    matStepperPrevious
+                >
+                    Back
+                </button>
+                <button
+                    class="px-8"
+                    mat-flat-button
+                    [color]="'primary'"
+                    type="button"
+                    matStepperNext
+                    class="button"
+                >
+                    Continue
+                </button>
+            </div>
+        </mat-step>
+        <mat-step
+            [formGroupName]="'step3'"
+            [stepControl]="authForm.get('step3')"
+            #horizontalStepperStep2
+        >
+            <ng-template matStepLabel>Step 3</ng-template>
 
             <img class="qrcode" [src]="data?.qrcode" />
 
@@ -50,31 +84,9 @@
                     [color]="'primary'"
                     type="button"
                     matStepperNext
+                    class="button"
                 >
-                    Next
-                </button>
-            </div>
-        </mat-step>
-        <mat-step
-            [formGroupName]="'step3'"
-            [stepControl]="authForm.get('step3')"
-            #horizontalStepperStep2
-        >
-            <ng-template matStepLabel
-                >Step 3</ng-template
-            >
-
-            <img class="qrcode" [src]="data?.qrcode" />
-
-            <div class="flex justify-end">
-                <button
-                    class="px-8 mr-2"
-                    mat-flat-button
-                    [color]="'accent'"
-                    type="button"
-                    matStepperPrevious
-                >
-                    Back
+                    Continue
                 </button>
             </div>
         </mat-step>
