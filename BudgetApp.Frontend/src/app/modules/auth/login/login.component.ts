@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { OtpDialogComponent } from '../otp-dialog/otp-dialog.component';
 import { Router } from '@angular/router';
 import { SnackbarService } from 'app/utils';
+import { SetupDialogComponent } from '../setup-dialog/setup-dialog.component';
 
 @Component({
   selector: 'app-login',
@@ -70,11 +71,31 @@ export class LoginComponent implements OnInit {
       (res: ILoginResponse) => {
         if (res.statusCode === 200) {
           this.uid = res.uid;
-          const dialogRef = this._matDialog.open(OtpDialogComponent, {
+
+          if (!res?.data) {
+            const dialogRef = this._matDialog.open(OtpDialogComponent, {
+              autoFocus: true,
+              data: this.uid,
+              panelClass: 'fuse-confirmation-dialog-panel',
+              height: '350px',
+              disableClose: true
+            });
+
+            dialogRef.afterClosed().subscribe(res => {
+              if (res) {
+                (remember) ? localStorage.setItem("credentials", JSON.stringify(credentials)) : localStorage.removeItem("credentials");
+                this.router.navigate(["/budget"]);
+              }
+            });
+            return;
+          }
+
+          const dialogRef = this._matDialog.open(SetupDialogComponent, {
             autoFocus: true,
-            data: this.uid,
+            data: { uid: this.uid, qrcode: res?.data },
             panelClass: 'fuse-confirmation-dialog-panel',
-            height: '350px',
+            height: '450px',
+            maxWidth: '350px',
             disableClose: true
           });
 

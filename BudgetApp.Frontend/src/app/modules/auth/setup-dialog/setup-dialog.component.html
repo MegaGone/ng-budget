@@ -1,0 +1,82 @@
+<form class="p-4 bg-card overflow-hidden" [formGroup]="authForm">
+    <mat-horizontal-stepper [linear]="true" #horizontalStepper>
+        <mat-step
+            [formGroupName]="'step1'"
+            [stepControl]="authForm.get('step1')"
+            #horizontalStepperStep1
+        >
+            <ng-template matStepLabel>Step 1</ng-template>
+
+            <div class="flex">
+                <img [src]="data?.qrcode" />
+            </div>
+
+            <div class="flex justify-end">
+                <button
+                    class="px-8"
+                    mat-flat-button
+                    [color]="'primary'"
+                    type="button"
+                    matStepperNext
+                >
+                    Next
+                </button>
+            </div>
+        </mat-step>
+        <mat-step
+            [formGroupName]="'step2'"
+            [stepControl]="authForm.get('step2')"
+            #horizontalStepperStep2
+        >
+            <ng-template matStepLabel
+                >Step 2</ng-template
+            >
+
+            <img class="qrcode" [src]="data?.qrcode" />
+
+            <div class="flex justify-end">
+                <button
+                    class="px-8 mr-2"
+                    mat-flat-button
+                    [color]="'accent'"
+                    type="button"
+                    matStepperPrevious
+                >
+                    Back
+                </button>
+                <button
+                    class="px-8"
+                    mat-flat-button
+                    [color]="'primary'"
+                    type="button"
+                    matStepperNext
+                >
+                    Next
+                </button>
+            </div>
+        </mat-step>
+        <mat-step
+            [formGroupName]="'step3'"
+            [stepControl]="authForm.get('step3')"
+            #horizontalStepperStep2
+        >
+            <ng-template matStepLabel
+                >Step 3</ng-template
+            >
+
+            <img class="qrcode" [src]="data?.qrcode" />
+
+            <div class="flex justify-end">
+                <button
+                    class="px-8 mr-2"
+                    mat-flat-button
+                    [color]="'accent'"
+                    type="button"
+                    matStepperPrevious
+                >
+                    Back
+                </button>
+            </div>
+        </mat-step>
+    </mat-horizontal-stepper>
+</form>
