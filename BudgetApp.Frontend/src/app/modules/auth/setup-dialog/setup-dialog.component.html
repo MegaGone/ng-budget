@@ -3,16 +3,25 @@
         <mat-step
             [formGroupName]="'step1'"
             [stepControl]="authForm.get('step1')"
-            #horizontalStepperStep1
         >
-            <ng-template matStepLabel>Step 1</ng-template>
+            <p class="text">
+                <b>Step 1:</b> Descarga el app de Google Authenticator en tu
+                dispositivo móvil. Puedes utilizar cualquier otra aplicación de
+                autenticación.
+            </p>
 
             <a href="http://onelink.to/642j7a" target="_blank">
-                <img class="authenticator" src="assets/images/authenticator/test.png" />
+                <img
+                    class="authenticator"
+                    src="assets/images/authenticator/test.png"
+                />
             </a>
 
             <a href="http://onelink.to/642j7a" target="_blank">
-                <img class="getit" src="assets/images/authenticator/getit-icon.png">
+                <img
+                    class="getit"
+                    src="assets/images/authenticator/getit-icon.png"
+                />
             </a>
 
             <div class="flex justify-end">
@@ -31,9 +40,12 @@
         <mat-step
             [formGroupName]="'step2'"
             [stepControl]="authForm.get('step2')"
-            #horizontalStepperStep2
         >
-            <ng-template matStepLabel>Step 2</ng-template>
+            <p class="text">
+                <b>Step 2:</b> Escanea el siguiente código QR desde la
+                aplicación de Google Authenticator o aplicación de autenticación
+                de tu preferencia.
+            </p>
 
             <img class="img" [src]="data?.qrcode" />
 
@@ -62,9 +74,10 @@
         <mat-step
             [formGroupName]="'step3'"
             [stepControl]="authForm.get('step3')"
-            #horizontalStepperStep2
         >
-            <ng-template matStepLabel>Step 3</ng-template>
+            <p class="text">
+                <b>Step 3:</b> Ingresa el código de 6 dígitos que se muestra en la aplicación.
+            </p>
 
             <img class="qrcode" [src]="data?.qrcode" />
 
