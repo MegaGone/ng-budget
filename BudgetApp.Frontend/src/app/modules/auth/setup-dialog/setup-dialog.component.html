@@ -76,12 +76,80 @@
             [stepControl]="authForm.get('step3')"
         >
             <p class="text">
-                <b>Step 3:</b> Ingresa el código de 6 dígitos que se muestra en la aplicación.
+                <b>Step 3:</b> Ingresa el código de 6 dígitos que se muestra en
+                la aplicación.
             </p>
 
-            <img class="qrcode" [src]="data?.qrcode" />
+            <ng-container>
+                <form
+                    name="authForm"
+                    class="form__group form__pincode"
+                    style="height: 65px !important; margin-top: 115px;"
+                >
+                    <input
+                        #input1
+                        type="tel"
+                        name="pincode-1"
+                        maxlength="1"
+                        pattern="[\d]*"
+                        tabindex="1"
+                        placeholder="·"
+                        autocomplete="off"
+                    />
+                    <input
+                        #input2
+                        type="tel"
+                        name="pincode-2"
+                        maxlength="1"
+                        pattern="[\d]*"
+                        tabindex="2"
+                        placeholder="·"
+                        autocomplete="off"
+                    />
+                    <input
+                        #input3
+                        type="tel"
+                        name="pincode-3"
+                        maxlength="1"
+                        pattern="[\d]*"
+                        tabindex="3"
+                        placeholder="·"
+                        autocomplete="off"
+                    />
+                    <input
+                        #input4
+                        type="tel"
+                        name="pincode-4"
+                        maxlength="1"
+                        pattern="[\d]*"
+                        tabindex="4"
+                        placeholder="·"
+                        autocomplete="off"
+                    />
+                    <input
+                        #input5
+                        type="tel"
+                        name="pincode-5"
+                        maxlength="1"
+                        pattern="[\d]*"
+                        tabindex="5"
+                        placeholder="·"
+                        autocomplete="off"
+                    />
+                    <input
+                        #input6
+                        type="tel"
+                        name="pincode-6"
+                        maxlength="1"
+                        pattern="[\d]*"
+                        tabindex="6"
+                        placeholder="·"
+                        autocomplete="off"
+                    />
+                </form>
+            </ng-container>
 
-            <div class="flex justify-end">
+            <div style="margin-top: 115px;" class="flex justify-end">
                 <button
                     class="px-8 mr-2"
                     mat-flat-button
