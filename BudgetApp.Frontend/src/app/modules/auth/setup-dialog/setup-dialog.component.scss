@@ -144,3 +144,11 @@
       padding: 10px 0 0;
     }
 }
+
+.not-valid {
+  outline: 0;
+  box-shadow: none;
+  border-color: red;
+  animation: border-pulsate 1.5s infinite;
+  -webkit-tap-highlight-color: transparent;
+}

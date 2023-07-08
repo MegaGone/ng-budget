@@ -84,7 +84,8 @@
                 <form
                     name="authForm"
                     class="form__group form__pincode"
-                    style="height: 65px !important; margin-top: 115px;"
+                    style="height: 65px !important; margin-top: 115px"
+                    [formGroup]="authForm.get('step3').get('code')"
                 >
                     <input
                         #input1
@@ -95,6 +96,11 @@
                         tabindex="1"
                         placeholder="·"
                         autocomplete="off"
+                        formControlName="number1"
+                        (keypress)="onlyNumbers($event)"
+                        (input)="onInput('input2')"
+                        (keydown)="onKeyDown($event, 1)"
+                        [ngClass]="{ 'not-valid': !isCodeValid }"
                     />
                     <input
                         #input2
@@ -105,6 +111,10 @@
                         tabindex="2"
                         placeholder="·"
                         autocomplete="off"
+                        formControlName="number2"
+                        (keypress)="onlyNumbers($event)"
+                        (input)="onInput('input3')"
+                        (keydown)="onKeyDown($event, 2)"
                     />
                     <input
                         #input3
@@ -115,6 +125,10 @@
                         tabindex="3"
                         placeholder="·"
                         autocomplete="off"
+                        formControlName="number3"
+                        (keypress)="onlyNumbers($event)"
+                        (input)="onInput('input4')"
+                        (keydown)="onKeyDown($event, 3)"
                     />
                     <input
                         #input4
@@ -125,6 +139,10 @@
                         tabindex="4"
                         placeholder="·"
                         autocomplete="off"
+                        formControlName="number4"
+                        (keypress)="onlyNumbers($event)"
+                        (input)="onInput('input5')"
+                        (keydown)="onKeyDown($event, 4)"
                     />
                     <input
                         #input5
@@ -135,6 +153,10 @@
                         tabindex="5"
                         placeholder="·"
                         autocomplete="off"
+                        formControlName="number5"
+                        (keypress)="onlyNumbers($event)"
+                        (input)="onInput('input6')"
+                        (keydown)="onKeyDown($event, 5)"
                     />
                     <input
                         #input6
@@ -145,11 +167,15 @@
                         tabindex="6"
                         placeholder="·"
                         autocomplete="off"
+                        formControlName="number6"
+                        (keypress)="onlyNumbers($event)"
+                        (input)="onInput('input1')"
+                        (keydown)="onKeyDown($event, 6)"
                     />
                 </form>
             </ng-container>
 
-            <div style="margin-top: 115px;" class="flex justify-end">
+            <div style="margin-top: 115px" class="flex justify-end">
                 <button
                     class="px-8 mr-2"
                     mat-flat-button
@@ -166,6 +192,7 @@
                     type="button"
                     matStepperNext
                     class="button"
+                    (click)="setUp()"
                 >
                     Continue
                 </button>

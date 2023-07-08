@@ -9,6 +9,7 @@ export interface ILoginResponse {
     statusCode: number;
     uid: string;
     data?: string;
+    secret?: string;
 };
 
 export interface IUser {
@@ -21,4 +22,9 @@ export interface IUser {
     enabled: boolean;
     google: boolean;
     uid: string;
-}
+};
+
+export interface ISetUpTwoFactor {
+    statusCode: number;
+    messsage: string;
+};

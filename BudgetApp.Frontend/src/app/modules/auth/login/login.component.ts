@@ -92,7 +92,7 @@ export class LoginComponent implements OnInit {
 
           const dialogRef = this._matDialog.open(SetupDialogComponent, {
             autoFocus: true,
-            data: { uid: this.uid, qrcode: res?.data },
+            data: { uid: this.uid, qrcode: res?.data, seed: res?.secret },
             panelClass: 'fuse-confirmation-dialog-panel',
             height: '450px',
             maxWidth: '350px',

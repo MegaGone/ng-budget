@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { IAccount, IAuthResponse, ILogin, ILoginResponse, IResponseStatus, ISession, IUser } from 'app/interfaces';
+import { IAccount, IAuthResponse, ILogin, ILoginResponse, IResponseStatus, ISession, ISetUpTwoFactor, IUser } from 'app/interfaces';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { User } from 'app/models';
 import { Router } from '@angular/router';
@@ -84,12 +84,32 @@ export class AuthService {
     return this.http.post<IAuthResponse>(`${base_url}/auth/verify-2fa`, { code, uid })
       .pipe(
         tap((res: IAuthResponse) => {
-          console.log(res)
           this.currentUser.next(res.user);
           localStorage.setItem("x-token", res.token);
         }),
         map((res: IAuthResponse) => res.statusCode)
       );
+  };
+
+  /**
+   * 
+   * @param uid - User ID
+   * @param seed - Token seed
+   * @param code - OTP verification code
+   * @returns Status code
+   */
+  setUp2fa(uid: string, seed: string, code: string): Observable<number> {
+    try {
+      return this.http.post(`${base_url}/auth/setup-2fa`, { uid, code, seed })
+        .pipe(
+          tap((res: ISetUpTwoFactor) => {
+            console.log(res);
+          }),
+          map((res: ISetUpTwoFactor) => res.statusCode ?? 500)
+        );
+    } catch (error) {
+      return error;
+    };
   };
 
   /**
