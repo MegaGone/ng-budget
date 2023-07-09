@@ -34,14 +34,8 @@ export class AuthService {
   validateToken(): Observable<number> {
     return this.http.get<IAuthResponse>(`${base_url}/auth/renew`, { headers: { 'x-token': this.getToken } })
       .pipe(
-        tap((res: IAuthResponse) => {
-
-          if (res.statusCode === 200) {
-            this.currentUser.next(res.user);
-            localStorage.setItem("x-token", res.token)
-          }
-
-        }),
+        tap((res: IAuthResponse) => this.currentUser.next(res.user)),
+        tap((res: IAuthResponse) => localStorage.setItem("x-token", res.token)),
         map((res: IAuthResponse) => res.statusCode),
         catchError(err => {
           console.log(err);
