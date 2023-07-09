@@ -10,7 +10,7 @@ export const appRoutes: Route[] = [
     {
         path            : 'budget',
         component       : BudgetComponent,
-        // canActivate     : [AuthGuard],
+        canActivate     : [AuthGuard],
         children    : [
             { 
                 path        : "expenses", 
