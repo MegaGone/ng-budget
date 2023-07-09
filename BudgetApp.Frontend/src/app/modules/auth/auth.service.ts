@@ -7,6 +7,7 @@ import { IAccount, IAuthResponse, ILogin, ILoginResponse, IResponseStatus, ISess
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { User } from 'app/models';
 import { Router } from '@angular/router';
+import { AuthUtils } from 'app/core/auth/auth.utils';
 
 const base_url = environment.base_url;
 @Injectable({
@@ -36,8 +37,7 @@ export class AuthService {
         tap((res: IAuthResponse) => {
 
           if (res.statusCode === 200) {
-            const { email, name, lastName, displayName, avatar, role, enabled, google, uid } = res.user;
-            this.user = new User(email, name, lastName, displayName, avatar, role, enabled, google, uid);
+            this.currentUser.next(res.user);
             localStorage.setItem("x-token", res.token)
           }
 
@@ -116,11 +116,18 @@ export class AuthService {
   getSession(): Observable<ISession> {
     return this.http.get<ISession>(`${base_url}/auth/session`, { headers: { 'x-token': this.getToken } })
       .pipe(
-        tap((res: ISession) => {
-          catchError(err => of(false))
-        }),
-      )
-  }
+        tap((res: ISession) => this.currentUser.next(res.user)),
+        tap((res: ISession) => console.log(this.currentUser.value)),
+        // catchError(err => of(false))
+      );
+  };
+
+  checkAuthentication(): Observable<boolean> {
+    if (!this.getToken) of(false);
+
+    (AuthUtils.isTokenExpired(this.getToken)) ? this.validateToken().subscribe() : this.getSession().subscribe();
+    return of(true);
+  };
 
   /**
    * GET TOKEN
