@@ -27,4 +27,6 @@ export interface IUser {
 export interface ISetUpTwoFactor {
     statusCode: number;
     messsage: string;
+    user: IUser;
+    token: string;
 };

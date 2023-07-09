@@ -83,11 +83,9 @@ export class AuthService {
   verify2fa(code: string, uid: string): Observable<number> {
     return this.http.post<IAuthResponse>(`${base_url}/auth/verify-2fa`, { code, uid })
       .pipe(
-        tap((res: IAuthResponse) => {
-          this.currentUser.next(res.user);
-          localStorage.setItem("x-token", res.token);
-        }),
-        map((res: IAuthResponse) => res.statusCode)
+        tap((res: IAuthResponse) => this.currentUser.next(res.user)),
+        tap((res: IAuthResponse) => localStorage.setItem("x-token", res.token)),
+        map((res: IAuthResponse) => res.statusCode ?? 500)
       );
   };
 
@@ -102,9 +100,8 @@ export class AuthService {
     try {
       return this.http.post(`${base_url}/auth/setup-2fa`, { uid, code, seed })
         .pipe(
-          tap((res: ISetUpTwoFactor) => {
-            console.log(res);
-          }),
+          tap((res: ISetUpTwoFactor) => this.currentUser.next(res.user)),
+          tap((res: ISetUpTwoFactor) => localStorage.setItem("x-token", res.token)),
           map((res: ISetUpTwoFactor) => res.statusCode ?? 500)
         );
     } catch (error) {

@@ -314,7 +314,7 @@ authRouter.post(
  *         content:
  *           application/json:
  *             example:
- *               message: Two-factor authentication was set up successfully
+ *               token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2MzhjMGIyMzU5YWIxMjUxOGQ0YWEyZjYiLCJpYXQiOjE2NzIyODE2NzMsImV4cCI6MTY3MjI5NjA3M30.CUGDO4WL5FB35I4HVb2jhyUiuB1Nr79X9tALqh0u5PI
  *               statusCode: 200
  *       400:
  *         description: OTP not valid
