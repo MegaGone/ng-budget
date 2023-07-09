@@ -227,7 +227,25 @@ export const verify2fa = async (_req: Request, _res: Response, next: NextFunctio
         if (!user) throw new ResponseStatus(404, "User not found");
 
         const isValidOtp = await verify2FA(code, user.seed!);
-        if (!isValidOtp) throw new ResponseStatus(400, "OTP not valid");        
+        if (!isValidOtp) throw new ResponseStatus(400, "OTP not valid");
+
+        const token = await generateJWT(uid, user.role);
+        if (!token) throw new Error("Error unexpected");
+
+        return _res.status(200).json({ statusCode: 200, token, user });
+    } catch (error) {
+        next(error);
+    };
+};
+
+export const renewToken = async (_req: Request, _res: Response, next: NextFunction) => {
+    try {
+        const { uid } = _req;
+
+        const userService: BaseService<IUserModel> = _req.app.locals.userService;
+
+        const user = await userService.getRecord({ _id: uid });
+        if (!user) throw new ResponseStatus(404, "User not found");
 
         const token = await generateJWT(uid, user.role);
         if (!token) throw new Error("Error unexpected");

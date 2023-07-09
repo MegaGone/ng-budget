@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { activateUser, forgotPassword, loginWithCredentials, registerUser, setup2fa, verify2fa, verifyOTP } from "src/controllers";
-import { validateFields } from "src/middlewares";
+import { activateUser, forgotPassword, loginWithCredentials, registerUser, renewToken, setup2fa, verify2fa, verifyOTP } from "src/controllers";
+import { validateFields, validateJWT } from "src/middlewares";
 import {
     registerUserValidationRules,
     loginWithCredentialsValidationRules,
@@ -179,6 +179,13 @@ authRouter.post(
     forgotPasswordValidationRules(),
     validateFields,
     forgotPassword
+);
+
+authRouter.get(
+    "/auth/renew",
+    validateJWT,
+    validateFields,
+    renewToken
 );
 
 /**
