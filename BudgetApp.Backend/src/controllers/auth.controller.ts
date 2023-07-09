@@ -1,12 +1,13 @@
 import { Request, Response, NextFunction } from "express";
 import { hashSync, genSaltSync, compareSync } from "bcrypt";
+import { verify } from "jsonwebtoken";
 
 import { IOtpModel, ITemplateModel, IUserModel, UserModel } from "src/database";
 import { BaseService } from "src/services";
 import { IUser } from "src/interfaces";
 import { ResponseStatus } from "src/models";
 import { convertTemplate, generateJWT, generateOTP, generateRandomPassword, generateSeed2FA, validateOtp, verify2FA } from "src/helpers";
-import { ACTIVATE_USER_TEMPLATE_ID, BASE_URL, FORGOT_PASSWORD_TEMPLATE_ID } from "src/config";
+import { ACTIVATE_USER_TEMPLATE_ID, BASE_URL, FORGOT_PASSWORD_TEMPLATE_ID, SECRETKEY } from "src/config";
 import { Mailer } from "src/clients";
 import { ROLE_ENUM } from "src/enums";
 
@@ -251,6 +252,22 @@ export const renewToken = async (_req: Request, _res: Response, next: NextFuncti
         if (!token) throw new Error("Error unexpected");
 
         return _res.status(200).json({ statusCode: 200, token, user });
+    } catch (error) {
+        next(error);
+    };
+};
+
+export const getSession = async (_req: Request, _res: Response, next: NextFunction) => {
+    try {
+        const userService: BaseService<IUserModel> = _req.app.locals.userService;
+
+        const token = _req.header("x-token");
+        const jwt: any = await verify(token!, SECRETKEY);
+        
+        const user = await userService.getRecord({ _id: jwt.uid });
+        if (!user) throw new ResponseStatus(404, "User not found");
+
+        return _res.status(200).json({ responseStatus: 200, user });
     } catch (error) {
         next(error);
     };

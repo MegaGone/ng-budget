@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { activateUser, forgotPassword, loginWithCredentials, registerUser, renewToken, setup2fa, verify2fa, verifyOTP } from "src/controllers";
+import { activateUser, forgotPassword, getSession, loginWithCredentials, registerUser, renewToken, setup2fa, verify2fa, verifyOTP } from "src/controllers";
 import { validateFields, validateJWT } from "src/middlewares";
 import {
     registerUserValidationRules,
@@ -186,6 +186,13 @@ authRouter.get(
     validateJWT,
     validateFields,
     renewToken
+);
+
+authRouter.get(
+    "/auth/session",
+    validateJWT,
+    validateFields,
+    getSession
 );
 
 /**

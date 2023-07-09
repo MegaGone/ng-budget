@@ -1,5 +1,5 @@
 import { Route } from '@angular/router';
-import { AdminGuard, AuthGuard } from './guards';
+import { AuthGuard } from './guards';
 import { BudgetComponent } from './modules/budget/budget.component';
 
 export const appRoutes: Route[] = [
