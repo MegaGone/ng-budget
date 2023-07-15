@@ -110,8 +110,7 @@ export class AuthService {
   getSession(): Observable<ISession> {
     return this.http.get<ISession>(`${base_url}/auth/session`, { headers: { 'x-token': this.getToken } })
       .pipe(
-        tap((res: ISession) => this.currentUser.next(res.user)),
-        tap((res: ISession) => console.log(this.currentUser.value)),
+        tap((res: ISession) => this.currentUser.next(res.user))
         // catchError(err => of(false))
       );
   };
