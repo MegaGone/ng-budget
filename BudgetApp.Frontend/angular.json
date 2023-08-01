@@ -1,6 +1,10 @@
 {
     "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
     "version": 1,
+    "cli": {
+      "analytics": "b043db34-0b7f-430c-8cd3-b8a48374309e",
+        "defaultCollection": "@angular-eslint/schematics"
+    },
     "newProjectRoot": "projects",
     "projects": {
         "fuse": {
@@ -53,9 +57,7 @@
                             "src/styles/styles.scss",
                             "src/styles/tailwind.scss"
                         ],
-                        "scripts": [
-                            "node_modules/@lottiefiles/lottie-player/dist/lottie-player.js"
-                        ]
+                        "scripts": []
                     },
                     "configurations": {
                         "production": {
@@ -124,9 +126,7 @@
                         "styles": [
                             "src/styles/styles.scss"
                         ],
-                        "scripts": [
-                            "node_modules/@lottiefiles/lottie-player/dist/lottie-player.js"
-                        ]
+                        "scripts": []
                     }
                 },
                 "lint": {
@@ -141,9 +141,5 @@
             }
         }
     },
-    "defaultProject": "fuse",
-    "cli": {
-      "analytics": false,
-        "defaultCollection": "@angular-eslint/schematics"
-    }
+    "defaultProject": "fuse"
 }

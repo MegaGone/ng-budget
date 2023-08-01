@@ -1,7 +1,4 @@
 import { NgModule } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { FuseDrawerModule } from '@fuse/components/drawer';
 import { LayoutComponent } from 'app/layout/layout.component';
 import { EmptyLayoutModule } from 'app/layout/layouts/empty/empty.module';
 import { CenteredLayoutModule } from 'app/layout/layouts/horizontal/centered/centered.module';
@@ -14,6 +11,7 @@ import { CompactLayoutModule } from 'app/layout/layouts/vertical/compact/compact
 import { DenseLayoutModule } from 'app/layout/layouts/vertical/dense/dense.module';
 import { FuturisticLayoutModule } from 'app/layout/layouts/vertical/futuristic/futuristic.module';
 import { ThinLayoutModule } from 'app/layout/layouts/vertical/thin/thin.module';
+import { SettingsModule } from 'app/layout/common/settings/settings.module';
 import { SharedModule } from 'app/shared/shared.module';
 
 const layoutModules = [
@@ -40,10 +38,8 @@ const layoutModules = [
         LayoutComponent
     ],
     imports     : [
-        MatIconModule,
-        MatTooltipModule,
-        FuseDrawerModule,
         SharedModule,
+        SettingsModule,
         ...layoutModules
     ],
     exports     : [
