@@ -13,14 +13,14 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Usuarios',
                 type: 'basic',
                 icon: 'mat_outline:supervised_user_circle',
-                link: '/users'
+                link: '/admin/users'
             },
             {
                 id: 'dashboards.analytics',
                 title: 'Plantillas',
                 type: 'basic',
                 icon: 'heroicons_outline:template',
-                link: '/templates'
+                link: '/admin/templates'
             }
         ]
     },

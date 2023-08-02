@@ -24,7 +24,7 @@ export const appRoutes: Route[] = [
         ]
     },
     {
-        path: '',
+        path: "admin",
         canActivate: [AuthGuard],
         canActivateChild: [AuthGuard],
         component: LayoutComponent,
@@ -34,6 +34,17 @@ export const appRoutes: Route[] = [
         children: [
             { path: 'users', loadChildren: () => import("app/modules/admin/users/users.module").then(m => m.UsersModule) },
             { path: 'templates', loadChildren: () => import("app/modules/admin/templates/templates.module").then(m => m.TemplatesModule) },
+        ]
+    },
+    {
+        path: '',
+        canActivate: [AuthGuard],
+        canActivateChild: [AuthGuard],
+        component: LayoutComponent,
+        resolve: {
+            initialData: InitialDataResolver,
+        },
+        children: [
             { path: 'expenses', loadChildren: () => import("app/modules/budget/expenses/expenses.module").then(m => m.ExpensesModule) },
             { path: 'fixed-expenses', loadChildren: () => import("app/modules/budget/fixed/fixed.module").then(m => m.FixedModule) },
             { path: 'reports', loadChildren: () => import("app/modules/budget/report/report.module").then(m => m.ReportModule) }
