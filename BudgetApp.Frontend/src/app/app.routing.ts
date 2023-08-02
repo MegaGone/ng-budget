@@ -4,18 +4,9 @@ import { NoAuthGuard } from 'app/core/auth/guards/noAuth.guard';
 import { LayoutComponent } from 'app/layout/layout.component';
 import { InitialDataResolver } from 'app/app.resolvers';
 
-// @formatter:off
-/* eslint-disable max-len */
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
 export const appRoutes: Route[] = [
-
-    // Redirect empty path to '/example'
     { path: '', pathMatch: 'full', redirectTo: 'expenses' },
-
-    // Redirect signed in user to the '/example'
     { path: 'signed-in-redirect', pathMatch: 'full', redirectTo: 'expenses' },
-
-    // Auth routes for guests
     {
         path: '',
         canActivate: [NoAuthGuard],
@@ -32,35 +23,6 @@ export const appRoutes: Route[] = [
             { path: 'sign-up', loadChildren: () => import('app/modules/auth/sign-up/sign-up.module').then(m => m.AuthSignUpModule) }
         ]
     },
-
-    // Auth routes for authenticated users
-    {
-        path: '',
-        canActivate: [AuthGuard],
-        canActivateChild: [AuthGuard],
-        component: LayoutComponent,
-        data: {
-            layout: 'empty'
-        },
-        children: [
-            { path: 'sign-out', loadChildren: () => import('app/modules/auth/sign-out/sign-out.module').then(m => m.AuthSignOutModule) },
-            { path: 'unlock-session', loadChildren: () => import('app/modules/auth/unlock-session/unlock-session.module').then(m => m.AuthUnlockSessionModule) }
-        ]
-    },
-
-    // Landing routes
-    {
-        path: '',
-        component: LayoutComponent,
-        data: {
-            layout: 'empty'
-        },
-        children: [
-            { path: 'home', loadChildren: () => import('app/modules/landing/home/home.module').then(m => m.LandingHomeModule) }
-        ]
-    },
-
-    // Admin routes
     {
         path: '',
         canActivate: [AuthGuard],
@@ -75,6 +37,19 @@ export const appRoutes: Route[] = [
             { path: 'expenses', loadChildren: () => import("app/modules/budget/expenses/expenses.module").then(m => m.ExpensesModule) },
             { path: 'fixed-expenses', loadChildren: () => import("app/modules/budget/fixed/fixed.module").then(m => m.FixedModule) },
             { path: 'reports', loadChildren: () => import("app/modules/budget/report/report.module").then(m => m.ReportModule) }
+        ]
+    },
+    {
+        path: '',
+        canActivate: [AuthGuard],
+        canActivateChild: [AuthGuard],
+        component: LayoutComponent,
+        data: {
+            layout: 'empty'
+        },
+        children: [
+            { path: 'sign-out', loadChildren: () => import('app/modules/auth/sign-out/sign-out.module').then(m => m.AuthSignOutModule) },
+            { path: 'unlock-session', loadChildren: () => import('app/modules/auth/unlock-session/unlock-session.module').then(m => m.AuthUnlockSessionModule) }
         ]
     }
 ];
