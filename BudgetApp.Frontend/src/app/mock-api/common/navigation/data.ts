@@ -13,14 +13,14 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Usuarios',
                 type: 'basic',
                 icon: 'mat_outline:supervised_user_circle',
-                link: '/dashboards/project'
+                link: '/users'
             },
             {
                 id: 'dashboards.analytics',
                 title: 'Plantillas',
                 type: 'basic',
                 icon: 'heroicons_outline:template',
-                link: '/dashboards/analytics'
+                link: '/templates'
             }
         ]
     },
@@ -29,21 +29,21 @@ export const defaultNavigation: FuseNavigationItem[] = [
         title: 'Gastos',
         type: 'basic',
         icon: 'mat_outline:add_shopping_cart',
-        link: '/example'
+        link: '/expenses'
     },
     {
         id: 'example',
         title: 'Gastos fijos',
         type: 'basic',
         icon: 'mat_outline:push_pin',
-        link: '/example2'
+        link: '/fixed-expenses'
     },
     {
         id: 'example',
         title: 'Reportes',
         type: 'basic',
         icon: 'heroicons_outline:document-report',
-        link: '/example3'
+        link: '/reports'
     }
 ];
 export const compactNavigation: FuseNavigationItem[] = [
