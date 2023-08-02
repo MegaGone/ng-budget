@@ -47,7 +47,8 @@ export const appRoutes: Route[] = [
         children: [
             { path: 'expenses', loadChildren: () => import("app/modules/budget/expenses/expenses.module").then(m => m.ExpensesModule) },
             { path: 'fixed-expenses', loadChildren: () => import("app/modules/budget/fixed/fixed.module").then(m => m.FixedModule) },
-            { path: 'reports', loadChildren: () => import("app/modules/budget/report/report.module").then(m => m.ReportModule) }
+            { path: 'reports', loadChildren: () => import("app/modules/budget/report/report.module").then(m => m.ReportModule) },
+            { path: "profile", loadChildren: () => import("app/modules/auth/profile/profile.module").then(m => m.ProfileModule) }
         ]
     },
     {
