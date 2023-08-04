@@ -1,3 +1,3 @@
 export * from './auth';
-export * from './global';
+export * from './templates';
 export * from './user';

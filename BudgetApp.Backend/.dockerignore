@@ -1,0 +1,11 @@
+/dist
+/node_modules
+
+# Visual
+/.vs
+/vs
+/vscode
+/.vscode
+
+# Env
+.env

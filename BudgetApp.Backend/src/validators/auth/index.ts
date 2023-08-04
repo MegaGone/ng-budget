@@ -1,1 +1,1 @@
-export * from './auth-rules';
+export * from './auth.rules';
