@@ -1,9 +1,9 @@
 {
-    "name": "@fuse/starter",
+    "name": "budgetapp.frontend",
     "version": "14.2.0",
-    "description": "Fuse - Angular Admin Template and Starter Project",
-    "author": "https://themeforest.net/user/srcn",
-    "license": "https://themeforest.net/licenses/standard",
+    "description": "Frontend to budget app",
+    "author": "J. Martinez",
+    "license": "MIT",
     "private": true,
     "scripts": {
         "ng": "ng",

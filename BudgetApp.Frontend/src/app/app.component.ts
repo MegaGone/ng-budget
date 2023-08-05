@@ -1,12 +1,9 @@
-import { Component, ViewEncapsulation } from '@angular/core';
-import { fuseAnimations } from '@fuse/animations';
+import { Component } from '@angular/core';
 
 @Component({
     selector   : 'app-root',
     templateUrl: './app.component.html',
-    styleUrls  : ['./app.component.scss'],
-    animations : fuseAnimations,
-    encapsulation: ViewEncapsulation.None
+    styleUrls  : ['./app.component.scss']
 })
 export class AppComponent
 {
