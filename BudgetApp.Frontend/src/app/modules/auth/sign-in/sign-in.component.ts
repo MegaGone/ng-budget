@@ -1,9 +1,11 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/auth/auth.service';
+import { TokenService } from 'app/core/auth/token.service';
+import { ILogin } from 'app/interfaces';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
     selector: 'auth-sign-in',
@@ -19,6 +21,7 @@ import { AuthService } from 'app/core/auth/auth.service';
 export class AuthSignInComponent implements OnInit {
     @ViewChild('signInNgForm') signInNgForm: NgForm;
 
+    private _unsubscribeAll: Subject<null>;
     public signInForm: FormGroup;
     public showAlert: boolean = false;
     public alert: { type: FuseAlertType; message: string } = {
@@ -30,12 +33,12 @@ export class AuthSignInComponent implements OnInit {
      * Constructor
      */
     constructor(
-        private _activatedRoute: ActivatedRoute,
         private _authService: AuthService,
         private _formBuilder: FormBuilder,
-        private _router: Router
+        private _tokenService: TokenService
     ) {
-    }
+        this._unsubscribeAll = new Subject();
+    };
 
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
@@ -45,12 +48,13 @@ export class AuthSignInComponent implements OnInit {
      * On init
      */
     ngOnInit(): void {
-        // Create the form
         this.signInForm = this._formBuilder.group({
-            email: ['hughes.brian@company.com', [Validators.required, Validators.email]],
-            password: ['admin', Validators.required],
-            rememberMe: ['']
+            email: ['', [Validators.required, Validators.email]],
+            password: ['', Validators.required],
+            rememberMe: [false]
         });
+
+        this.setCredentials(this._tokenService.getCredentials);
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -65,30 +69,38 @@ export class AuthSignInComponent implements OnInit {
 
         this.signInForm.disable();
         this.showAlert = false;
+        const { rememberMe, email } = this.signInForm.getRawValue();
 
-        this._authService.signIn(this.signInForm.value)
-            .subscribe(
-                () => {
-                    const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
-                    this._router.navigateByUrl(redirectURL);
+        this._authService.signIn(this.signInForm.getRawValue())
+            .pipe(takeUntil(this._unsubscribeAll)).subscribe({
+                next: (res: ILogin) => {
+                    this._tokenService.setCredentials = { rememberMe, email };
+
+                    console.log(res);
                 },
-                (response) => {
+                error: (err: any) => {
+                    console.log("error", err);
 
-                    // Re-enable the form
-                    this.signInForm.enable();
-
-                    // Reset the form
-                    this.signInNgForm.resetForm();
-
-                    // Set the alert
+                    this.signInForm.enable();    
+                    this.signInNgForm.resetForm();     
                     this.alert = {
                         type: 'error',
                         message: 'Wrong email or password'
                     };
-
-                    // Show the alert
                     this.showAlert = true;
                 }
-            );
-    }
-}
+            });
+    };
+
+    setCredentials(creds: any) {
+        if (!creds) return;
+
+        this.signInForm.setValue({
+            'email': creds.email,
+            'password': "",
+            'rememberMe': creds.rememberMe
+        });
+
+        this.signInForm.updateValueAndValidity();
+    };
+};
