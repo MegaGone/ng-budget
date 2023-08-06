@@ -1,1 +1,128 @@
-<p>setup-otp works!</p>
+<form class="p-4 bg-card overflow-hidden" [formGroup]="authForm">
+    <mat-horizontal-stepper [linear]="true" #horizontalStepper>
+        <mat-step
+            [formGroupName]="'step1'"
+            [stepControl]="authForm.get('step1')"
+        >
+            <p class="text">
+                <b>Step 1:</b> Descarga el app de Google Authenticator en tu
+                dispositivo móvil. Puedes utilizar cualquier otra aplicación de
+                autenticación.
+            </p>
+
+            <a href="http://onelink.to/642j7a" target="_blank">
+                <img
+                    class="authenticator"
+                    src="assets/images/authenticator/test.png"
+                />
+            </a>
+
+            <a href="http://onelink.to/642j7a" target="_blank">
+                <img
+                    class="getit"
+                    src="assets/images/authenticator/getit-icon.png"
+                />
+            </a>
+
+            <div class="flex justify-end">
+                <button
+                    class="mt-8"
+                    mat-flat-button
+                    [color]="'primary'"
+                    type="button"
+                    matStepperNext
+                    class="button next"
+                >
+                    Next
+                </button>
+            </div>
+        </mat-step>
+        <mat-step
+            [formGroupName]="'step2'"
+            [stepControl]="authForm.get('step2')"
+        >
+            <p class="text">
+                <b>Step 2:</b> Escanea el siguiente código QR desde la
+                aplicación de Google Authenticator o aplicación de autenticación
+                de tu preferencia.
+            </p>
+
+            <img class="img" [src]="data?.qrcode" />
+
+            <div class="flex justify-end">
+                <button
+                    class="px-8 mr-2"
+                    mat-flat-button
+                    [color]="'accent'"
+                    type="button"
+                    matStepperPrevious
+                >
+                    Back
+                </button>
+                <button
+                    class="px-8"
+                    mat-flat-button
+                    [color]="'primary'"
+                    type="button"
+                    matStepperNext
+                    class="button"
+                >
+                    Continue
+                </button>
+            </div>
+        </mat-step>
+        <mat-step
+            [formGroupName]="'step3'"
+            [stepControl]="authForm.get('step3')"
+        >
+            <p class="text">
+                <b>Step 3:</b> Ingresa el código de 6 dígitos que se muestra en
+                la aplicación.
+            </p>
+
+            <ng-container>
+                <form
+                    name="authForm"
+                    class="form__group form__pincode"
+                    style="height: 65px !important; margin-top: 115px"
+                    [formGroup]="authForm.get('step3').get('code')"
+                >
+                    <input
+                        #input1
+                        type="tel"
+                        name="pincode-1"
+                        maxlength="1"
+                        pattern="[\d]*"
+                        tabindex="1"
+                        placeholder="·"
+                        autocomplete="off"
+                        formControlName="code"
+                        [ngClass]="{ 'not-valid': !isCodeValid }"
+                    />
+                </form>
+            </ng-container>
+
+            <div style="margin-top: 115px" class="flex justify-end">
+                <button
+                    class="px-8 mr-2"
+                    mat-flat-button
+                    [color]="'accent'"
+                    type="button"
+                    matStepperPrevious
+                >
+                    Back
+                </button>
+                <button
+                    class="px-8"
+                    mat-flat-button
+                    [color]="'primary'"
+                    type="button"
+                    matStepperNext
+                    class="button"
+                >
+                    Continue
+                </button>
+            </div>
+        </mat-step>
+    </mat-horizontal-stepper>
+</form>

@@ -72,14 +72,30 @@ export class AuthSignInComponent implements OnInit, OnDestroy {
 
                     // SETUP OTP
                     if (!res.data && !res.secret) {
+                        dialogRef = this._dialog.open(SetupOtpComponent, {
+                            autoFocus: true,
+                            data: { uid: res.uid, qrcode: res?.data, seed: res?.secret },
+                            panelClass: 'fuse-confirmation-dialog-panel',
+                            height: '450px',
+                            width: '350px',
+                            disableClose: true
+                        });
 
-                    }
+                        return dialogRef.afterClosed().pipe(takeUntil(this._unsubscribeAll)).subscribe(wasSetup => {
+
+                            if (wasSetup) {
+                                this._tokenService.setCredentials = { rememberMe, email };
+                                this._router.navigate(["/profile"]);
+                            }
+
+                        });
+                    };
 
                     dialogRef = this._dialog.open(OtpComponent, {
                         autoFocus: true,
                         data: res.uid,
                         panelClass: 'fuse-confirmation-dialog-panel',
-                        height: '350px',
+                        height: "325px",
                         width: "500px",
                         disableClose: true
                     });

@@ -13,6 +13,8 @@ import { AuthSignInComponent } from 'app/modules/auth/sign-in/sign-in.component'
 import { authSignInRoutes } from 'app/modules/auth/sign-in/sign-in.routing';
 import { OtpComponent } from './dialogs/otp/otp.component';
 import { SetupOtpComponent } from './dialogs/setup-otp/setup-otp.component';
+import { FuseHighlightModule } from '@fuse/components/highlight';
+import { MatStepperModule } from '@angular/material/stepper';
 
 @NgModule({
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -31,7 +33,9 @@ import { SetupOtpComponent } from './dialogs/setup-otp/setup-otp.component';
         MatProgressSpinnerModule,
         FuseCardModule,
         FuseAlertModule,
-        SharedModule
+        SharedModule,
+        FuseHighlightModule,
+        MatStepperModule
     ]
 })
 export class AuthSignInModule
