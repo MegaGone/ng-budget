@@ -5,4 +5,12 @@ export interface User
     email: string;
     avatar?: string;
     status?: string;
+    uid: string;
+    role: string;
+    lastName: string;
+    google: boolean;
+    enabled: boolean;
+    dueDay: number;
+    displayName: string;
+    currency: string;
 }

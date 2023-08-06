@@ -1,0 +1,71 @@
+<div class="relative flex flex-col w-full h-full">
+    <div
+        class="flex flex-col sm:flex-row flex-auto items-center sm:items-start p-8 pb-6 sm:pb-8"
+    >
+        <ng-container>
+            <div
+                class="flex flex-col items-center sm:items-start mt-4 sm:mt-0 space-y-1 text-center test"
+            >
+                <!-- TITLE -->
+                <ng-container>
+                    <div
+                        class="text-xl leading-6 font-medium"
+                        style="width: 100% !important"
+                    >
+                        <h1>Two-factor authentication</h1>
+                    </div>
+                </ng-container>
+
+                <!-- CODE -->
+                <ng-container>
+                    <form
+                        [formGroup]="authForm"
+                        name="authForm"
+                        class="form__group form__pincode"
+                        style="margin-top: 50px !important"
+                    >
+                        <label
+                            >Enter 6-digit code from your authenticator
+                            application</label
+                        >
+                        <input
+                            #input1
+                            type="tel"
+                            name="pincode-1"
+                            pattern="[\d]*"
+                            placeholder="·"
+                            autocomplete="off"
+                            formControlName="code"
+                            (keypress)="onlyNumbers($event)"
+                        />
+                    </form>
+                </ng-container>
+            </div>
+        </ng-container>
+    </div>
+
+    <!-- ACTIONS -->
+    <ng-container>
+        <div
+            class="flex items-center justify-center sm:justify-end px-6 py-4 space-x-3 bg-gray-50 dark:bg-black dark:bg-opacity-10"
+        >
+            <!-- Cancel -->
+            <ng-container>
+                <button mat-stroked-button (click)="onClose()">Cancelar</button>
+            </ng-container>
+
+            <!-- Confirm -->
+            <ng-container>
+                <button
+                    mat-flat-button
+                    [disabled]="authForm.invalid || authForm.pristine"
+                    [color]="'primary'"
+                    (click)="onVerifyOtp()"
+                >
+                    Continuar
+                </button>
+            </ng-container>
+        </div>
+    </ng-container>
+    <!-- ACTIONS -->
+</div>

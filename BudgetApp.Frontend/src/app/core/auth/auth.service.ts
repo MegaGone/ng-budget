@@ -4,7 +4,7 @@ import { catchError, Observable, of, switchMap, throwError } from 'rxjs';
 import { AuthUtils } from 'app/core/auth/auth.utils';
 import { UserService } from 'app/core/user/user.service';
 import { environment } from 'environments/environment';
-import { ILogin } from 'app/interfaces';
+import { ILogin, IVerifyOtp } from 'app/interfaces';
 
 const API_URL = environment.API_URL;
 @Injectable()
@@ -61,6 +61,22 @@ export class AuthService {
         if (this._authenticated) return throwError('User is already logged in.');
         
         return this._httpClient.post<ILogin>(`${API_URL}auth/login`, credentials);
+    };
+
+    verifyOtp(request: { opt: string; uid: string }) {
+        if (this._authenticated) return throwError('User is already logged in.');
+        
+        return this._httpClient.post(`${API_URL}auth/verify-2fa`, request).pipe(
+            switchMap((response: IVerifyOtp) => {
+                console.log(response.user);
+                // TODO: VALIDATE THIS CODE
+                // this.accessToken = response.token;
+                // this._authenticated = true;
+                // this._userService.user = response.user;
+                // console.log(this._userService.user);
+                return of(response);
+            })
+        );
     };
 
     // signIn(credentials: { email: string; password: string }): Observable<any> {
