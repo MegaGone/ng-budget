@@ -67,16 +67,17 @@ export class AuthSignInComponent implements OnInit, OnDestroy {
         this._authService.signIn(this.signInForm.getRawValue())
             .pipe(takeUntil(this._unsubscribeAll)).subscribe({
                 next: (res: ILogin) => {
+                    console.log(res);
                     this.signInForm.enable();
                     var dialogRef: MatDialogRef<OtpComponent | SetupOtpComponent>;
 
                     // SETUP OTP
-                    if (!res.data && !res.secret) {
+                    if (res.data && res.secret) {
                         dialogRef = this._dialog.open(SetupOtpComponent, {
                             autoFocus: true,
                             data: { uid: res.uid, qrcode: res?.data, seed: res?.secret },
                             panelClass: 'fuse-confirmation-dialog-panel',
-                            height: '450px',
+                            height: '430px',
                             width: '350px',
                             disableClose: true
                         });
@@ -95,7 +96,7 @@ export class AuthSignInComponent implements OnInit, OnDestroy {
                         autoFocus: true,
                         data: res.uid,
                         panelClass: 'fuse-confirmation-dialog-panel',
-                        height: "325px",
+                        height: "350px",
                         width: "500px",
                         disableClose: true
                     });
