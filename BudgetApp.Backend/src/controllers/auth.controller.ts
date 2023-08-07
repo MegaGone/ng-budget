@@ -60,6 +60,7 @@ export const registerUser = async (_req: Request, _res: Response, next: NextFunc
             user.email,
             fullTemplate
         );
+        
         if (!sended) throw new Error("Error to send email");
 
         // FINALLY INSERT USER
