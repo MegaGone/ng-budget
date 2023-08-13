@@ -43,3 +43,5 @@ BudgetApp.Frontend/typings
 # System files
 BudgetApp.Frontend/.DS_Store
 BudgetApp.Frontend/Thumbs.db
+
+/keys
