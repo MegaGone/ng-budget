@@ -5,9 +5,8 @@
             [stepControl]="authForm.get('step1')"
         >
             <p class="text">
-                <b>Step 1:</b> Descarga el app de Google Authenticator en tu
-                dispositivo móvil. Puedes utilizar cualquier otra aplicación de
-                autenticación.
+                <b>Step 1:</b> Download the Google Authenticator app on your
+                mobile device. You can use any other authentication application.
             </p>
 
             <a href="http://onelink.to/642j7a" target="_blank">
@@ -42,9 +41,8 @@
             [stepControl]="authForm.get('step2')"
         >
             <p class="text">
-                <b>Step 2:</b> Escanea el siguiente código QR desde la
-                aplicación de Google Authenticator o aplicación de autenticación
-                de tu preferencia.
+                <b>Step 2:</b> Scan the following QR code using the Google
+                Authenticator app or your preferred authentication application.
             </p>
 
             <img class="img" [src]="data?.qrcode" />
@@ -76,8 +74,8 @@
             [stepControl]="authForm.get('step3')"
         >
             <p class="text">
-                <b>Step 3:</b> Ingresa el código de 6 dígitos que se muestra en
-                la aplicación.
+                <b>Step 3:</b> Enter the 6-digit code displayed in the
+                application.
             </p>
 
             <ng-container>
@@ -91,7 +89,7 @@
                         #input1
                         type="tel"
                         name="pincode-1"
-                        maxlength="1"
+                        maxlength="6"
                         pattern="[\d]*"
                         tabindex="1"
                         placeholder="·"
@@ -119,8 +117,9 @@
                     type="button"
                     matStepperNext
                     class="button"
+                    (click)="onVerifyOtp()"
                 >
-                    Continue
+                    Setup
                 </button>
             </div>
         </mat-step>

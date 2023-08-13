@@ -11,3 +11,7 @@ export interface IVerifyOtp extends IStatusCode {
     token: string;
     user: User;
 };
+
+export interface Setup2fa extends IStatusCode {
+    message: string;
+};
