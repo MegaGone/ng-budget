@@ -25,20 +25,20 @@ export const generateKeyPairs = (): [publicKey: string, privateKey: string] | []
     };
 };
 
-export const cryptText = (data: string): string | null => {
+export const cryptText = (data: string | Buffer): string  => {
     try {
         const key = new nodeRSA(PUBLIC_KEY);
-        return key.encrypt(data, "base64");
+        return key.encrypt(data).toString("base64");
     } catch (error) {
-        return null;
+        return "";
     };
 };
 
-export const decryptText = (data: string): string | null => {
+export const decryptText = (data: string): string => {
     try {
         const key = new nodeRSA(PRIVATE_KEY);
-        return key.decrypt(data, 'utf8');
+        return key.decrypt(data).toString("utf-8");
     } catch (error) {
-        return null
+        return "";
     };
 };

@@ -9,8 +9,10 @@ export const generateSeed2FA = async (user: string): Promise<{ data: string, sec
             name: `NgBudget: ${user}`
         });
 
+        const input = Buffer.from(secret.base32, "utf8");
+
         toDataURL(secret.otpauth_url, "", (err, data) => {
-            (err) ? reject(null) : resolve({ data, secret: cryptText(secret.base32)! });
+            (err) ? reject(null) : resolve({ data, secret: cryptText(input) });
         });
     });
 };
@@ -18,7 +20,7 @@ export const generateSeed2FA = async (user: string): Promise<{ data: string, sec
 export const verify2FA = (code: string, secret: string): boolean => {
     try {
         const isCorrectOTP = speakeasy.totp.verify({
-            secret: decryptText(secret)!,
+            secret: decryptText(secret),
             encoding: "base32",
             token: code
         });
