@@ -6,99 +6,71 @@ import { FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/auth/auth.service';
 
 @Component({
-    selector     : 'auth-sign-up',
-    templateUrl  : './sign-up.component.html',
+    selector: 'auth-sign-up',
+    templateUrl: './sign-up.component.html',
     encapsulation: ViewEncapsulation.None,
-    animations   : fuseAnimations
+    animations: fuseAnimations
 })
-export class AuthSignUpComponent implements OnInit
-{
-    @ViewChild('signUpNgForm') signUpNgForm: NgForm;
+export class AuthSignUpComponent implements OnInit {
+    @ViewChild('signUpNgForm') public signUpNgForm: NgForm;
 
-    alert: { type: FuseAlertType; message: string } = {
-        type   : 'success',
+    public loading: boolean;
+    public passwordRegex: RegExp;
+    public signUpForm: FormGroup;
+    public showAlert: boolean = false;
+    public alert: { type: FuseAlertType; message: string } = {
+        type: 'success',
         message: ''
     };
-    signUpForm: FormGroup;
-    showAlert: boolean = false;
 
-    /**
-     * Constructor
-     */
     constructor(
         private _authService: AuthService,
         private _formBuilder: FormBuilder,
         private _router: Router
-    )
-    {
-    }
+    ) {
+        this.passwordRegex = new RegExp("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$");
+    };
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-    // -----------------------------------------------------------------------------------------------------
+    ngOnInit(): void {
+        this.initForm();
+    };
 
-    /**
-     * On init
-     */
-    ngOnInit(): void
-    {
-        // Create the form
+    public initForm() {
         this.signUpForm = this._formBuilder.group({
-                name      : ['', Validators.required],
-                email     : ['', [Validators.required, Validators.email]],
-                password  : ['', Validators.required],
-                company   : [''],
-                agreements: ['', Validators.requiredTrue]
-            }
-        );
-    }
+            name: ['', Validators.required],
+            lastName: ['', Validators.required],
+            email: ['', [Validators.required, Validators.email]],
+            password: ['', [Validators.required, Validators.pattern(this.passwordRegex)]],
+            passwordMatch: ['', Validators.required],
+            terms: [false, Validators.requiredTrue]
+        },
+            {
+                validators: [this.matchPassword('password', 'passwordMatch')]
+            });
+    };
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
+    signUp(): void {
+        if (this.signUpForm.invalid) return this.signUpForm.markAllAsTouched();
 
-    /**
-     * Sign up
-     */
-    signUp(): void
-    {
-        // Do nothing if the form is invalid
-        if ( this.signUpForm.invalid )
-        {
-            return;
-        }
+        console.log(this.signUpForm.value);
+    };
 
-        // Disable the form
-        this.signUpForm.disable();
+    matchPassword(passwordControl: string, passwordMatchControl: string) {
+        return (formGroup: FormGroup) => {
+            const password = formGroup.controls[passwordControl];
+            const passwordMatch = formGroup.controls[passwordMatchControl];
 
-        // Hide the alert
-        this.showAlert = false;
+            if (passwordMatch.errors && !passwordMatch.errors.MustMatch) return;
 
-        // Sign up
-        this._authService.signUp(this.signUpForm.value)
-            .subscribe(
-                (response) => {
+            (password.value != passwordMatch.value) ? passwordMatch.setErrors({ mustMatch: true }) : passwordMatch.setErrors(null);
+        };
+    };
 
-                    // Navigate to the confirmation required page
-                    this._router.navigateByUrl('/confirmation-required');
-                },
-                (response) => {
+    invalidControl(control: string) {
+        return this.signUpForm.controls[control].errors && this.signUpForm.controls[control].touched;
+    };
 
-                    // Re-enable the form
-                    this.signUpForm.enable();
-
-                    // Reset the form
-                    this.signUpNgForm.resetForm();
-
-                    // Set the alert
-                    this.alert = {
-                        type   : 'error',
-                        message: 'Something went wrong, please try again.'
-                    };
-
-                    // Show the alert
-                    this.showAlert = true;
-                }
-            );
-    }
-}
+    get f() {
+        return this.signUpForm.controls;
+    };
+};
