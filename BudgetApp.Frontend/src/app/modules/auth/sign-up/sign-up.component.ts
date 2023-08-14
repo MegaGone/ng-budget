@@ -9,7 +9,14 @@ import { AuthService } from 'app/core/auth/auth.service';
     selector: 'auth-sign-up',
     templateUrl: './sign-up.component.html',
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: fuseAnimations,
+    styles: [`
+        .lottie {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    `]
 })
 export class AuthSignUpComponent implements OnInit {
     @ViewChild('signUpNgForm') public signUpNgForm: NgForm;
