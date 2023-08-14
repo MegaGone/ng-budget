@@ -6,7 +6,7 @@ import { BaseService } from "src/services";
 import { IUser } from "src/interfaces";
 import { ResponseStatus } from "src/models";
 import { convertTemplate, generateJWT, generateOTP, generateRandomPassword, generateSeed2FA, validateOtp, verify2FA } from "src/helpers";
-import { ACTIVATE_USER_TEMPLATE_ID, BASE_URL, FORGOT_PASSWORD_TEMPLATE_ID } from "src/config";
+import { ACTIVATE_USER_TEMPLATE_ID, BASE_URL, FORGOT_PASSWORD_TEMPLATE_ID, OTP_SESSION_EXPIRATION } from "src/config";
 import { Mailer } from "src/clients";
 import { ROLE_ENUM } from "src/enums";
 
@@ -47,7 +47,8 @@ export const registerUser = async (_req: Request, _res: Response, next: NextFunc
 
         const fields = {
             NAME: user.displayName,
-            URL: `${BASE_URL}auth/activate-user?${code}`
+            URL: `${BASE_URL}auth/activate-user?${code}`,
+            TIME: OTP_SESSION_EXPIRATION
         };
 
         // GET TEMPLATE TO SEND

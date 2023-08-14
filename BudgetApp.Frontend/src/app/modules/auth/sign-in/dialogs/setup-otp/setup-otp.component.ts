@@ -52,7 +52,7 @@ export class SetupOtpComponent implements OnInit, OnDestroy {
   onVerifyOtp() {
     if (this.authForm.invalid) return this.authForm.markAllAsTouched();
 
-    this._authService.verifyOtp(this.authForm.get("step3.code").value).pipe(takeUntil(this._unsubscribeAll))
+    this._authService.setupOtp(this.authForm.get("step3.code").value).pipe(takeUntil(this._unsubscribeAll))
       .subscribe({
         next: (res: any) => {
           this.matDialogRef.close(true);

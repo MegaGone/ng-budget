@@ -41,7 +41,18 @@ const UserSchema: Schema = new Schema({
         default: false
     },
     seed: {
-        type: String
+        type: String,
+        default: null
+    },
+    dueDay: {
+        type: Number,
+        required: [true, "Due day required"],
+        default: new Date().getDate()
+    },
+    currency: {
+        type: String,
+        require: [true, "Currency required"],
+        default: "GTQ"
     }
 });
 
