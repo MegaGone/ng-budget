@@ -4,7 +4,7 @@ import { catchError, Observable, of, switchMap, throwError } from 'rxjs';
 import { AuthUtils } from 'app/core/auth/auth.utils';
 import { UserService } from 'app/core/user/user.service';
 import { environment } from 'environments/environment';
-import { ILogin, IVerifyOtp, Setup2fa } from 'app/interfaces';
+import { ILogin, IStatusCode, IVerifyOtp, Setup2fa } from 'app/interfaces';
 
 const API_URL = environment.API_URL;
 @Injectable()
@@ -46,7 +46,7 @@ export class AuthService {
      */
     forgotPassword(email: string): Observable<any> {
         return this._httpClient.post('api/auth/forgot-password', email);
-    }
+    };
 
     /**
      * Reset password
@@ -55,7 +55,7 @@ export class AuthService {
      */
     resetPassword(password: string): Observable<any> {
         return this._httpClient.post('api/auth/reset-password', password);
-    }
+    };
 
     signIn(credentials: { email: string; password: string }): Observable<ILogin> {
         if (this._authenticated) return throwError('User is already logged in.');
@@ -87,6 +87,12 @@ export class AuthService {
                 return of(response);
             })
         );
+    };
+
+    verifyEmail(email: string): Observable<IStatusCode> {
+        if (this._authenticated) return throwError('User is already logged in.');
+
+        return this._httpClient.post<IStatusCode>(`${API_URL}auth/verify-email`, email);
     };
 
     // signIn(credentials: { email: string; password: string }): Observable<any> {
@@ -152,8 +158,8 @@ export class AuthService {
      *
      * @param user
      */
-    signUp(user: { name: string; email: string; password: string; company: string }): Observable<any> {
-        return this._httpClient.post('api/auth/sign-up', user);
+    signUp(user: { name: string; lastName: string; email: string; password: string; }): Observable<any> {
+        return this._httpClient.post(`${API_URL}auth/register`, user);
     }
 
     /**

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { activateUser, forgotPassword, loginWithCredentials, registerUser, setup2fa, verify2fa, verifyOTP } from "src/controllers";
+import { activateUser, forgotPassword, loginWithCredentials, registerUser, setup2fa, verify2fa, verifyEmail, verifyOTP } from "src/controllers";
 import { validateFields } from "src/middlewares";
 import {
     registerUserValidationRules,
@@ -384,4 +384,48 @@ authRouter.post(
     verify2faValidationRules(),
     validateFields,
     verify2fa
+);
+
+/**
+ * @swagger
+ * /api/auth/verify-email:
+ *   post:
+ *     summary: Verify email
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              required:
+ *                - email
+ *              properties:
+ *               email:
+ *                   type: string
+ *                   description: User email
+ *                   example: client@ngbudget.com
+ *     responses:
+ *       200:
+ *         description: Email available
+ *       403:
+ *         description: Email not available
+ *       422:
+ *         description: Fields Error
+ *         content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                errors:
+ *                  type: object
+ *                  example: {"errors":[{"field":"email","message":{"requiredType":"string","warnings":"The field does not exist, is not a string or is empty."}}]}
+ *       500:
+ *         description: Error to send email
+ */
+authRouter.post(
+    "/auth/verify-email",
+    forgotPasswordValidationRules(),
+    validateFields,
+    verifyEmail
 );

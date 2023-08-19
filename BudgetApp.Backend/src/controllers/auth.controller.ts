@@ -47,13 +47,12 @@ export const registerUser = async (_req: Request, _res: Response, next: NextFunc
 
         const fields = {
             NAME: user.displayName,
-            URL: `${BASE_URL}auth/activate-user?${code}`,
-            TIME: OTP_SESSION_EXPIRATION
+            URL: `${BASE_URL}auth/activate-user?${code}`
         };
 
         // GET TEMPLATE TO SEND
         const fullTemplate = await convertTemplate(template.template, fields, template.fields);
-        if (!fullTemplate) throw new ResponseStatus(400, "Error to reset password.");
+        if (!fullTemplate) throw new ResponseStatus(400, "Error to assing password.");
 
         const sended = await mailerService.sendMail(
             template.from,
@@ -232,6 +231,22 @@ export const verify2fa = async (_req: Request, _res: Response, next: NextFunctio
         if (!token) throw new Error("Error unexpected");
 
         return _res.status(200).json({ statusCode: 200, token, user });
+    } catch (error) {
+        next(error);
+    };
+};
+
+export const verifyEmail = async (_req: Request, _res: Response, next: NextFunction) => {
+    try {
+        const { email } = _req.body;
+
+        const userService: BaseService<IUserModel> = _req.app.locals.userService;
+        const user = await userService.getRecord({ email });
+        
+        if (!user) return _res.status(200).json({ statusCode: 200 });
+
+        return _res.status(403).json({ statusCode: 403 });
+
     } catch (error) {
         next(error);
     };

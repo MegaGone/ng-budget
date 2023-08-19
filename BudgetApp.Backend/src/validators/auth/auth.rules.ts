@@ -123,8 +123,7 @@ export const setup2faValidationRules = (additionalRules: any = null) => {
             {
                 requiredType: "string",
                 warnings: "This field is not a string, is empty or is not a valid seed"
-            },
-            // /^[A-Z2-7]+=*$/
+            }
         ),
         genericStringRule(
             "code",

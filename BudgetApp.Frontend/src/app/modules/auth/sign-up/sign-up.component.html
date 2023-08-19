@@ -88,7 +88,7 @@
             <div
                 class="mt-8 text-4xl font-extrabold tracking-tight leading-tight"
             >
-                Sign up
+                {{ title }}
             </div>
             <div class="flex items-baseline mt-0.5 font-medium">
                 <div>Already have an account?</div>
@@ -99,8 +99,58 @@
                 >
             </div>
 
+            <!-- VERIFY USERNAME -->
+            <form
+                *ngIf="!usernameAvailable"
+                class="mt-8"
+                name="usernameForm"
+                [formGroup]="usernameForm"
+                (ngSubmit)="verifyMail()"
+            >
+                <mat-form-field appearance="outline" class="w-full">
+                    <mat-label>Email address</mat-label>
+                    <input id="email" matInput formControlName="email" />
+                    <mat-error
+                        class="text-red-600"
+                        *ngIf="usernameForm.controls.email.hasError('required')"
+                        >Email is required</mat-error
+                    >
+                    <mat-error
+                        class="text-red-600"
+                        *ngIf="usernameForm.controls.email.hasError('email')"
+                        >Email not valid</mat-error
+                    >
+                </mat-form-field>
+
+                <button
+                    class="fuse-mat-button-large w-full mt-6"
+                    mat-flat-button
+                    [color]="'primary'"
+                    [disabled]="
+                        usernameForm.disabled ||
+                        usernameForm.pristine ||
+                        usernameForm.invalid
+                    "
+                    type="submit"
+                >
+                    <span *ngIf="!usernameForm.disabled">Continue</span>
+                    <mat-progress-spinner
+                        *ngIf="usernameForm.disabled"
+                        [diameter]="24"
+                        [mode]="'indeterminate'"
+                    >
+                    </mat-progress-spinner>
+                </button>
+            </form>
+            <!-- VERIFY USERNAME -->
+
             <!-- Sign Up form -->
-            <form class="mt-8" [formGroup]="signUpForm">
+            <form
+                *ngIf="usernameAvailable"
+                class="mt-8"
+                [formGroup]="signUpForm"
+                (ngSubmit)="signUp()"
+            >
                 <!-- First name field -->
                 <mat-form-field appearance="outline" class="w-full">
                     <mat-label>First name</mat-label>
@@ -134,6 +184,27 @@
                     <mat-error
                         class="text-red-600"
                         *ngIf="f.lastName.hasError('space')"
+                        >Space not valid</mat-error
+                    >
+                    <mat-error
+                        class="text-red-600"
+                        *ngIf="f.lastName.hasError('doubleSpace')"
+                        >Double spaces not allowed</mat-error
+                    >
+                </mat-form-field>
+
+                <!-- Last name field -->
+                <mat-form-field appearance="outline" class="w-full">
+                    <mat-label>Display name</mat-label>
+                    <input id="displayName" matInput formControlName="displayName" />
+                    <mat-error
+                        class="text-red-600"
+                        *ngIf="f.displayName.hasError('required')"
+                        >Display name is required</mat-error
+                    >
+                    <mat-error
+                        class="text-red-600"
+                        *ngIf="f.displayName.hasError('space')"
                         >Space not valid</mat-error
                     >
                     <mat-error
