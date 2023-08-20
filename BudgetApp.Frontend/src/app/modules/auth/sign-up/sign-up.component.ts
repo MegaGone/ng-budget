@@ -93,20 +93,19 @@ export class AuthSignUpComponent implements OnInit, OnDestroy {
     public verifyMail() {
         if (this.usernameForm.invalid) return this.usernameForm.markAllAsTouched();
 
+        const { email } = this.usernameForm.getRawValue();
+
         this._authService.verifyEmail(this.usernameForm.value).pipe(takeUntil(this._unsubscribeAll))
             .subscribe({
                 next: (status) => {
-                    const { email } = this.usernameForm.getRawValue();
-
                     this.title = "Sign up";
                     this.usernameAvailable = true;
 
                     this.signUpForm.controls.email.patchValue(email);
                 },
                 error: (error: HttpErrorResponse) => {
-                    if (error.status == 403) {
-                        console.log("Email already in use");
-                    };
+                    if (error.status == 403) 
+                        this._router.navigate(['/sign-in'], { queryParams: { email } });
                 }
             });
     };

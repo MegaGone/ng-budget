@@ -15,3 +15,8 @@ export interface IVerifyOtp extends IStatusCode {
 export interface Setup2fa extends IStatusCode {
     message: string;
 };
+
+export interface IRegister extends IStatusCode {
+    message?: string;
+    id?: string;
+};

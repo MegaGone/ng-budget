@@ -9,7 +9,7 @@ import { ILogin } from 'app/interfaces';
 import { Subject, takeUntil } from 'rxjs';
 import { OtpComponent } from './dialogs/otp/otp.component';
 import { SetupOtpComponent } from './dialogs/setup-otp/setup-otp.component';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
     selector: 'auth-sign-in',
@@ -38,22 +38,24 @@ export class AuthSignInComponent implements OnInit, OnDestroy {
     };
 
     constructor(
-        private _authService: AuthService,
-        private _formBuilder: FormBuilder,
         private _tokenService: TokenService,
+        private _formBuilder: FormBuilder,
+        private _authService: AuthService,
+        private _route: ActivatedRoute,
         private _dialog: MatDialog,
         private _router: Router
     ) {
         this._unsubscribeAll = new Subject();
     };
-
+    
     ngOnInit(): void {
         this.signInForm = this._formBuilder.group({
             email: ['', [Validators.required, Validators.email]],
             password: ['', Validators.required],
             rememberMe: [false]
         });
-
+        
+        this.onListenEmail();
         this.setCredentials(this._tokenService.getCredentials);
     }
 
@@ -129,11 +131,22 @@ export class AuthSignInComponent implements OnInit, OnDestroy {
 
         this.signInForm.setValue({
             'email': creds.email,
-            'password': "Password!234",
+            'password': "",
             'rememberMe': creds.rememberMe
         });
 
         this.signInForm.updateValueAndValidity();
+    };
+
+    onListenEmail() {
+        this._route.queryParamMap.pipe(takeUntil(this._unsubscribeAll)).subscribe(params => {
+            const email = params.get("email");
+            const existsCreds = this._tokenService.getCredentials;
+
+            if (!existsCreds && email) {
+                this.signInForm.controls.email.setValue(email);
+            }
+        });
     };
 
     ngOnDestroy(): void {

@@ -4,7 +4,7 @@ import { catchError, Observable, of, switchMap, throwError } from 'rxjs';
 import { AuthUtils } from 'app/core/auth/auth.utils';
 import { UserService } from 'app/core/user/user.service';
 import { environment } from 'environments/environment';
-import { ILogin, IStatusCode, IVerifyOtp, Setup2fa } from 'app/interfaces';
+import { ILogin, IRegister, IStatusCode, IVerifyOtp, Setup2fa } from 'app/interfaces';
 
 const API_URL = environment.API_URL;
 @Injectable()
@@ -155,11 +155,9 @@ export class AuthService {
 
     /**
      * Sign up
-     *
-     * @param user
      */
-    signUp(user: { name: string; lastName: string; email: string; password: string; }): Observable<any> {
-        return this._httpClient.post(`${API_URL}auth/register`, user);
+    signUp(user: { name: string; lastName: string; email: string; password: string; }): Observable<IRegister> {
+        return this._httpClient.post<IRegister>(`${API_URL}auth/register`, user);
     }
 
     /**
