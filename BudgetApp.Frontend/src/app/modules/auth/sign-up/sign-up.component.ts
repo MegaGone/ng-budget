@@ -63,13 +63,8 @@ export class AuthSignUpComponent implements OnInit, OnDestroy {
             lastName: ['', Validators.required],
             displayName: ['', Validators.required],
             email: ['', [Validators.required, Validators.email]],
-            password: ['', [Validators.required, Validators.pattern(this.passwordRegex)]],
-            passwordMatch: ['', Validators.required],
             terms: [false, Validators.requiredTrue]
-        },
-            {
-                validators: [this.matchPassword('password', 'passwordMatch')]
-            });
+        });
     };
 
     public initUserForm() {
@@ -80,14 +75,18 @@ export class AuthSignUpComponent implements OnInit, OnDestroy {
 
     public signUp(): void {
         if (this.signUpForm.invalid) return this.signUpForm.markAllAsTouched();
+        this.signUpForm.disable();
 
         this._authService.signUp(this.signUpForm.value).pipe(takeUntil(this._unsubscribeAll))
             .subscribe({
                 next: (res) => {
+                    this.signUpForm.enable();
                     this._snackbarService.open("Usuario creado exitósamente. Revise su correo electrónico para activar su usuario");
+                    this.signUpForm.reset();
                 },
                 error: (err: HttpErrorResponse) => {
                     let message = "";
+                    this.signUpForm.enable();
 
                     switch (err.status) {
                         case 400: message = "Ha ocurrido un error inesperado. Hable con el administrador."; break;
@@ -118,17 +117,6 @@ export class AuthSignUpComponent implements OnInit, OnDestroy {
                         this._router.navigate(['/sign-in'], { queryParams: { email } });
                 }
             });
-    };
-
-    private matchPassword(passwordControl: string, passwordMatchControl: string) {
-        return (formGroup: FormGroup) => {
-            const password = formGroup.controls[passwordControl];
-            const passwordMatch = formGroup.controls[passwordMatchControl];
-
-            if (passwordMatch.errors && !passwordMatch.errors.MustMatch) return;
-
-            (password.value != passwordMatch.value) ? passwordMatch.setErrors({ mustMatch: true }) : passwordMatch.setErrors(null);
-        };
     };
 
     public invalidControl(control: string) {
