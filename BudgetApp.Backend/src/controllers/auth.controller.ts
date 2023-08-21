@@ -24,7 +24,7 @@ export const registerUser = async (_req: Request, _res: Response, next: NextFunc
 
         // EMAIL VALIDATION
         const emailExists = await userService.getRecord({ email: email });
-        if (emailExists) throw new ResponseStatus(400, "Email already exists");
+        if (emailExists) throw new ResponseStatus(403, "Email already exists");
 
         const user: IUser = {
             email,

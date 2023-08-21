@@ -149,7 +149,6 @@
                 *ngIf="usernameAvailable"
                 class="mt-8"
                 [formGroup]="signUpForm"
-                (ngSubmit)="signUp()"
             >
                 <!-- First name field -->
                 <mat-form-field appearance="outline" class="w-full">
@@ -329,7 +328,7 @@
                     mat-flat-button
                     [color]="'primary'"
                     [disabled]="signUpForm.disabled"
-                    type="submit"
+                    (click)="signUp()"
                 >
                     <span *ngIf="!signUpForm.disabled">Create account</span>
                     <mat-progress-spinner

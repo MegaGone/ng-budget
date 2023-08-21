@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/auth/auth.service';
+import { SnackbarService } from 'app/utils';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
@@ -40,7 +41,8 @@ export class AuthSignUpComponent implements OnInit, OnDestroy {
     constructor(
         private _authService: AuthService,
         private _formBuilder: FormBuilder,
-        private _router: Router
+        private _router: Router,
+        private _snackbarService: SnackbarService
     ) {
         this.showAlert = false;
         this.passwordRegex = new RegExp("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$");
@@ -82,10 +84,18 @@ export class AuthSignUpComponent implements OnInit, OnDestroy {
         this._authService.signUp(this.signUpForm.value).pipe(takeUntil(this._unsubscribeAll))
             .subscribe({
                 next: (res) => {
-                    console.log('RES', res);
+                    this._snackbarService.open("Usuario creado exitósamente. Revise su correo electrónico para activar su usuario");
                 },
-                error: (err) => {
-                    console.log(err);
+                error: (err: HttpErrorResponse) => {
+                    let message = "";
+
+                    switch (err.status) {
+                        case 400: message = "Ha ocurrido un error inesperado. Hable con el administrador."; break;
+                        case 403: message = "Ya existe un usuario con ese email."; break;
+                        case 500: message = "Ha ocurrido un error al enviar el correo de activación. Hable con el administrador."; break;
+                    };
+
+                    this._snackbarService.open(message, false);
                 }
             });
     };
@@ -104,7 +114,7 @@ export class AuthSignUpComponent implements OnInit, OnDestroy {
                     this.signUpForm.controls.email.patchValue(email);
                 },
                 error: (error: HttpErrorResponse) => {
-                    if (error.status == 403) 
+                    if (error.status == 403)
                         this._router.navigate(['/sign-in'], { queryParams: { email } });
                 }
             });
