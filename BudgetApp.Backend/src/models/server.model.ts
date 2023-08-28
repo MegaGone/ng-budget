@@ -3,7 +3,7 @@ import cors from "cors";
 import Swagger from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
 
-import { PORT } from "src/config";
+import { ALLOWED_ORIGINS, PORT } from "src/config";
 import { SwaggerOptions } from "src/documentation";
 import { LoggerClient, Mailer } from "src/clients";
 import { MorganMiddleware, ErrorHandler } from "src/middlewares";
@@ -39,7 +39,13 @@ export class Server {
      * INITIALIZE MIDDLEWARES
      */
     private middlewares(): void {
-        this.app.use(cors());
+        this.app.use(cors({
+            origin: ALLOWED_ORIGINS,
+            methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+            credentials: true,
+            optionsSuccessStatus: 204
+        }));
+
         this.app.use(express.json());
         this.app.use(express.urlencoded({ extended: false }));
         this.app.use(MorganMiddleware(this.logger));

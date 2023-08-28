@@ -13,6 +13,8 @@ const PRIVATE_KEY = process.env.PRIVATE_KEY || "";
 
 const OTP_MS_LIFETIME = parseInt(process.env.OTP_MS_LIFETIME!, 10) || 3600000;
 
+const ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS || "http://localhost:4200"
+
 export {
     PORT,
     SECRETKEY,
@@ -22,5 +24,6 @@ export {
     OTP_MS_LIFETIME,
     COUNTRIES_ENDPOINT,
     PUBLIC_KEY,
-    PRIVATE_KEY
+    PRIVATE_KEY,
+    ALLOWED_ORIGINS
 };
