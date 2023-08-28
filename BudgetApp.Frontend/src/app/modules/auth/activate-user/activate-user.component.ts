@@ -76,6 +76,9 @@ export class ActivateUserComponent implements OnInit, OnDestroy {
   };
 
   public activateUser() {
+    if (this.form.invalid) return this.form.markAllAsTouched();
+    this.form.disable();
+
     this._authService.activateUser(this.form.getRawValue()).pipe(takeUntil(this._unsubscribeAll))
       .subscribe({
         next: () => {
@@ -83,7 +86,8 @@ export class ActivateUserComponent implements OnInit, OnDestroy {
           this._router.navigate(["/sign-in"]);
         },
         error: (err: HttpErrorResponse) => {
-          console.error(err);
+          this.form.enable();
+          this._snackbar.open("An error ocurred to activate user. Try again");
         }
       });
   };
