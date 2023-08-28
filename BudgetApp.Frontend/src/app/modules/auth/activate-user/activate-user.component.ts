@@ -57,6 +57,9 @@ export class ActivateUserComponent implements OnInit, OnDestroy {
       password: ['', Validators.required],
       passwordMatch: ['', Validators.required],
       code: [this.token, Validators.required]
+    },
+    {
+      validators: [this.matchPassword('password', 'passwordMatch')]
     })
   };
 
@@ -84,6 +87,17 @@ export class ActivateUserComponent implements OnInit, OnDestroy {
         }
       });
   };
+
+  matchPassword(passwordControl: string, passwordMatchControl: string) {
+    return (formGroup: FormGroup) => {
+      const password = formGroup.controls[passwordControl];
+      const passwordMatch = formGroup.controls[passwordMatchControl];
+
+      if (passwordMatch.errors && !passwordMatch.errors.MustMatch) return;
+
+      (password.value != passwordMatch.value) ? passwordMatch.setErrors({ mustMatch: true }) : passwordMatch.setErrors(null);
+    }
+  }
 
   ngOnDestroy(): void {
     this._unsubscribeAll.next(null);
