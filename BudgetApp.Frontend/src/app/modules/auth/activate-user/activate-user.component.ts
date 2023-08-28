@@ -1,5 +1,9 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { AuthService } from 'app/core/auth/auth.service';
+import { SnackbarService } from 'app/utils';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
@@ -12,14 +16,23 @@ export class ActivateUserComponent implements OnInit, OnDestroy {
 
   private _unsubscribeAll: Subject<null>;
 
+  public isValidCode: boolean;
+  public form: FormGroup;
+  private token: number;
+
   constructor(
-    private _route: ActivatedRoute
+    private _route: ActivatedRoute,
+    private _authService: AuthService,
+    private _formbuilder: FormBuilder,
+    private _router: Router,
+    private _snackbar: SnackbarService
   ) {
     this._unsubscribeAll = new Subject();
   };
 
   ngOnInit(): void {
     this.validateOTP();
+    this.initForm();
   };
 
   private validateOTP() {
@@ -28,14 +41,48 @@ export class ActivateUserComponent implements OnInit, OnDestroy {
         const token = params?.token;
 
         if (!token)
-          return console.log("TOKEN NOT VALID");
+          return this.isValidCode = false;
 
-          console.log("TOKEN", token);
+        this.token = token;
+        this.verifyOTP(this.token);
       },
       error: () => {
-        console.log("No token found")
+        this.isValidCode = false;
       }
     });
+  };
+
+  public initForm() {
+    this.form = this._formbuilder.group({
+      password: ['', Validators.required],
+      passwordMatch: ['', Validators.required],
+      code: [this.token, Validators.required]
+    })
+  };
+
+  public verifyOTP(token: number) {
+    this._authService.verifyCode(token).pipe(takeUntil(this._unsubscribeAll))
+      .subscribe({
+        next: (response) => {
+          this.isValidCode = true;
+        },
+        error: (err: HttpErrorResponse) => {
+          this.isValidCode = false;
+        }
+      })
+  };
+
+  public activateUser() {
+    this._authService.activateUser(this.form.getRawValue()).pipe(takeUntil(this._unsubscribeAll))
+      .subscribe({
+        next: () => {
+          this._snackbar.open("Password was set up successfully.");
+          this._router.navigate(["/sign-in"]);
+        },
+        error: (err: HttpErrorResponse) => {
+          console.error(err);
+        }
+      });
   };
 
   ngOnDestroy(): void {

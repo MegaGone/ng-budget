@@ -137,7 +137,15 @@ export class AuthService {
                 return of(true);
             })
         );
-    }
+    };
+
+    verifyCode(code: number) {
+        return this._httpClient.get(`${API_URL}auth/${code}`);
+    };
+
+    activateUser(request: { code: number; password: string }) {
+        return this._httpClient.post(`${API_URL}auth/activate-user`, request);
+    };
 
     /**
      * Sign out

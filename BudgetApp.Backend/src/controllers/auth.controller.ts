@@ -157,7 +157,9 @@ export const verifyOTP = async (_req: Request, _res: Response, next: NextFunctio
 
         if (now > expireAt) throw new ResponseStatus(400, "OTP has expired");
 
-        return _res.sendStatus(200);
+        return _res.status(200).json({
+            statusCode: 200
+        })
     } catch (error) {
         next(error);
     };

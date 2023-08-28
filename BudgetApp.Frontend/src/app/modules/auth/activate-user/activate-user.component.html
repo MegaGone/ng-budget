@@ -1,1 +1,196 @@
-<p>activate-user works!</p>
+<div
+    class="flex flex-col sm:flex-row items-center md:items-start sm:justify-center md:justify-start flex-auto min-w-0"
+>
+    <div
+        class="relative hidden md:flex flex-auto items-center justify-center h-full p-16 lg:px-28 overflow-hidden bg-gray-800 dark:border-r"
+    >
+        <!-- Background - @formatter:off -->
+        <!-- Rings -->
+        <svg
+            class="absolute inset-0 pointer-events-none"
+            viewBox="0 0 960 540"
+            width="100%"
+            height="100%"
+            preserveAspectRatio="xMidYMax slice"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <g
+                class="text-gray-700 opacity-25"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="100"
+            >
+                <circle r="170" cx="50" cy="550"></circle>
+                <circle r="180" cx="870" cy="23"></circle>
+            </g>
+        </svg>
+        <!-- Dots -->
+        <svg
+            class="absolute -top-16 -left-16 text-gray-700"
+            viewBox="0 0 220 192"
+            width="220"
+            height="192"
+            fill="none"
+        >
+            <defs>
+                <pattern
+                    id="837c3e70-6c3a-44e6-8854-cc48c737b659"
+                    x="0"
+                    y="0"
+                    width="20"
+                    height="20"
+                    patternUnits="userSpaceOnUse"
+                >
+                    <rect
+                        x="0"
+                        y="0"
+                        width="4"
+                        height="4"
+                        fill="currentColor"
+                    ></rect>
+                </pattern>
+            </defs>
+            <rect
+                width="220"
+                height="192"
+                fill="url(#837c3e70-6c3a-44e6-8854-cc48c737b659)"
+            ></rect>
+        </svg>
+        <!-- @formatter:on -->
+        <!-- Content -->
+        <div class="z-10 relative w-full max-w-2xl">
+            <div class="text-7xl font-bold leading-none text-gray-100">
+                <div>Start to track</div>
+                <div>your expenses</div>
+            </div>
+            <div>
+                <lottie-player
+                    src="https://lottie.host/873c2e17-ff59-4442-bfa7-6551bc2e7cbf/UVDYkDDcas.json"
+                    mode="bounce"
+                    speed="1"
+                    loop
+                    autoplay
+                    style="width: 500px; height: 500px"
+                ></lottie-player>
+            </div>
+        </div>
+    </div>
+    <div
+        class="md:flex md:justify-end w-full sm:w-auto md:h-full py-8 px-4 sm:p-12 md:p-16 md:pt-24 sm:rounded-2xl md:rounded-none sm:shadow md:shadow-none sm:bg-card"
+    >
+        <div class="w-full max-w-80 sm:w-80 mx-auto sm:mx-0">
+            <!-- Logo -->
+            <div class="w-12">
+                <img src="assets/images/logo/logo.svg" />
+            </div>
+
+            <!-- Title -->
+            <div
+                *ngIf="isValidCode"
+                class="mt-8 text-4xl font-extrabold tracking-tight leading-tight"
+            >
+                Activate user
+            </div>
+
+            <!-- FORM -->
+            <form
+                *ngIf="isValidCode"
+                class="mt-8"
+                [formGroup]="form"
+                #signInNgForm="ngForm"
+                (ngSubmit)="activateUser()"
+            >
+                <!-- PASSWORD -->
+                <mat-form-field appearance="outline" class="w-full">
+                    <mat-label>Password</mat-label>
+                    <input
+                        id="password"
+                        matInput
+                        type="password"
+                        [formControlName]="'password'"
+                        required
+                        #passwordField
+                    />
+                    <button
+                        mat-icon-button
+                        type="button"
+                        (click)="
+                            passwordField.type === 'password'
+                                ? (passwordField.type = 'text')
+                                : (passwordField.type = 'password')
+                        "
+                        matSuffix
+                    >
+                        <mat-icon
+                            class="icon-size-5"
+                            *ngIf="passwordField.type === 'password'"
+                            [svgIcon]="'heroicons_solid:eye'"
+                        ></mat-icon>
+                        <mat-icon
+                            class="icon-size-5"
+                            *ngIf="passwordField.type === 'text'"
+                            [svgIcon]="'heroicons_solid:eye-off'"
+                        ></mat-icon>
+                    </button>
+                    <mat-error> Password is required </mat-error>
+                </mat-form-field>
+                <!-- /PASSWORD -->
+
+                <!-- PASSWORD MATCH -->
+                <mat-form-field appearance="outline" class="w-full">
+                    <mat-label>Confirm password</mat-label>
+                    <input
+                        id="passwordMatch"
+                        matInput
+                        type="password"
+                        [formControlName]="'passwordMatch'"
+                        required
+                        #passwordField
+                    />
+                    <button
+                        mat-icon-button
+                        type="button"
+                        (click)="
+                            passwordField.type === 'password'
+                                ? (passwordField.type = 'text')
+                                : (passwordField.type = 'password')
+                        "
+                        matSuffix
+                    >
+                        <mat-icon
+                            class="icon-size-5"
+                            *ngIf="passwordField.type === 'password'"
+                            [svgIcon]="'heroicons_solid:eye'"
+                        ></mat-icon>
+                        <mat-icon
+                            class="icon-size-5"
+                            *ngIf="passwordField.type === 'text'"
+                            [svgIcon]="'heroicons_solid:eye-off'"
+                        ></mat-icon>
+                    </button>
+                    <mat-error> Password is required </mat-error>
+                </mat-form-field>
+                <!-- /PASSWORD MATCH -->
+
+                <!-- BUTTON -->
+                <button
+                    class="fuse-mat-button-large w-full mt-6"
+                    mat-flat-button
+                    [color]="'primary'"
+                    [disabled]="form.disabled || form.pristine || form.invalid"
+                    type="submit"
+                >
+                    <span *ngIf="!form.disabled"> Confirm </span>
+                    <mat-progress-spinner
+                        *ngIf="form.disabled"
+                        [diameter]="24"
+                        [mode]="'indeterminate'"
+                    ></mat-progress-spinner>
+                </button>
+                <!-- /BUTTON -->
+            </form>
+
+            <p *ngIf="!isValidCode">Test</p>
+        </div>
+    </div>
+</div>
